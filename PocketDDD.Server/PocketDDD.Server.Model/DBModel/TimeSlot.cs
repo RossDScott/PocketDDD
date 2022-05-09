@@ -11,5 +11,5 @@ public class TimeSlot
     public EventDetail EventDetail { get; set; }
     public DateTimeOffset From { get; set; }
     public DateTimeOffset To { get; set; }
-    public string Info { get; set; }
+    public string? Info { get; set; }
 }

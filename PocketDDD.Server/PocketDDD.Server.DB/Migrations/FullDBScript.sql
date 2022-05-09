@@ -157,3 +157,22 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+DECLARE @var1 sysname;
+SELECT @var1 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[TimeSlots]') AND [c].[name] = N'Info');
+IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [TimeSlots] DROP CONSTRAINT [' + @var1 + '];');
+ALTER TABLE [TimeSlots] ALTER COLUMN [Info] nvarchar(max) NULL;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220509200019_TimeslotNullInfo', N'6.0.4');
+GO
+
+COMMIT;
+GO
+
