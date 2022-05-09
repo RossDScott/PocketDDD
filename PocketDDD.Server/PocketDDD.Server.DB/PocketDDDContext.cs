@@ -23,6 +23,14 @@ public class PocketDDDContext : DbContext
 
     public DbSet<UserEventFeedback> UserEventFeedback { get; set; }
     public DbSet<UserSessionFeedback> UserSessionFeedback { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(x => x.GetForeignKeys()))
+        {
+            relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        }
+    }
 }
 
 

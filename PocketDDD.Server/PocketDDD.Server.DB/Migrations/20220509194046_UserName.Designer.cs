@@ -12,8 +12,8 @@ using PocketDDD.Server.DB;
 namespace PocketDDD.Server.DB.Migrations
 {
     [DbContext(typeof(PocketDDDContext))]
-    [Migration("20220508195301_CoreEvent")]
-    partial class CoreEvent
+    [Migration("20220509194046_UserName")]
+    partial class UserName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,11 +155,7 @@ namespace PocketDDD.Server.DB.Migrations
                     b.Property<int>("EventScore")
                         .HasColumnType("int");
 
-                    b.Property<string>("FamilyName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("GivenName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -257,19 +253,19 @@ namespace PocketDDD.Server.DB.Migrations
                     b.HasOne("PocketDDD.Server.Model.DBModel.EventDetail", "EventDetail")
                         .WithMany("Sessions")
                         .HasForeignKey("EventDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PocketDDD.Server.Model.DBModel.TimeSlot", "TimeSlot")
                         .WithMany()
                         .HasForeignKey("TimeSlotId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PocketDDD.Server.Model.DBModel.Track", "Track")
                         .WithMany()
                         .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EventDetail");
@@ -284,7 +280,7 @@ namespace PocketDDD.Server.DB.Migrations
                     b.HasOne("PocketDDD.Server.Model.DBModel.EventDetail", "EventDetail")
                         .WithMany("TimeSlots")
                         .HasForeignKey("EventDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EventDetail");
@@ -295,7 +291,7 @@ namespace PocketDDD.Server.DB.Migrations
                     b.HasOne("PocketDDD.Server.Model.DBModel.EventDetail", "EventDetail")
                         .WithMany("Tracks")
                         .HasForeignKey("EventDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EventDetail");
@@ -306,13 +302,13 @@ namespace PocketDDD.Server.DB.Migrations
                     b.HasOne("PocketDDD.Server.Model.DBModel.EventDetail", "EventDetail")
                         .WithMany()
                         .HasForeignKey("EventDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PocketDDD.Server.Model.DBModel.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EventDetail");
@@ -325,19 +321,19 @@ namespace PocketDDD.Server.DB.Migrations
                     b.HasOne("PocketDDD.Server.Model.DBModel.EventDetail", "EventDetail")
                         .WithMany()
                         .HasForeignKey("EventDetailId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PocketDDD.Server.Model.DBModel.Session", "Session")
                         .WithMany()
                         .HasForeignKey("SessionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("PocketDDD.Server.Model.DBModel.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("EventDetail");

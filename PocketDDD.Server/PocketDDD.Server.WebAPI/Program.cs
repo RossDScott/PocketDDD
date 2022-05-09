@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PocketDDD.Server.DB;
+using PocketDDD.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<PocketDDDContext>(
     options => options.UseSqlServer("name=ConnectionStrings:PocketDDDContext"));
+
+builder.Services.AddTransient<RegistrationService>();
 
 var app = builder.Build();
 

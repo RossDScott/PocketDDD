@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PocketDDD.Server.DB;
 
@@ -11,9 +12,10 @@ using PocketDDD.Server.DB;
 namespace PocketDDD.Server.DB.Migrations
 {
     [DbContext(typeof(PocketDDDContext))]
-    partial class PocketDDDContextModelSnapshot : ModelSnapshot
+    [Migration("20220509184313_init")]
+    partial class init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,7 +155,11 @@ namespace PocketDDD.Server.DB.Migrations
                     b.Property<int>("EventScore")
                         .HasColumnType("int");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("FamilyName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GivenName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

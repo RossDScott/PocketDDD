@@ -11,6 +11,13 @@ GO
 BEGIN TRANSACTION;
 GO
 
+CREATE TABLE [EventDetail] (
+    [Id] int NOT NULL IDENTITY,
+    [Version] int NOT NULL,
+    CONSTRAINT [PK_EventDetail] PRIMARY KEY ([Id])
+);
+GO
+
 CREATE TABLE [Users] (
     [Id] int NOT NULL IDENTITY,
     [EventDetailId] int NOT NULL,
@@ -22,23 +29,6 @@ CREATE TABLE [Users] (
 );
 GO
 
-INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220508191851_init', N'6.0.4');
-GO
-
-COMMIT;
-GO
-
-BEGIN TRANSACTION;
-GO
-
-CREATE TABLE [EventDetail] (
-    [Id] int NOT NULL IDENTITY,
-    [Version] int NOT NULL,
-    CONSTRAINT [PK_EventDetail] PRIMARY KEY ([Id])
-);
-GO
-
 CREATE TABLE [TimeSlots] (
     [Id] int NOT NULL IDENTITY,
     [EventDetailId] int NOT NULL,
@@ -46,7 +36,7 @@ CREATE TABLE [TimeSlots] (
     [To] datetimeoffset NOT NULL,
     [Info] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_TimeSlots] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_TimeSlots_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_TimeSlots_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE NO ACTION
 );
 GO
 
@@ -56,7 +46,7 @@ CREATE TABLE [Tracks] (
     [Name] nvarchar(max) NOT NULL,
     [RoomName] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_Tracks] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_Tracks_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Tracks_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE NO ACTION
 );
 GO
 
@@ -70,8 +60,8 @@ CREATE TABLE [UserEventFeedback] (
     [UserId] int NOT NULL,
     [Comment] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_UserEventFeedback] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_UserEventFeedback_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_UserEventFeedback_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_UserEventFeedback_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_UserEventFeedback_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
 );
 GO
 
@@ -86,9 +76,9 @@ CREATE TABLE [Sessions] (
     [TimeSlotId] int NOT NULL,
     [SpeakerToken] uniqueidentifier NOT NULL,
     CONSTRAINT [PK_Sessions] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_Sessions_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Sessions_TimeSlots_TimeSlotId] FOREIGN KEY ([TimeSlotId]) REFERENCES [TimeSlots] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_Sessions_Tracks_TrackId] FOREIGN KEY ([TrackId]) REFERENCES [Tracks] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_Sessions_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Sessions_TimeSlots_TimeSlotId] FOREIGN KEY ([TimeSlotId]) REFERENCES [TimeSlots] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_Sessions_Tracks_TrackId] FOREIGN KEY ([TrackId]) REFERENCES [Tracks] ([Id]) ON DELETE NO ACTION
 );
 GO
 
@@ -102,9 +92,9 @@ CREATE TABLE [UserSessionFeedback] (
     [UserId] int NOT NULL,
     [Comment] nvarchar(max) NOT NULL,
     CONSTRAINT [PK_UserSessionFeedback] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_UserSessionFeedback_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_UserSessionFeedback_Sessions_SessionId] FOREIGN KEY ([SessionId]) REFERENCES [Sessions] ([Id]) ON DELETE CASCADE,
-    CONSTRAINT [FK_UserSessionFeedback_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE CASCADE
+    CONSTRAINT [FK_UserSessionFeedback_EventDetail_EventDetailId] FOREIGN KEY ([EventDetailId]) REFERENCES [EventDetail] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_UserSessionFeedback_Sessions_SessionId] FOREIGN KEY ([SessionId]) REFERENCES [Sessions] ([Id]) ON DELETE NO ACTION,
+    CONSTRAINT [FK_UserSessionFeedback_Users_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users] ([Id]) ON DELETE NO ACTION
 );
 GO
 
@@ -139,7 +129,29 @@ CREATE INDEX [IX_UserSessionFeedback_UserId] ON [UserSessionFeedback] ([UserId])
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20220508195301_CoreEvent', N'6.0.4');
+VALUES (N'20220509184313_init', N'6.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+DECLARE @var0 sysname;
+SELECT @var0 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[Users]') AND [c].[name] = N'FamilyName');
+IF @var0 IS NOT NULL EXEC(N'ALTER TABLE [Users] DROP CONSTRAINT [' + @var0 + '];');
+ALTER TABLE [Users] DROP COLUMN [FamilyName];
+GO
+
+EXEC sp_rename N'[Users].[GivenName]', N'Name', N'COLUMN';
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20220509194046_UserName', N'6.0.4');
 GO
 
 COMMIT;

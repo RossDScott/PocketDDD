@@ -10,8 +10,7 @@ public class User
 {
     public int Id { get; set; }
     public int EventDetailId { get; set; }
-    public string GivenName { get; set; }
-    public string FamilyName { get; set; }
+    public string Name { get; set; }
     public string Token { get; set; }
     public int EventScore { get; set; }
 }
