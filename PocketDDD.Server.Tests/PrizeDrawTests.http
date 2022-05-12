@@ -1,0 +1,10 @@
+### Authorised request
+GET https://localhost:7069/API/PrizeDraw/Winners
+Authorization: fdsnfdofsdfdiowpre90752bhbfsdkfdsfjksdh7837danjmakodji
+
+### Unauthorised request - no header
+GET https://localhost:7069/API/PrizeDraw/Winners
+
+### Unauthorised request - no header
+GET https://localhost:7069/API/PrizeDraw/Winners
+Authorization: xxx
