@@ -20,7 +20,7 @@ public class FeedbackService
         this.userService = userService;
     }
 
-    public async Task<FeedbackResponseDTO> SubmitClientSessionData(SessionFeedbackDTO clientData, User user)
+    public async Task<FeedbackResponseDTO> SubmitClientSessionFeedback(SessionFeedbackDTO clientData, User user)
     {
         var feedback = await dbContext.UserSessionFeedback
                                       .Where(x => x.EventDetailId == user.EventDetailId && 
@@ -51,8 +51,38 @@ public class FeedbackService
             await userService.CalculateAndUpdateEventScore(user);
         }
 
-        var dtoResponse = new FeedbackResponseDTO { ClientId = clientData.ClientId, Score = user.EventScore };
+        return new FeedbackResponseDTO { ClientId = clientData.ClientId, Score = user.EventScore };
+    }
 
-        return dtoResponse;
+    public async Task<FeedbackResponseDTO> SubmitClientEventData(EventFeedbackDTO clientData, User user)
+    {
+        var feedback = await dbContext.UserEventFeedback
+                                      .Where(x => x.EventDetailId == user.EventDetailId && 
+                                                  x.UserId == user.Id)
+                                      .SingleOrDefaultAsync();
+        if (feedback == null)
+        {
+            feedback = new UserEventFeedback
+            {
+                EventDetailId = user.EventDetailId,
+                UserId = user.Id
+            };
+            dbContext.UserEventFeedback.Add(feedback);
+        }
+
+        if (clientData.DateTimeStamp > feedback.DateTimestamp)
+        {
+            feedback.Venue = clientData.VenueRating;
+            feedback.Refreshments = clientData.RefreshmentsRating;
+            feedback.Overall = clientData.Overall;
+            feedback.Comment = clientData.Comments;
+            feedback.DateTimestamp = clientData.DateTimeStamp;
+
+            dbContext.SaveChanges();
+
+            await userService.CalculateAndUpdateEventScore(user);
+        }
+
+        return new FeedbackResponseDTO { ClientId = clientData.ClientId, Score = user.EventScore };
     }
 }

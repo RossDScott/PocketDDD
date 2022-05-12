@@ -18,13 +18,23 @@ public class FeedbackServiceController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<FeedbackResponseDTO?> SubmitClientSessionData(SessionFeedbackDTO clientData)
+    public async Task<FeedbackResponseDTO?> ClientSessionFeedback(SessionFeedbackDTO feedbackDTO)
     {
         string token = Request.Headers["Authorization"];
         var user = await userService.FetchUserByToken(token);
         if (user == null)
             return null;
 
-        return await feedbackService.SubmitClientSessionData(clientData, user);
+        return await feedbackService.SubmitClientSessionFeedback(feedbackDTO, user);
+    }
+
+    public async Task<FeedbackResponseDTO?> SubmitClientEventData(EventFeedbackDTO feedbackDTO)
+    {
+        string token = Request.Headers["Authorization"];
+        var user = await userService.FetchUserByToken(token);
+        if (user == null)
+            return null;
+
+        return await feedbackService.SubmitClientEventData(feedbackDTO, user);
     }
 }
