@@ -14,7 +14,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PocketDDDContext>(
     options => options.UseSqlServer("name=ConnectionStrings:PocketDDDContext"));
 
-builder.Services.AddTransient<RegistrationService>();
+builder.Services.AddScoped<RegistrationService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<FeedbackService>();
+builder.Services.AddScoped<EventDataService>();
 
 var app = builder.Build();
 
