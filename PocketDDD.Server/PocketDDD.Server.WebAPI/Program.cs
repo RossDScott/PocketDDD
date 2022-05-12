@@ -18,6 +18,7 @@ builder.Services.AddScoped<RegistrationService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FeedbackService>();
 builder.Services.AddScoped<EventDataService>();
+builder.Services.AddScoped<PrizeDrawService>();
 
 var app = builder.Build();
 

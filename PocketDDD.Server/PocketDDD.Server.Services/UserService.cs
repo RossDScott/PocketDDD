@@ -17,9 +17,9 @@ public class UserService
         this.dbContext = dbContext;
     }
 
-    public Task<User> FetchUserByToken(string token)
+    public Task<User?> FetchUserByToken(string token)
     {
-        return dbContext.Users.SingleAsync(x => x.Token == token);
+        return dbContext.Users.SingleOrDefaultAsync(x => x.Token == token);
     }
 
     public async Task CalculateAndUpdateEventScore(User user)
