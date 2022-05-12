@@ -17,8 +17,8 @@ public class PrizeDrawController : ControllerBase
         this.configuration = configuration;
     }
 
-    [HttpGet]
-    public async Task<IActionResult?> GetWinners()
+    [HttpGet("[Action]")]
+    public async Task<IActionResult> Winners()
     {
         string token = Request.Headers["Authorization"];
         if (token != configuration["AdminKey"])
