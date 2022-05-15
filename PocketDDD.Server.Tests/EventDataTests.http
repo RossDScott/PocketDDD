@@ -1,0 +1,7 @@
+### Unauthorised request - no header
+POST https://localhost:7069/API/EventData/FetchLatestEventData
+content-type: application/json
+
+{
+    "Version": 0
+}

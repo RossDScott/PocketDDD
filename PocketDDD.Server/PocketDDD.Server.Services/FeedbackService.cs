@@ -20,8 +20,9 @@ public class FeedbackService
         this.userService = userService;
     }
 
-    public async Task<FeedbackResponseDTO> SubmitClientSessionFeedback(SessionFeedbackDTO clientData, User user)
+    public async Task<FeedbackResponseDTO> SubmitClientSessionFeedback(SessionFeedbackDTO clientData, int userId)
     {
+        var user = await dbContext.Users.SingleAsync(x => x.Id == userId);
         var feedback = await dbContext.UserSessionFeedback
                                       .Where(x => x.EventDetailId == user.EventDetailId && 
                                                   x.SessionId == clientData.SessionId && 
@@ -54,8 +55,9 @@ public class FeedbackService
         return new FeedbackResponseDTO { ClientId = clientData.ClientId, Score = user.EventScore };
     }
 
-    public async Task<FeedbackResponseDTO> SubmitClientEventData(EventFeedbackDTO clientData, User user)
+    public async Task<FeedbackResponseDTO> SubmitClientEventData(EventFeedbackDTO clientData, int userId)
     {
+        var user = await dbContext.Users.SingleAsync(x => x.Id == userId);
         var feedback = await dbContext.UserEventFeedback
                                       .Where(x => x.EventDetailId == user.EventDetailId && 
                                                   x.UserId == user.Id)

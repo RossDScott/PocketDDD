@@ -1,0 +1,29 @@
+### Authorised request
+POST https://localhost:7069/API/Feedback/ClientSessionFeedback
+Authorization: 1GIjxaeNkVWQoNxvGe1fXdBlJk8AQZDQhZ162UaQ
+content-type: application/json
+
+{
+  "clientId": "aaa",
+  "dateTimeStamp": "2022-05-15T13:25:39.971Z",
+  "sessionId": 3,
+  "knowlegeRating": 4,
+  "speakingSkillRating": 3,
+  "comments": "test"
+}
+
+### Unauthorised request - no header
+POST https://localhost:7069/API/Feedback/ClientSessionFeedback
+content-type: application/json
+
+{
+  "clientId": "aaa",
+  "dateTimeStamp": "2022-05-15T13:25:39.971Z",
+  "sessionId": 0,
+  "knowlegeRating": 0,
+  "speakingSkillRating": 0,
+  "comments": "test"
+}
+### Unauthorised request - no header
+GET https://localhost:7069/API/PrizeDraw/Winners
+Authorization: xxx

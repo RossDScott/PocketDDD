@@ -8,6 +8,7 @@ namespace PocketDDD.Server.Model.DBModel;
 
 public class User
 {
+    public const string UserIdClaim = "UserId";
     public int Id { get; set; }
     public int EventDetailId { get; set; }
     public string Name { get; set; }

@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PocketDDD.Server.Model.DTOs;
 using PocketDDD.Server.Services;
+using PocketDDD.Server.WebAPI.Authentication;
 
 namespace PocketDDD.Server.WebAPI.Controllers;
 [Route("api/[controller]")]
 [ApiController]
+[Authorize(AuthenticationSchemes = UserIsRegisteredAuthHandler.SchemeName)]
 public class FeedbackController : ControllerBase
 {
     private readonly UserService userService;
@@ -17,27 +20,19 @@ public class FeedbackController : ControllerBase
         this.feedbackService = feedbackService;
     }
 
-    [HttpPost("Action")]
+    [HttpPost("[Action]")]
     public async Task<IActionResult> ClientSessionFeedback(SessionFeedbackDTO feedbackDTO)
     {
-        string token = Request.Headers["Authorization"];
-        var user = await userService.FetchUserByToken(token);
-        if (user == null)
-            return Unauthorized();
-
-        var response = await feedbackService.SubmitClientSessionFeedback(feedbackDTO, user);
+        var response = await feedbackService.SubmitClientSessionFeedback(feedbackDTO, CurrentUserId);
         return Ok(response);
     }
 
     [HttpPost("[Action]")]
     public async Task<IActionResult> ClientEventData(EventFeedbackDTO feedbackDTO)
     {
-        string token = Request.Headers["Authorization"];
-        var user = await userService.FetchUserByToken(token);
-        if (user == null)
-            return Unauthorized();
-
-        var response = await feedbackService.SubmitClientEventData(feedbackDTO, user);
+        var response = await feedbackService.SubmitClientEventData(feedbackDTO, CurrentUserId);
         return Ok(response);
     }
+
+    private int CurrentUserId => int.Parse(User.Claims.Single(x => x.Type == PocketDDD.Server.Model.DBModel.User.UserIdClaim).Value);
 }

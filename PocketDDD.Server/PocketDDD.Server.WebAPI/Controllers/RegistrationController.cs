@@ -15,7 +15,7 @@ public class RegistrationController : ControllerBase
         this.registrationService = registrationService;
     }
 
-    [HttpPost]
+    [HttpPost("[Action]")]
     public Task<RegisterResponseDTO> Login(RegisterDTO dto)
     {
         return registrationService.Register(dto);

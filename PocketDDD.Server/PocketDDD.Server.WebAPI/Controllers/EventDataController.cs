@@ -15,7 +15,7 @@ public class EventDataController : ControllerBase
         this.eventDataService = eventDataService;
     }
 
-    [HttpPost]
+    [HttpPost("[Action]")]
     public Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO requestDTO)
     {
         return eventDataService.FetchLatestEventData(requestDTO);
