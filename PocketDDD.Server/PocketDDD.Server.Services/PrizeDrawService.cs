@@ -18,7 +18,7 @@ public class PrizeDrawService
         this.dbContext = dbContext;
     }
 
-    public async Task<PrizeDrawResponseDTO> GetWinners()
+    public async Task<PrizeDrawResponseDTO> FetchWinners()
     {
         var allUsers = await dbContext.Users.ToListAsync();
         List<User> allEntries = new List<User>();

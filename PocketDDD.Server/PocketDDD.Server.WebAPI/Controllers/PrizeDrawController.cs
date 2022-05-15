@@ -24,7 +24,7 @@ public class PrizeDrawController : ControllerBase
         if (token != configuration["AdminKey"])
             return Unauthorized();
 
-        var winners = await prizeDrawService.GetWinners();
+        var winners = await prizeDrawService.FetchWinners();
         return Ok(winners);
     }
 }

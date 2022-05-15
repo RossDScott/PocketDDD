@@ -6,12 +6,12 @@ using PocketDDD.Server.Services;
 namespace PocketDDD.Server.WebAPI.Controllers;
 [Route("api/[controller]")]
 [ApiController]
-public class FeedbackServiceController : ControllerBase
+public class FeedbackController : ControllerBase
 {
     private readonly UserService userService;
     private readonly FeedbackService feedbackService;
 
-    public FeedbackServiceController(UserService userService, FeedbackService feedbackService)
+    public FeedbackController(UserService userService, FeedbackService feedbackService)
     {
         this.userService = userService;
         this.feedbackService = feedbackService;

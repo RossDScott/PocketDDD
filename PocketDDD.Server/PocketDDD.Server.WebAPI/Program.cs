@@ -19,6 +19,7 @@ builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<FeedbackService>();
 builder.Services.AddScoped<EventDataService>();
 builder.Services.AddScoped<PrizeDrawService>();
+builder.Services.AddScoped<SpeakersService>();
 
 var app = builder.Build();
 
