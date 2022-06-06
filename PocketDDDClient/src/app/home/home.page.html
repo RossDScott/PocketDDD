@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-title>
+            DDDSW 2022
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+    <div *ngIf="!metaData">
+
+
+    </div>
+    <div *ngIf="metaData">
+        <ion-item-group *ngFor="let timeSlot of metaData.timeSlots">
+            <ion-item-divider color="light">
+                {{timeSlot.from | date:'shortTime'}} to {{timeSlot.to | date:'shortTime'}}
+            </ion-item-divider>
+            <ion-item *ngIf="timeSlot.info">
+                {{timeSlot.info}}
+            </ion-item>
+
+            <ng-container *ngIf="!timeSlot.info">
+                <button ion-item *ngFor="let vm of getSessionsVMForTimeSlot(timeSlot)"
+                    (click)="handleSessionSelected(vm)">
+                    <ion-icon name="bookmark" color="secondary" *ngIf="isBookmarked(vm.session.id)" item-left>
+                    </ion-icon>
+                    <h2>{{vm.session.title }}</h2>
+                    <h3>{{vm.session.speaker}}</h3>
+                    <h3>{{vm.track.name}}</h3>
+                </button>
+            </ng-container>
+        </ion-item-group>
+    </div>
+</ion-content>

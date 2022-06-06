@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Welcome to DDD South West 2022</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-content>
+            <p>
+                Please use this app for session and event feedback.
+            </p>
+            <p>
+                To gain the maximum number of entries in the prize draw, please provide feedback for every
+                session you attend.
+            </p>
+        </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+        <ion-card-header>
+            Please provide a name
+        </ion-card-header>
+        <ion-card-content>
+            <div>
+                <ion-input type="text" placeholder="Name" [(ngModel)]="loginName"></ion-input>
+                <p>
+                    This name will be called out if you win a prize. It doesn't have to be your real name.
+                </p>
+                <ion-button color="primary" expand="block" (click)="handleLogin()" [disabled]="isLoggingIn || !loginName">Login</ion-button>
+
+                <ion-chip *ngIf="loginFailed" color="warning">
+                    <ion-label >
+                        Login failed, please try
+                        again
+                    </ion-label>
+                </ion-chip>
+            </div>
+            
+        </ion-card-content>
+        <ion-item>
+
+           
+        </ion-item>
+    </ion-card>
+</ion-content>

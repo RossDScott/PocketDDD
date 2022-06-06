@@ -1,0 +1,7 @@
+{
+  "name": "PocketDDDClient",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
