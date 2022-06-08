@@ -32,17 +32,6 @@ Insert into TimeSlots values (1,'2022-06-25 15:15:00.0000000 +01:00','2022-06-25
 Insert into TimeSlots values (1,'2022-06-25 15:45:00.0000000 +01:00','2022-06-25 16:45:00.0000000 +01:00', null) 
 Insert into TimeSlots values (1,'2022-06-25 16:45:00.0000000 +01:00','2022-06-25 17:15:00.0000000 +01:00', 'Closing')
 
-
-[Id] int NOT NULL IDENTITY,
-    [EventDetailId] int NOT NULL,
-    [Title] nvarchar(max) NOT NULL,
-    [ShortDescription] nvarchar(max) NOT NULL,
-    [FullDescription] nvarchar(max) NOT NULL,
-    [Speaker] nvarchar(max) NOT NULL,
-    [TrackId] int NOT NULL,
-    [TimeSlotId] int NOT NULL,
-    [SpeakerToken] uniqueidentifier NOT NULL,
-
 -- Session 1
 Insert into [Sessions] values (1,'The Source Code Generation Game','There has been a lot of buzz around the introduction of source code generators in .NET 5  and Microsoft has been building on this in .NET 6 and 7. But, how did we get here and what may the future hold?',
 'There has been a lot of buzz around the introduction of source code generators in .NET 5 and Microsoft has been building on this in .NET 6 and there is more to come in .NET 7. 
