@@ -28,9 +28,9 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpPost("[Action]")]
-    public async Task<IActionResult> ClientEventData(EventFeedbackDTO feedbackDTO)
+    public async Task<IActionResult> ClientEventFeedback(EventFeedbackDTO feedbackDTO)
     {
-        var response = await feedbackService.SubmitClientEventData(feedbackDTO, CurrentUserId);
+        var response = await feedbackService.SubmitClientEventFeedback(feedbackDTO, CurrentUserId);
         return Ok(response);
     }
 

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>DDDSW 2022 Feedback</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-card-content>
+            <div *ngIf="currentRating">
+                <h3 style="font-weight:bold">Refreshments:</h3>
+                <app-rating [(rating)]="currentRating.refreshmentsRating" (ratingChange)="handleRatingChange()"></app-rating>
+    
+                <h3 style="font-weight:bold">Venue:</h3>
+                <app-rating [(rating)]="currentRating.venueRating" (ratingChange)="handleRatingChange()"></app-rating>
+    
+                <h3 style="font-weight:bold">Overall:</h3>
+                <app-rating [(rating)]="currentRating.overall" (ratingChange)="handleRatingChange()"></app-rating>
+    
+                <h3 style="font-weight:bold">Comments:</h3>
+                <ion-item>
+                    <ion-textarea style="border: 1px solid" [(ngModel)]="currentRating.comments" (ngModelChange)="handleRatingChange()"></ion-textarea>
+                </ion-item>
+            </div>
+
+            <ion-row>
+                <ion-col>
+                    <ion-button expand="full" (click)="handleCancel()">
+                        <ion-icon slot="start" name="close-circle"></ion-icon>
+                        Cancel
+                    </ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button expand="full" (click)="handleSubmit()">
+                        <ion-icon slot="start" name="cloud-upload"></ion-icon>
+                        Submit
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card-content>
+    </ion-card>
+</ion-content>

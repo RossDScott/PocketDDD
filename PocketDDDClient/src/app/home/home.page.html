@@ -3,33 +3,46 @@
         <ion-title>
             DDDSW 2022
         </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="handleShowEventRating()">
+                <ion-icon name="thumbs-up-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
     <div *ngIf="!metaData">
-
+        No meta data
 
     </div>
     <div *ngIf="metaData">
         <ion-item-group *ngFor="let timeSlot of metaData.timeSlots">
-            <ion-item-divider color="light">
-                {{timeSlot.from | date:'shortTime'}} to {{timeSlot.to | date:'shortTime'}}
+            <ion-item-divider color="primary">
+                <ion-label>{{timeSlot.from | date:'shortTime'}} to {{timeSlot.to | date:'shortTime'}}</ion-label>
             </ion-item-divider>
             <ion-item *ngIf="timeSlot.info">
-                {{timeSlot.info}}
+                <ion-label>{{timeSlot.info}}</ion-label>
             </ion-item>
 
             <ng-container *ngIf="!timeSlot.info">
-                <button ion-item *ngFor="let vm of getSessionsVMForTimeSlot(timeSlot)"
+                <ion-item button *ngFor="let vm of getSessionsVMForTimeSlot(timeSlot)"
                     (click)="handleSessionSelected(vm)">
-                    <ion-icon name="bookmark" color="secondary" *ngIf="isBookmarked(vm.session.id)" item-left>
+                    <ion-icon name="bookmark" *ngIf="isBookmarked(vm.session.id)" item-left>
                     </ion-icon>
-                    <h2>{{vm.session.title }}</h2>
-                    <h3>{{vm.session.speaker}}</h3>
-                    <h3>{{vm.track.name}}</h3>
-                </button>
+                    <ion-label>
+                        <h2>{{vm.session.title}}</h2>
+                        <h3>{{vm.session.speaker}}</h3>
+                        <h3>{{vm.track.name}} ({{vm.track.roomName}})</h3>
+                    </ion-label>
+                </ion-item>
             </ng-container>
         </ion-item-group>
     </div>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button (click)="handleShowGameScore()">
+            {{eventScore}}
+        </ion-fab-button>
+    </ion-fab>
 </ion-content>

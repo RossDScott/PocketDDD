@@ -46,7 +46,7 @@ export interface SessionFeedbackDTO {
     clientId: string;
     dateTimeStamp: Date;
     sessionId: number;
-    knowlegeRating: number;
+    speakerKnowledgeRating: number;
     speakingSkillRating: number;
     comments: string;
 }

@@ -27,7 +27,7 @@ public class FeedbackService
                                       .Where(x => x.EventDetailId == user.EventDetailId && 
                                                   x.SessionId == clientData.SessionId && 
                                                   x.UserId == user.Id)
-                                      .SingleOrDefaultAsync();
+                                      .FirstOrDefaultAsync();
         if (feedback == null)
         {
             feedback = new UserSessionFeedback
@@ -42,7 +42,7 @@ public class FeedbackService
 
         if (clientData.DateTimeStamp > feedback.DateTimestamp)
         {
-            feedback.SpeakerKnowledgeRating = clientData.KnowlegeRating;
+            feedback.SpeakerKnowledgeRating = clientData.SpeakerKnowledgeRating;
             feedback.SpeakerSkillsRating = clientData.SpeakingSkillRating;
             feedback.Comment = clientData.Comments;
             feedback.DateTimestamp = clientData.DateTimeStamp;
@@ -55,13 +55,13 @@ public class FeedbackService
         return new FeedbackResponseDTO { ClientId = clientData.ClientId, Score = user.EventScore };
     }
 
-    public async Task<FeedbackResponseDTO> SubmitClientEventData(EventFeedbackDTO clientData, int userId)
+    public async Task<FeedbackResponseDTO> SubmitClientEventFeedback(EventFeedbackDTO clientData, int userId)
     {
         var user = await dbContext.Users.SingleAsync(x => x.Id == userId);
         var feedback = await dbContext.UserEventFeedback
                                       .Where(x => x.EventDetailId == user.EventDetailId && 
                                                   x.UserId == user.Id)
-                                      .SingleOrDefaultAsync();
+                                      .FirstOrDefaultAsync();
         if (feedback == null)
         {
             feedback = new UserEventFeedback

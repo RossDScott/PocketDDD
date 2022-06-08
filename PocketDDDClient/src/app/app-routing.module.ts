@@ -15,6 +15,22 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'event-score',
+    loadChildren: () => import('./event-score/event-score.module').then( m => m.EventScorePageModule)
+  },
+  {
+    path: 'event-rating',
+    loadChildren: () => import('./event-rating/event-rating.module').then( m => m.EventRatingPageModule)
+  },
+  {
+    path: 'session/:sessionId',
+    loadChildren: () => import('./session/session.module').then( m => m.SessionPageModule)
+  },
+  {
+    path: 'session-feedback',
+    loadChildren: () => import('./session-feedback/session-feedback.module').then( m => m.SessionFeedbackPageModule)
+  },
 ];
 
 @NgModule({

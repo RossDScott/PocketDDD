@@ -1,0 +1,32 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home"></ion-back-button>
+        </ion-buttons>
+        <ion-title *ngIf="track && timeSlot">{{track.name}} ({{track.roomName}}) @ {{timeSlot.from | date:'shortTime'}}
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="handleShowSessionRating()">
+                <ion-icon name="thumbs-up-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card *ngIf="session">
+        <ion-card-header>
+            <ion-card-title>{{session.title}}</ion-card-title>
+            <ion-card-subtitle>By {{session.speaker}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            {{session.fullDescription}}
+        </ion-card-content>
+    </ion-card>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button [color]="isBookmarked ? 'primary' : 'light'" (click)="handleToggleBookmark()">
+            <ion-icon name="bookmark"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+</ion-content>

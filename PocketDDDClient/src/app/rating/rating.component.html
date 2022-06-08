@@ -1,0 +1,25 @@
+<div>
+    <span class="flex" style="flex-wrap: nowrap;">
+        <ion-icon
+            [name]="rating !== null && rating > 0 ? 'star' : 'star-outline'" size="large"
+            [class]="rating > 0 ? 'ratingstarfilled md hydrated' : 'ratingstaroutlined md hydrated'"
+            (click)="handleRatingStarClicked(1)"></ion-icon>
+        <ion-icon
+            [name]="rating !== null && rating > 1 ? 'star' : 'star-outline'" size="large"
+            [class]="rating > 1 ? 'ratingstarfilled md hydrated' : 'ratingstaroutlined md hydrated'"
+            (click)="handleRatingStarClicked(2)"></ion-icon>
+        <ion-icon
+            [name]="rating !== null && rating > 2 ? 'star' : 'star-outline'" size="large"
+            [class]="rating > 2 ? 'ratingstarfilled md hydrated' : 'ratingstaroutlined md hydrated'"
+            (click)="handleRatingStarClicked(3)"></ion-icon>
+        <ion-icon
+            [name]="rating !== null && rating > 3 ? 'star' : 'star-outline'" size="large"
+            [class]="rating > 3 ? 'ratingstarfilled md hydrated' : 'ratingstaroutlined md hydrated'"
+            (click)="handleRatingStarClicked(4)"></ion-icon>
+        <ion-icon
+            [name]="rating !== null && rating > 4 ? 'star' : 'star-outline'" size="large"
+            [class]="rating > 4 ? 'ratingstarfilled md hydrated' : 'ratingstaroutlined md hydrated'"
+            (click)="handleRatingStarClicked(5)"></ion-icon>
+    </span>
+</div>
+

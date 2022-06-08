@@ -86,7 +86,8 @@ export class LocalDataService {
 
         var clientId = this.createUniqueId();
         feedback.clientId = clientId;
-        this.setItem(LocalDataService.SESSION_FEEDBACK_PREFIX + clientId,feedback); 
+        this.setItem(LocalDataService.SESSION_FEEDBACK_PREFIX + clientId,feedback);
+        this.sessionFeedbackCache = currentFeedbackItems;
     }
 
     private eventFeedbackCache: EventFeedbackDTO;
@@ -98,6 +99,7 @@ export class LocalDataService {
     }
 
     setEventFeedback(feedback: EventFeedbackDTO){
+        this.eventFeedbackCache = feedback;
         this.setItem(LocalDataService.EVENT_FEEDBACK,feedback);
 
         var clientId = this.createUniqueId();

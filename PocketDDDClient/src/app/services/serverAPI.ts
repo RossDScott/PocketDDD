@@ -3,24 +3,25 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { timeout } from "rxjs/operators";
 import { LoginDTO, LoginResponseDTO, ClientMetaDataDTO, ClientMetaDataSyncResponseDTO, SessionFeedbackDTO, EventFeedbackDTO, ServerUpdateResponseDTO } from '../models/serverDTO';
 import { LocalDataService } from './localData';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class ServerAPIService {
-    private serverURL = "/";
+    private serverURL = environment.serverURL;
     constructor(private http: HttpClient, private localDataService: LocalDataService) { }
 
     private TIMEOUT = 10000;
 
     login = (loginDTO: LoginDTO): Promise<LoginResponseDTO> =>
-        this.http.post<LoginResponseDTO>(this.serverURL + "login/login", loginDTO)
+        this.http.post<LoginResponseDTO>(this.serverURL + "registration/Login", loginDTO)
             .pipe(
                 timeout(this.TIMEOUT)
             )
             .toPromise()
             .catch(this.handleError);
 
-    syncMetaData = (clientStateDTO: ClientMetaDataDTO): Promise<Response> =>
-        this.http.post<Response>(this.serverURL + "metaData/getLatest", clientStateDTO)
+    syncMetaData = (clientStateDTO: ClientMetaDataDTO) =>
+        this.http.post<ClientMetaDataSyncResponseDTO>(this.serverURL + "eventData/FetchLatestEventData", clientStateDTO, {observe: 'response'} )
             .pipe(
                 timeout(this.TIMEOUT)
             )
@@ -28,16 +29,16 @@ export class ServerAPIService {
             .catch(this.handleError);
 
 
-    submitPendingClientSessionData = (syncData: SessionFeedbackDTO): Promise<ServerUpdateResponseDTO> =>
-        this.http.post<ServerUpdateResponseDTO>(this.serverURL + "clientDataSync/submitClientSessionData", syncData, { headers: this.getSecureHeader(), withCredentials: true })
+    submitPendingClientSessionData = (syncData: SessionFeedbackDTO) =>
+        this.http.post<ServerUpdateResponseDTO>(this.serverURL + "feedback/ClientSessionFeedback", syncData, { headers: this.getSecureHeader() })
             .pipe(
                 timeout(this.TIMEOUT)
             )
             .toPromise()
             .catch(this.handleError);
 
-    submitPendingClientEventData = (syncData: EventFeedbackDTO): Promise<ServerUpdateResponseDTO> =>
-        this.http.post<ServerUpdateResponseDTO>(this.serverURL + "clientDataSync/submitClientEventData", syncData, { headers: this.getSecureHeader(), withCredentials: true })
+    submitPendingClientEventData = (syncData: EventFeedbackDTO) =>
+        this.http.post<ServerUpdateResponseDTO>(this.serverURL + "feedback/ClientEventFeedback", syncData, { headers: this.getSecureHeader() })
         .pipe(
             timeout(this.TIMEOUT)
         )

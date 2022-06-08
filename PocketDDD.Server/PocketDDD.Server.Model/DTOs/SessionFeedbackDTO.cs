@@ -10,7 +10,7 @@ public class SessionFeedbackDTO
     public string ClientId { get; set; }
     public DateTimeOffset DateTimeStamp { get; set; }
     public int SessionId { get; set; }
-    public int KnowlegeRating { get; set; }
+    public int SpeakerKnowledgeRating { get; set; }
     public int SpeakingSkillRating { get; set; }
     public string Comments { get; set; }
 }

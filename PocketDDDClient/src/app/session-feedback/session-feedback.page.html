@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title *ngIf="session">Feedback for {{session.speaker}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="currentRating">
+        <h3 style="font-weight:bold">Speakers Knowledge:</h3>
+        <app-rating [(rating)]="currentRating.speakerKnowledgeRating" (ratingChange)="handleRatingChange()"></app-rating>
+    
+        <h3 style="font-weight:bold">Speaking Skills:</h3>
+        <app-rating [(rating)]="currentRating.speakingSkillRating" (ratingChange)="handleRatingChange()"></app-rating>
+
+        <h3 style="font-weight:bold">Comments:</h3>
+        <ion-item>
+            <ion-textarea style="border: 1px solid" [(ngModel)]="currentRating.comments" (ngModelChange)="handleRatingChange()"></ion-textarea>
+        </ion-item>
+    </div>
+
+    <ion-row>
+        <ion-col>
+            <ion-button expand="full" (click)="handleCancel()">
+                <ion-icon slot="start" name="close-circle"></ion-icon>
+                Cancel
+            </ion-button>
+        </ion-col>
+        <ion-col>
+            <ion-button expand="full" (click)="handleSubmit()">
+                <ion-icon slot="start" name="cloud-upload"></ion-icon>
+                Submit
+            </ion-button>
+        </ion-col>
+    </ion-row>
+
+</ion-content>
