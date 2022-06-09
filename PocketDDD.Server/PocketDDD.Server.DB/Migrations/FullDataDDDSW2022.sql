@@ -1,7 +1,10 @@
+delete [UserSessionFeedback]
+delete [UserEventFeedback]
 delete [Sessions]
 delete TimeSlots
 delete Tracks
 delete EventDetail
+
 
 GO
 
