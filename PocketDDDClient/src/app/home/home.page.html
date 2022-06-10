@@ -17,7 +17,7 @@
 
     </div>
     <div *ngIf="metaData">
-        <ion-item-group *ngFor="let timeSlot of metaData.timeSlots">
+        <ion-item-group *ngFor="let timeSlot of metaDataVM.timeSlots">
             <ion-item-divider color="primary">
                 <ion-label>{{timeSlot.from | date:'shortTime'}} to {{timeSlot.to | date:'shortTime'}}</ion-label>
             </ion-item-divider>
@@ -26,14 +26,13 @@
             </ion-item>
 
             <ng-container *ngIf="!timeSlot.info">
-                <ion-item button *ngFor="let vm of getSessionsVMForTimeSlot(timeSlot)"
-                    (click)="handleSessionSelected(vm)">
-                    <ion-icon name="bookmark" *ngIf="isBookmarked(vm.session.id)" item-left>
+                <ion-item button *ngFor="let sessionInfo of timeSlot.sessions" (click)="handleSessionSelected(sessionInfo)">
+                    <ion-icon name="bookmark" *ngIf="sessionInfo.isBookmarked" item-left>
                     </ion-icon>
                     <ion-label>
-                        <h2>{{vm.session.title}}</h2>
-                        <h3>{{vm.session.speaker}}</h3>
-                        <h3>{{vm.track.name}} ({{vm.track.roomName}})</h3>
+                        <h2>{{sessionInfo.session.title}}</h2>
+                        <h3>{{sessionInfo.session.speaker}}</h3>
+                        <h3>{{sessionInfo.track.name}} ({{sessionInfo.track.roomName}})</h3>
                     </ion-label>
                 </ion-item>
             </ng-container>
