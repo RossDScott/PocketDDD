@@ -1,10 +1,24 @@
-### Authorised request
-GET https://localhost:7069/API/PrizeDraw/Winners
-Authorization: fdsnfdofsdfdiowpre90752bhbfsdkfdsfjksdh7837danjmakodji
+@authKey = IF_YOU_SET_THIS_DO_NOT_CHECK_IT_IN
 
-### Unauthorised request - no header
+### Local Authorised request
+GET https://localhost:7069/API/PrizeDraw/Winners
+Authorization: {{authKey}}
+
+### Local Unauthorised request - no header
 GET https://localhost:7069/API/PrizeDraw/Winners
 
-### Unauthorised request - no header
+### Local Unauthorised request - wrong auth
 GET https://localhost:7069/API/PrizeDraw/Winners
+Authorization: xxx
+
+
+### Azure Authorised request
+GET https://pocketdddsw2022api.azurewebsites.net/API/PrizeDraw/Winners
+Authorization: {{authKey}}
+
+### Azure Unauthorised request - no header
+GET https://pocketdddsw2022api.azurewebsites.net/API/PrizeDraw/Winners
+
+### Azure Unauthorised request - wrong auth
+GET https://pocketdddsw2022api.azurewebsites.net/API/PrizeDraw/Winners
 Authorization: xxx

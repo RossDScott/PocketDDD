@@ -1,4 +1,4 @@
-### Authorised request
+### local Authorised request
 POST https://localhost:7069/API/Feedback/ClientSessionFeedback
 Authorization: 1GIjxaeNkVWQoNxvGe1fXdBlJk8AQZDQhZ162UaQ
 content-type: application/json
@@ -12,7 +12,7 @@ content-type: application/json
   "comments": "test"
 }
 
-### Unauthorised request - no header
+### local Unauthorised request - no header
 POST https://localhost:7069/API/Feedback/ClientSessionFeedback
 content-type: application/json
 
@@ -24,6 +24,31 @@ content-type: application/json
   "speakingSkillRating": 0,
   "comments": "test"
 }
-### Unauthorised request - no header
-GET https://localhost:7069/API/PrizeDraw/Winners
-Authorization: xxx
+
+### azure Authorised request
+POST https://pocketdddsw2022api.azurewebsites.net/API/Feedback/ClientSessionFeedback
+Authorization: wXShkbECjgBdO8qOeH2ELqoGthhkFDWCqqVFP0md
+content-type: application/json
+
+{
+  "clientId": "aaa",
+  "dateTimeStamp": "2022-05-15T13:25:39.971Z",
+  "sessionId": 3,
+  "knowlegeRating": 4,
+  "speakingSkillRating": 3,
+  "comments": "test"
+}
+
+### azure Unauthorised request - no header
+POST https://pocketdddsw2022api.azurewebsites.net/API/Feedback/ClientSessionFeedback
+content-type: application/json
+
+{
+  "clientId": "aaa",
+  "dateTimeStamp": "2022-05-15T13:25:39.971Z",
+  "sessionId": 0,
+  "knowlegeRating": 0,
+  "speakingSkillRating": 0,
+  "comments": "test"
+}
+

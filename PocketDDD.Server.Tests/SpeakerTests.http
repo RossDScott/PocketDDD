@@ -1,0 +1,8 @@
+@speakerToken = IF_YOU_SET_THIS_DO_NOT_CHECK_IT_IN
+
+### local Authorised request
+GET https://localhost:7069/API/Speaker/Feedback/{{speakerToken}}
+
+
+### Azure Authorised request
+GET https://pocketdddsw2022api.azurewebsites.net/API/Speaker/Feedback/{{speakerToken}}

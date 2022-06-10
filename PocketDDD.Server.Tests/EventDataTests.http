@@ -1,5 +1,13 @@
-### Unauthorised request - no header
+### Local
 POST https://localhost:7069/API/EventData/FetchLatestEventData
+content-type: application/json
+
+{
+    "Version": 0
+}
+
+### Azure 
+POST https://pocketdddsw2022api.azurewebsites.net/API/EventData/FetchLatestEventData
 content-type: application/json
 
 {
