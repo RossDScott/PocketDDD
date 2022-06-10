@@ -3,6 +3,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { EventRatingPage } from '../event-rating/event-rating.page';
 import { EventScorePage } from '../event-score/event-score.page';
 import { LoginPage } from '../login/login.page';
+import { CurrentUserContext } from '../models/clientData';
 import { SessionItemVM } from '../models/clientVM';
 import { ClientMetaDataSyncResponseDTO, TimeSlotDTO } from '../models/serverDTO';
 import { LocalDataService } from '../services/localData';
@@ -16,13 +17,13 @@ import { SyncService } from '../services/syncService';
 })
 export class HomePage {
     metaData: ClientMetaDataSyncResponseDTO;
+    currentUser: CurrentUserContext;
     bookmarks: number[] = [];
     eventScore = 0;
 
     constructor(private localData: LocalDataService, private syncService: SyncService, private navCtrl: NavController, private modalCtrl: ModalController) { }
 
     async ngOnInit() {
-        //setInterval(() => this.updateEventScore(), 10000);
         this.loadMetaData();
     }
 
@@ -33,16 +34,12 @@ export class HomePage {
         this.syncService.TrySyncAll()
             .then(() => {
                 this.loadMetaData();
+                this.updateEventScore();
             });
 
-        const user = this.localData.getCurrentUser();
-        if(!user){
-            const modal = await this.modalCtrl.create({
-                component: LoginPage
-            });
-
-            await await modal.present();
-        }
+        this.currentUser = this.localData.getCurrentUser();
+        if(!this.currentUser)
+            await this.handleShowLogin();
 
         this.bookmarks = this.localData.getSessionBookmarks();
     }
@@ -77,7 +74,9 @@ export class HomePage {
         await modal.present();
         await modal.onWillDismiss();
         
-        await this.syncService.SyncAll();
+        await this.syncService.TrySyncFeedbackAndGameScore();
+
+        debugger
         this.updateEventScore();
     }
 
@@ -90,7 +89,16 @@ export class HomePage {
         await modal.onWillDismiss();
     }
 
+    async handleShowLogin(){
+        const modal = await this.modalCtrl.create({
+            component: LoginPage
+        });
 
+        await await modal.present();
+        await modal.onWillDismiss();
+        this.currentUser = this.localData.getCurrentUser();
+        this.updateEventScore();
+    }
 
     isBookmarked = (sessionId: number) => this.bookmarks.indexOf(sessionId) != -1;
 }

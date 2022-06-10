@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { CurrentUserContext } from '../models/clientData';
 import { SessionDTO, TimeSlotDTO, TrackDTO } from '../models/serverDTO';
 import { LocalDataService } from '../services/localData';
+import { SyncService } from '../services/syncService';
 import { SessionFeedbackPage } from '../session-feedback/session-feedback.page';
 
 @Component({
@@ -11,13 +13,13 @@ import { SessionFeedbackPage } from '../session-feedback/session-feedback.page';
     styleUrls: ['./session.page.scss'],
 })
 export class SessionPage implements OnInit {
-
+    currentUser: CurrentUserContext;
     session: SessionDTO;
     track: TrackDTO;
     timeSlot: TimeSlotDTO;
     isBookmarked = false;
 
-    constructor(private localData: LocalDataService, private route: ActivatedRoute, private modalCtrl: ModalController) { 
+    constructor(private localData: LocalDataService, private syncService: SyncService, private route: ActivatedRoute, private modalCtrl: ModalController) { 
         route.params.subscribe(params => {
             const sessionId = +params.sessionId;
             const metaData = localData.getMetaData();
@@ -30,7 +32,7 @@ export class SessionPage implements OnInit {
     }
 
     ngOnInit() {
-
+        this.currentUser = this.localData.getCurrentUser();
     }
 
     async handleShowSessionRating(){
@@ -43,6 +45,7 @@ export class SessionPage implements OnInit {
 
         await modal.present();
         await modal.onWillDismiss();
+        await this.syncService.TrySyncFeedbackAndGameScore();
     }
 
     handleToggleBookmark = () => {

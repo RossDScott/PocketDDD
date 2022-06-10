@@ -15,7 +15,7 @@ export class SyncService {
     async TrySyncAll() {
         try {
             await this.SyncMetaData();
-            await this.TrySendPendingDataIndividually(); 
+            await this.TrySyncFeedbackAndGameScore(); 
 
             return true;
         } catch (error) {
@@ -25,7 +25,7 @@ export class SyncService {
 
     async SyncAll() {
         await this.SyncMetaData();
-        await this.TrySendPendingDataIndividually(); 
+        await this.TrySyncFeedbackAndGameScore(); 
     }
 
     async SyncMetaData() {
@@ -38,8 +38,9 @@ export class SyncService {
             this.localDataService.setMetaData(response.body);
     }
 
-    TrySendPendingDataIndividually() {
+    async TrySyncFeedbackAndGameScore() {
         let sessionData = this.localDataService.getAllPendingSessionFeedbackData();
+
         let sessionDataPromises = sessionData.map(sessionDataItem => {
             return this.serverAPIService.submitPendingClientSessionData(sessionDataItem)
                 .then(this.processSessionSyncDataResponse)
@@ -53,9 +54,11 @@ export class SyncService {
                 .then(this.processEventSyncDataResponse)
                 .catch(() => { });
         })
-        let allEventDataPromise = Promise.all(eventDataPromises);
 
-        return Promise.all([allSessionDataPromise, eventDataPromises]).catch(() => { });
+        try {
+            await Promise.all(sessionDataPromises);
+            await Promise.all(eventDataPromises);
+        } catch (error) {  }
     }
 
     private processSessionSyncDataResponse = (response: ServerUpdateResponseDTO) => {

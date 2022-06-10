@@ -1,9 +1,56 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>eventScore</ion-title>
-  </ion-toolbar>
+    <ion-toolbar>
+        <ion-title>DDDSW 2022 Event Score</ion-title>
+    </ion-toolbar>
 </ion-header>
 
 <ion-content>
+    <ion-card *ngIf="currentUser">
+        <ion-card-header>
+            <ion-card-title>{{currentUser.name}}</ion-card-title>
+            <ion-card-subtitle>{{currentUser.token}}</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+            <ion-row>
+                <ion-col>
+                    <h2 style="font-weight:bold">Score: </h2>
+                </ion-col>
+                <ion-col>
+                    <h2>{{currentScore}}</h2>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <h2 style="font-weight:bold">Sync State: </h2>
+                </ion-col>
+                <ion-col>
+                    <h2>{{syncState}}</h2>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <h2 style="font-weight:bold">Pending Sync Data: </h2>
+                </ion-col>
+                <ion-col>
+                    <h2>{{pendingDataCount}}</h2>
+                </ion-col>
+            </ion-row>
 
+            <ion-row>
+                <ion-col>
+                    <ion-button expand="full" (click)="handleCancel()">
+                        <ion-icon slot="start" name="close-circle-outline"></ion-icon>
+                        Close
+                    </ion-button>
+                </ion-col>
+                <ion-col>
+                    <ion-button expand="full" (click)="handleSync()">
+                        <ion-icon slot="start" name="sync-outline"></ion-icon>
+                        Sync
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+
+        </ion-card-content>
+    </ion-card>
 </ion-content>

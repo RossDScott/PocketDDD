@@ -4,8 +4,8 @@
             DDDSW 2022
         </ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="handleShowEventRating()">
-                <ion-icon name="thumbs-up-outline"></ion-icon>
+            <ion-button *ngIf="currentUser" color="primary" (click)="handleShowEventRating()">
+                <ion-icon name="thumbs-up"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
@@ -41,8 +41,11 @@
     </div>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button (click)="handleShowGameScore()">
+        <ion-fab-button *ngIf="currentUser" (click)="handleShowGameScore()">
             {{eventScore}}
+        </ion-fab-button>
+        <ion-fab-button *ngIf="!currentUser" (click)="handleShowLogin()">
+            <ion-icon name="log-in-outline"></ion-icon>
         </ion-fab-button>
     </ion-fab>
 </ion-content>

@@ -6,8 +6,8 @@
         <ion-title *ngIf="track && timeSlot">{{track.name}} ({{track.roomName}}) @ {{timeSlot.from | date:'shortTime'}}
         </ion-title>
         <ion-buttons slot="end">
-            <ion-button (click)="handleShowSessionRating()">
-                <ion-icon name="thumbs-up-outline"></ion-icon>
+            <ion-button *ngIf="currentUser" color="primary" (click)="handleShowSessionRating()">
+                <ion-icon name="thumbs-up"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
