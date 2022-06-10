@@ -4,7 +4,6 @@ import { ServerAPIService } from './serverAPI';
 import { LocalDataService } from './localData';
 
 import { ClientMetaDataDTO, ClientMetaDataSyncResponseDTO, ServerUpdateResponseDTO } from '../models/serverDTO';
-import { CampaignGroupMetaData } from '../models/metaData';
 
 @Injectable()
 export class SyncService {
