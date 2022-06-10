@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  serverURL: "https://localhost:7069/api/",
+  serverURL: "https://pocketdddsw2022api.azurewebsites.net/api/",
 };
 
 /*
