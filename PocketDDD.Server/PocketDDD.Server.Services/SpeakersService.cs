@@ -36,10 +36,15 @@ public class SpeakersService
                 Comment = f.Comment,
                 SpeakerKnowledgeRating = f.SpeakerKnowledgeRating,
                 SpeakerSkillsRating = f.SpeakerSkillsRating
-            }).ToList()
+            }).ToList(),
+            AverageKnowledgeRating = 0,
+            AverageSkillRating = 0
         };
 
         var feedbackCount = (decimal)feedbackResponse.Feedback.Count();
+        if (feedbackCount == 0)
+            return feedbackResponse;
+
         feedbackResponse.AverageKnowledgeRating = feedbackResponse.Feedback
                                                                   .Where(x => x.SpeakerKnowledgeRating != null)
                                                                   .Sum(x => (decimal)x.SpeakerKnowledgeRating!.Value) / feedbackCount;

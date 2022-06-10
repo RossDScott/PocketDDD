@@ -14,7 +14,7 @@ public class SpeakerController : ControllerBase
         this.speakersService = speakersService;
     }
 
-    [HttpGet("[Action]/token")]
+    [HttpGet("[Action]/{token}")]
     public async Task<IActionResult> Feedback(Guid token)
     {
         var feedback = await speakersService.FetchFeedback(token);
