@@ -119,6 +119,4 @@ export class HomePage {
         this.currentUser = this.localData.getCurrentUser();
         this.updateEventScore();
     }
-
-    isBookmarked = (sessionId: number) => this.bookmarks.indexOf(sessionId) != -1;
 }
