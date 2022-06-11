@@ -21,9 +21,10 @@ export class EventScorePage {
 
     ionViewWillEnter(){
         this.currentUser = this.localData.getCurrentUser();
+        this.updateGameScore();
+        this.updatePendingCount();
         this.handleSync();
     }
-
 
     updateGameScore = () => this.currentScore = this.localData.getEventScore();
 
@@ -49,6 +50,7 @@ export class EventScorePage {
         } catch (error) {
             this.syncState = "Failed"
         } finally {
+            this.updateGameScore();
             this.updatePendingCount();
         }
     }
