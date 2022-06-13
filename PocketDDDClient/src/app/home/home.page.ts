@@ -49,6 +49,9 @@ export class HomePage {
         this.bookmarks = this.localData.getSessionBookmarks();
         const newMetaData = this.localData.getMetaData();
 
+        if(!newMetaData)
+            return;
+
         if(!this.metaData || this.metaData.version !== newMetaData.version){
             this.metaData = newMetaData;
             this.buildMetaDataVM();
@@ -56,7 +59,12 @@ export class HomePage {
     } 
 
     updateEventScore = () => this.eventScore = this.localData.getEventScore();
-    refreshBookmarks = () => this.metaDataVM.timeSlots.forEach(ts => ts.sessions.forEach(session => session.isBookmarked = this.bookmarks.indexOf(session.session.id) != -1));
+    refreshBookmarks = () => {
+        if(!this.metaDataVM)
+            return;
+
+        this.metaDataVM.timeSlots.forEach(ts => ts.sessions.forEach(session => session.isBookmarked = this.bookmarks.indexOf(session.session.id) != -1));
+    } 
 
     buildMetaDataVM(){
         const metaData = this.metaData;

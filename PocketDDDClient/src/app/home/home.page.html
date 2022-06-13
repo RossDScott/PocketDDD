@@ -12,11 +12,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <div *ngIf="!metaData">
-        No meta data
+    <div *ngIf="!metaDataVM">
+        loading...
 
     </div>
-    <div *ngIf="metaData">
+    <div *ngIf="metaDataVM">
         <ion-item-group *ngFor="let timeSlot of metaDataVM.timeSlots">
             <ion-item-divider color="primary">
                 <ion-label>{{timeSlot.from | date:'shortTime'}} to {{timeSlot.to | date:'shortTime'}}</ion-label>
