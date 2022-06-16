@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
 import { CurrentUserContext } from '../models/clientData';
 import { LocalDataService } from '../services/localData';
 import { SyncService } from '../services/syncService';
@@ -14,6 +15,8 @@ export class EventScorePage {
     syncState = "Pending...";
     pendingDataCount = 0;
     currentScore = 0;
+
+    version = environment.version;
 
     constructor(private localData: LocalDataService, private syncService: SyncService, private modalController: ModalController) { 
 
