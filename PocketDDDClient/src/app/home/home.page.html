@@ -5,16 +5,28 @@
         </ion-title>
         <ion-buttons slot="end">
             <ion-button *ngIf="currentUser" color="primary" (click)="handleShowEventRating()">
-                <ion-icon name="thumbs-up"></ion-icon>
+                <ion-icon name="happy-outline"></ion-icon>
             </ion-button>
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-    <div *ngIf="!metaDataVM">
+    <div *ngIf="!metaDataVM && !failedToLoadData">
         loading...
-
+    </div>
+    <div *ngIf="failedToLoadData">
+        <ion-card>
+            <ion-card-header>
+              <ion-card-subtitle>Failed to load data</ion-card-subtitle>
+            </ion-card-header>
+            <ion-card-content>
+                <ion-button expand="full" (click)="syncData()">
+                    <ion-icon slot="start" name="sync-outline"></ion-icon>
+                    Retry
+                </ion-button>
+            </ion-card-content>
+          </ion-card>
     </div>
     <div *ngIf="metaDataVM">
         <ion-item-group *ngFor="let timeSlot of metaDataVM.timeSlots">

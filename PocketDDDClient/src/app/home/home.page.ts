@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { ModalController, NavController } from '@ionic/angular';
+import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
+import { AlertController, ModalController, NavController } from '@ionic/angular';
+import { filter } from 'rxjs/operators';
 import { EventRatingPage } from '../event-rating/event-rating.page';
 import { EventScorePage } from '../event-score/event-score.page';
 import { LoginPage } from '../login/login.page';
@@ -21,8 +23,18 @@ export class HomePage {
     currentUser: CurrentUserContext;
     bookmarks: number[] = [];
     eventScore = 0;
+    failedToLoadData = false;
 
-    constructor(private localData: LocalDataService, private syncService: SyncService, private navCtrl: NavController, private modalCtrl: ModalController) { }
+    constructor(private localData: LocalDataService, private syncService: SyncService, private navCtrl: NavController, private modalCtrl: ModalController, public alertController: AlertController, private updates: SwUpdate) { 
+        try {
+            updates.versionUpdates.pipe(
+                filter((evt): evt is VersionReadyEvent => evt.type === "VERSION_READY")
+            )
+            .subscribe(evt => {
+                this.presentAppUpdateConfirm();
+            });
+        } catch (error) {   }
+    }
 
     async ngOnInit() {
 
@@ -33,16 +45,24 @@ export class HomePage {
         this.updateEventScore();
         this.refreshBookmarks();
 
-        this.syncService.TrySyncAll()
-            .then(() => {
-                this.loadData();
-                this.updateEventScore();
-            });
+        this.syncData();
 
         this.currentUser = this.localData.getCurrentUser();
         if(!this.currentUser)
             await this.handleShowLogin();
 
+        if(this.updates.isEnabled)
+            this.updates.checkForUpdate();
+    }
+
+    syncData(){
+        this.syncService.TrySyncAll()
+        .then(() => {
+            this.loadData();
+            this.updateEventScore();
+
+            this.failedToLoadData = !this.metaData;
+        });
     }
 
     loadData = () => {
@@ -126,5 +146,33 @@ export class HomePage {
         await modal.onWillDismiss();
         this.currentUser = this.localData.getCurrentUser();
         this.updateEventScore();
+    }
+
+    async presentAppUpdateConfirm() {
+        try {
+            const alert = await this.alertController.create({
+                header: 'New version available!',
+                message: 'An update has been downloaded and is available to use.',
+                cssClass: 'appUpdate',
+                buttons: [
+                  {
+                    text: 'Update Now',
+                    handler: () => {
+                        document.location.reload()
+                    }
+                  },
+                  {
+                      text: 'Later',
+                      role: 'cancel',
+                      cssClass: 'secondary',
+                      handler: () => {
+
+                      }
+                  }
+                ]
+              });
+          
+              await alert.present();
+        } catch (error) { }
     }
 }
