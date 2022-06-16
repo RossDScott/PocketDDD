@@ -4,18 +4,21 @@ import { timeout } from "rxjs/operators";
 import { LoginDTO, LoginResponseDTO, ClientMetaDataDTO, ClientMetaDataSyncResponseDTO, SessionFeedbackDTO, EventFeedbackDTO, ServerUpdateResponseDTO } from '../models/serverDTO';
 import { LocalDataService } from './localData';
 import { environment } from 'src/environments/environment';
+import { RetryBackoffConfig, retryBackoff } from 'backoff-rxjs';
 
 @Injectable()
 export class ServerAPIService {
     private serverURL = environment.serverURL;
     constructor(private http: HttpClient, private localDataService: LocalDataService) { }
 
-    private TIMEOUT = 10000;
-
+    private TIMEOUT = 2000;
+    private retryConfig: RetryBackoffConfig = {maxRetries: 3, initialInterval: 1250}
+    
     login = (loginDTO: LoginDTO): Promise<LoginResponseDTO> =>
         this.http.post<LoginResponseDTO>(this.serverURL + "registration/Login", loginDTO)
             .pipe(
-                timeout(this.TIMEOUT)
+                timeout(this.TIMEOUT),
+                retryBackoff(this.retryConfig)
             )
             .toPromise()
             .catch(this.handleError);
@@ -23,7 +26,8 @@ export class ServerAPIService {
     syncMetaData = (clientStateDTO: ClientMetaDataDTO) =>
         this.http.post<ClientMetaDataSyncResponseDTO>(this.serverURL + "eventData/FetchLatestEventData", clientStateDTO, {observe: 'response'} )
             .pipe(
-                timeout(this.TIMEOUT)
+                timeout(this.TIMEOUT),
+                retryBackoff(this.retryConfig)
             )
             .toPromise()
             .catch(this.handleError);
@@ -32,16 +36,18 @@ export class ServerAPIService {
     submitPendingClientSessionData = (syncData: SessionFeedbackDTO) =>
         this.http.post<ServerUpdateResponseDTO>(this.serverURL + "feedback/ClientSessionFeedback", syncData, { headers: this.getSecureHeader() })
             .pipe(
-                timeout(this.TIMEOUT)
+                timeout(this.TIMEOUT),
+                retryBackoff(this.retryConfig)
             )
             .toPromise()
             .catch(this.handleError);
 
     submitPendingClientEventData = (syncData: EventFeedbackDTO) =>
         this.http.post<ServerUpdateResponseDTO>(this.serverURL + "feedback/ClientEventFeedback", syncData, { headers: this.getSecureHeader() })
-        .pipe(
-            timeout(this.TIMEOUT)
-        )
+            .pipe(
+                timeout(this.TIMEOUT),
+                retryBackoff(this.retryConfig)
+            )
             .toPromise()
             .catch(this.handleError);
 
