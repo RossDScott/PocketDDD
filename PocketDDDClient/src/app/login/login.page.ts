@@ -37,9 +37,5 @@ export class LoginPage implements OnInit {
         } finally {
             this.isLoggingIn = false
         }
-
-        this.modalController.dismiss({
-            'dismissed': true
-        });
     }
 }
