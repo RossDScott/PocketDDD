@@ -98,16 +98,8 @@ I''ll go through :
 
 This take tale will wander a little, but hopefully be something that anyone who is yet to really get to play with the cool cross platform tools available now with .NET can use to show what''s possible.',
 'Carl Sargunar',2,5,newid())
-Insert into [Sessions] values (1,'Scaling your .NET app with Azure','You''ve made it big time, and your web app just can''t handle the traffic... Where do you even start with scaling in Azure? This session will cover all there is to know about efficiently scaling an app on Azure; from scaling on App Service, to hosting in containers on AKS, and all the DevOps magic in between.','You''ve made it big time, and your web app just can''t handle the traffic... Where do you even start with scaling in Azure?
-
-This session will cover all there is to know about efficiently scaling an app on Azure; from scaling on App Service, to hosting in containers on AKS, and all the DevOps magic in between.
-
-Lets start by exploring the auto-scaling options available in Azure App Service, using Application Insights to guide the thresholds we set and monitor how our app performs. We''ll see the impact that external dependencies (database, storage) has on scaling, and smart ways to mitigate any challenges that arise.
-
-As our scale grows, so will our costs... I''ll share my tips for cost effective scaling, taking a look at the options Azure makes available at our fingertips – through containerized apps + AKS, and serverless products like Azure SQL Serverless.
-
-Finally, I''ll show how to configure a deployment pipeline in Azure DevOps that glues all of these solutions together.',
-'Callum Whyte',3,5,newid())
+Insert into [Sessions] values (1,'Software Architecture - In Search of The Fourth Chord','Discussing software architecture, and giving some examples of some of the more popular patterns.','Having never really played a guitar, I once heard someone tell me that all you really needed to learn were three or four chords, and you could do a good impression of most [rock] songs.  Whether or not that''s true, I have no idea - however, there are a few key principles in software architecture that will get you most of the way there.  In this talk, we''ll cover some popular patterns, and talk about their relative advantages and disadvantages.  We''ll also look at a couple of examples of these patterns using .Net.',
+'Paul Michaels',3,5,newid())
 Insert into [Sessions] values (1,'Workshop: how to run user experience testing','Usability testing is super easy, and shouldn''t be a big deal.
 Split into teams and run some simple tests on your favourite websites to see how they perform.
 We''ll cover choosing the right type of test to conduct, planning it, writing your questions, doing it and taking notes.','Usability testing is super easy, and shouldn''t be a big deal.
