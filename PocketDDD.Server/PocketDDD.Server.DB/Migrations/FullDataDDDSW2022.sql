@@ -127,7 +127,7 @@ Why we can only ever promise "at least once", and how we offer "at least once."
 
 Finally, we will demo  the Outbox, using the .NET OSS library Brighter and EF Core, to show how you can ensure "at least once".',
 'Ian Cooper',2,7,newid())
-Insert into [Sessions] values (1,'DDD, The Value Of ValueOf','DDD, The Value Of ValueOf','Domain Driven Design has many a parts to it around strategic and tactical patterns. Knowing which ones to apply to get the most value out is a challenge.
+Insert into [Sessions] values (1,'DDD, The Value Of Value Objects','DDD, The Value Of Value Objects','Domain Driven Design has many a parts to it around strategic and tactical patterns. Knowing which ones to apply to get the most value out is a challenge.
 I want to share the learnings that I''ve gotten from entering a new organisation and seeing what patterns can be applied with little effort but result in massive gains. Moreover, I want to talk about software correctness, utilising the types system to your advantage. Avoiding death by a thousand primitives.',
 'Callum Linington',3,7,newid())
 Insert into [Sessions] values (1,'Data Scientists, Making Sh!t up Since 1974','By now you will all have seen data science talks where presenters have said "We just download data from here, and blend it with data from there, then we run it through an algorithm and *jazz hands* we make a prediction". Well, okay, cool, but what happens if you don''t have any data? As a data scientist, you can''t just shrug and say "dunno mate". In this session we''ll examine the process of elicitation and we''ll use it to predict the success of this conference, live, using Python and Jupyter Notebooks.','By now you will all have seen data science talks where presenters have said "We just download data from here, and blend it with data from there, then we run it through an algorithm and *jazz hands* we make a prediction". Well, okay, cool, but what happens if you don''t have any data? As a data scientist, you can''t just shrug and say "dunno mate". In this session we''ll examine the process of elicitation and we''ll use it to predict the success of this conference, live, using Python and Jupyter Notebooks.',
@@ -140,8 +140,12 @@ The same still holds true today, that whilst it seems like a good idea at the ti
 
 This short talk shows some recognizable patterns you may have seen where premature optimisation causes problems, and how you might be able to avoid these pitfalls.',
 'Craig Jones',1,9,newid())
-Insert into [Sessions] values (1,'MiniHack','Teams of between 3 and 6 people compete to produce the best solution to a given problem. We encourage new people - both new to programming, and new to the group','Teams of between 3 and 6 people compete to produce the best solution to a given problem. We encourage new people - both new to programming, and new to the group',
-'Kevin Smith and Paul Michaels',2,9,newid())
+Insert into [Sessions] values (1,'Scaling your .NET app with Azure','You''ve made it big time, and your web app just can''t handle the traffic... Where do you even start with scaling in Azure? This session will cover all there is to know about efficiently scaling an app on Azure; from scaling on App Service, to hosting in containers on AKS, and all the DevOps magic in between.','You''ve made it big time, and your web app just can''t handle the traffic... Where do you even start with scaling in Azure?
+This session will cover all there is to know about efficiently scaling an app on Azure; from scaling on App Service, to hosting in containers on AKS, and all the DevOps magic in between.
+Lets start by exploring the auto-scaling options available in Azure App Service, using Application Insights to guide the thresholds we set and monitor how our app performs. We''ll see the impact that external dependencies (database, storage) has on scaling, and smart ways to mitigate any challenges that arise.
+As our scale grows, so will our costs... I''ll share my tips for cost effective scaling, taking a look at the options Azure makes available at our fingertips – through containerized apps + AKS, and serverless products like Azure SQL Serverless.
+Finally, I''ll show how to configure a deployment pipeline in Azure DevOps that glues all of these solutions together.',
+'Callum Whyte',2,9,newid())
 Insert into [Sessions] values (1,'Outnumbered – Force Multipliers in Software Security','Outnumbered – Force Multipliers in Software Security','You''re dropped into a business that is growing – in people, software, and volume. You realise that Infosec and Technology have had limited engagement, you are at ground zero and your already 3 years behind. There are 120 things you could do and your outnumbered 100 to 1 by engineers– so what do you do? How to make the biggest impact? I will be talking through some of the learnings I’ve had from delivering security transformation, what do I measure and how I get the most bang (risk reduction) for a buck.',
 'Sebastian Coles',3,9,newid())
 Insert into [Sessions] values (1,'Building next generation web apps with Blazor','Blazor and WebAssembly are game changers. Developers can now write powerful client-side applications using C# running directly in the browser. In this session, we''ll go beyond the theory and see what it''s like to actually write Blazor applications - exploring loads of great features along the way.',
@@ -165,8 +169,6 @@ The theme that repeats in the book is that in order to achieve this we need to "
 
 In this talk, we will look at how we can build better microservices so our DevOps will be a win',
 'Sean Farmar',1,11,newid())
-Insert into [Sessions] values (1,'MiniHack','Teams of between 3 and 6 people compete to produce the best solution to a given problem. We encourage new people - both new to programming, and new to the group','Teams of between 3 and 6 people compete to produce the best solution to a given problem. We encourage new people - both new to programming, and new to the group',
-'Kevin Smith and Paul Michaels',2,11,newid())
 Insert into [Sessions] values (1,'Augmented Reality for iOS using Xamarin, ARKit, C# and .NET','In this session we will look at how easy (yet overlooked) it is for .NET developers to create augmented reality mobile applications for iOS devices using Xamarin, ARKit and C#','We will talk about augmented reality in general before looking at how to implement it.
 
 We will look at the many features that we can make use of when we target iOS devices and Apples Augmented Reality framework ARKit including 
@@ -180,7 +182,8 @@ We will look at the many features that we can make use of when we target iOS dev
 * Touch gestures
 * Physics engine
 * Animations',
-'Lee Englestone',3,11,newid())
+'Lee Englestone',2,11,newid())
+Insert into [Sessions] values (1,'','','',3,11,newid())
 Insert into [Sessions] values (1,'Mental Health: It''s Time to Talk (the post pandemic revision)','Mental health affects us all, and this has become more widespreadly accepted, in part, due to the Covid-19 pandemic.
 
 So what changed in that time, and what did we learn (or in some cases re-learn) since the outbreak of the Covid-19 pandemic.','Mental health affects us all, albeit at varying levels of intensity, be it from having a restless nights sleep or Bi-Polar Disorder and is still a subject that we tend to approach with caution, if we even speak about it at all, whether with our colleagues and managers, doctors and even our closest friends and family.
