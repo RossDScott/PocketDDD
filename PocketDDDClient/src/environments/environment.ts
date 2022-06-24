@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   serverURL: "https://pocketdddsw2022api.azurewebsites.net/api/",
-  version: "1.0.4dev"
+  version: "1.1.0.dev"
 };
 
 /*

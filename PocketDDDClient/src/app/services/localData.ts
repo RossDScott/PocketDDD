@@ -135,6 +135,9 @@ export class LocalDataService {
     deleteAllData(){
         localStorage.clear();
         this.metaDataCache = null;
+        this.sessionBookmarksCache = null;
+        this.sessionFeedbackCache = null;
+        this.eventFeedbackCache = null;
     }
 
     private getItem<T>(itemName: string): T {

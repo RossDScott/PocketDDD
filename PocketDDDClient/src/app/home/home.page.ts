@@ -134,7 +134,10 @@ export class HomePage {
         });
 
         await modal.present();
-        await modal.onWillDismiss();
+        var dismiss = await modal.onWillDismiss();
+        if(dismiss.data.logout){
+            document.location.reload();
+        }
     }
 
     async handleShowLogin(){

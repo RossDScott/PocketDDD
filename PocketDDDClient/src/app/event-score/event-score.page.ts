@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { CurrentUserContext } from '../models/clientData';
 import { LocalDataService } from '../services/localData';
@@ -18,7 +18,7 @@ export class EventScorePage {
 
     version = environment.version;
 
-    constructor(private localData: LocalDataService, private syncService: SyncService, private modalController: ModalController) { 
+    constructor(private localData: LocalDataService, private syncService: SyncService, private modalController: ModalController, private alertController: AlertController) { 
 
     }
 
@@ -38,7 +38,7 @@ export class EventScorePage {
         this.pendingDataCount = ses + evt;
     }
 
-    handleCancel() {
+    handleClose() {
         this.modalController.dismiss({
             'dismissed': true
         });
@@ -56,5 +56,35 @@ export class EventScorePage {
             this.updateGameScore();
             this.updatePendingCount();
         }
+    }
+
+    async handleLogOut(){
+        const alert = await this.alertController.create({
+            header: 'Please Confirm!',
+            message: 'Your local data will be deleted and your score will reset',
+            buttons: [
+              {
+                text: 'Cancel',
+                role: 'cancel',
+                cssClass: 'secondary',
+                id: 'cancel-button',
+                handler: (blah) => {
+
+                }
+              }, {
+                text: 'Log Out',
+                id: 'confirm-button',
+                handler: () => {
+                  this.localData.deleteAllData();
+                  this.modalController.dismiss({
+                        'dismissed': true,
+                        'logout': true
+                    });
+                }
+              }
+            ]
+          });
+      
+          await alert.present();
     }
 }

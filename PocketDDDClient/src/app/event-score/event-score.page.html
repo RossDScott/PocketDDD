@@ -7,7 +7,14 @@
 <ion-content>
     <ion-card *ngIf="currentUser">
         <ion-card-header>
-            <ion-card-title>{{currentUser.name}}</ion-card-title>
+            <ion-card-title style="display: flex;">
+                <span>{{currentUser.name}} </span> 
+                <ion-button shape="round" size="small" fill="outline" style="margin-left: auto; margin-top:0" (click)="handleLogOut()">
+                    <ion-icon slot="start"  name="log-out-outline" ></ion-icon>
+                    Log Out
+                </ion-button>
+                
+            </ion-card-title>
             <ion-card-subtitle>{{currentUser.token}}</ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
@@ -38,7 +45,7 @@
 
             <ion-row>
                 <ion-col>
-                    <ion-button expand="full" (click)="handleCancel()">
+                    <ion-button expand="full" (click)="handleClose()">
                         <ion-icon slot="start" name="close-circle-outline"></ion-icon>
                         Close
                     </ion-button>
