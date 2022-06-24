@@ -76,7 +76,7 @@ Insert into [Sessions] values (1,'Mastering MLOps in Azure','Software Developers
 "85% of big data projects fail" (Gartner, 2017). "87% of data science projects never make it to production" (VentureBeat, 2019). "Through 2022, only 20% of analytic insights will deliver business outcomes"  (Gartner, 2019). When working with data it is vital that different Data Professionals and Software Developers/Engineers work in harmony together for successful outcomes, consequently we will also cover how we can try to best achieve this and how this has been done when working with clients in our day job.
 
 The session will be delivered by myself, a Data Engineering Consultant with a background in Software Engineering, and my colleague Luke Menzies, who is a Data Science Consultant',
-'Anna Wykes',3,3,newid())
+'Anna Wykes and Luke Menzies',3,3,newid())
 Insert into [Sessions] values (1,'Automated Azure Dashboards Generation','Automated Azure Dashboards Generation','Azure Dashboards are a great way in which to have visibility of your platform in Azure. Application Insights / Log Analytics are tools that integrate seamlessly with other Azure resources which captures valuable telemetry you need to know to understand your system. The process of creating those visualisations can be a fun and creative one, but difficult to manage if you have multiple environments, want to manage change of dashboards as static code, reuse visualisations easily. I shall be showing what we have developed here at ClearBank that allows engineers to use their known tech stack to builds applications, and also produce Azure Dashboards.',
 'Joshan Mahmud',4,3,newid())
 
@@ -183,7 +183,11 @@ We will look at the many features that we can make use of when we target iOS dev
 * Physics engine
 * Animations',
 'Lee Englestone',2,11,newid())
-Insert into [Sessions] values (1,'','','',3,11,newid())
+Insert into [Sessions] values (1,'Let’s stop blaming our users for getting hacked when it is our problem to solve','Users cannot secure your web applications through password choice alone. You cannot blame them for this; it is not their problem to solve. It is ours, as security professionals, identity professionals, and software developers.',
+'Users cannot secure your web applications through password choice alone. You cannot blame them for this; it is not their problem to solve. It is ours, as security professionals, identity professionals, and software developers.
+Typical 2FA implementations such as TOTP and push notification have had some success, but they can be frustrating to use and are still vulnerable to basic phishing techniques. OWASP and NIST are now recommending FIDO2, which offers a realistic solution in the form of frictionless, possession-based authentication that has inbuilt anti-phishing techniques. But what does FIDO2 look like to a developer and how does it actually work?
+In this talk, I’m going to look at: why common 2FA mechanisms aren’t up to scratch; how to phish your friends using Evilginx; spooky biometrics; and how to use WebAuthn and FIDO2 to protect your users.',
+'Scott Brady',3,11,newid())
 Insert into [Sessions] values (1,'Mental Health: It''s Time to Talk (the post pandemic revision)','Mental health affects us all, and this has become more widespreadly accepted, in part, due to the Covid-19 pandemic.
 
 So what changed in that time, and what did we learn (or in some cases re-learn) since the outbreak of the Covid-19 pandemic.','Mental health affects us all, albeit at varying levels of intensity, be it from having a restless nights sleep or Bi-Polar Disorder and is still a subject that we tend to approach with caution, if we even speak about it at all, whether with our colleagues and managers, doctors and even our closest friends and family.
