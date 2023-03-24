@@ -1,0 +1,25 @@
+﻿@page "/"
+@using PocketDDD.BlazorClient.Features.Login.Components
+@inject IDialogService Dialog
+
+<MudLayout>
+    <MudAppBar>
+        <MudGrid Class="d-flex align-end">
+            <MudItem>DDDSW 2023</MudItem>
+            <MudItem Class="ml-auto"><MudIcon Icon="@Icons.Material.Filled.TagFaces" Title="Favorite" /></MudItem>
+        </MudGrid>
+        
+
+        
+    </MudAppBar>
+    <MudMainContent>
+        
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
+    }
+}

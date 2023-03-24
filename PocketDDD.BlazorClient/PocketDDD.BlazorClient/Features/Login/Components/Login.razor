@@ -1,0 +1,76 @@
+﻿@using Fluxor
+@using PocketDDD.BlazorClient.Features.Login.Store
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<LoginState> State
+@inject IDispatcher Dispatcher
+
+<MudDialog>
+    <TitleContent>Welcome to DDD South West 2023</TitleContent>
+    <DialogContent>
+
+        <MudCard>
+            <MudCardContent>
+                <MudText>Please use this app for session and event feedback.</MudText>
+                <MudText Typo="Typo.body2">
+                    To gain the maximum number of entries in the prize draw, please provide feedback for every
+                    session you attend.
+                </MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Please provide a name</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Typo="Typo.body2">
+                    <MudTextField @bind-Value="loginName" Label="Name" Variant="Variant.Text"></MudTextField>
+                    <p>
+                        This name will be called out if you win a prize. It doesn't have to be your real name.
+                    </p>
+                </MudText>
+            </MudCardContent>
+        </MudCard>
+        
+        @whenLoginFailedShowAlert()
+
+        @*        @if (State.Value.LoginFailed)
+        {
+            <MudAlert Severity="Severity.Warning">Login failed, please try again!</MudAlert>
+        }*@
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="HandleLogin">Login</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    //Some interesting coversations around this one. Will leave here for now
+    RenderFragment whenLoginFailedShowAlert() => State.Value.LoginFailed
+        ? @<MudAlert Severity="Severity.Warning">Login failed, please try again!</MudAlert>
+        : null;
+}
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    string loginName = "";
+
+    protected override void OnInitialized()
+    {
+        SubscribeToAction<SetLoginSuccess>(HandleLoginSuccess);
+        base.OnInitialized();
+    }
+
+    void HandleLogin() => Dispatcher.Dispatch(new LoginAction(loginName));
+
+    void HandleLoginSuccess(SetLoginSuccess action)
+    {
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+}
