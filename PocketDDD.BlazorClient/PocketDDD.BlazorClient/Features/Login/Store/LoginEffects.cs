@@ -10,14 +10,14 @@ namespace PocketDDD.BlazorClient.Features.Login.Store;
 public class LoginEffects
 {
     private readonly IState<LoginState> _state;
-    private readonly ILocalStorageService _localStorage;
-    private readonly IPocketDDDApiService _apiService;
+    private readonly LocalStorageService _localStorage;
+    private readonly IPocketDDDApiService _pocketDDDAPI;
 
-    public LoginEffects(IState<LoginState> state, ILocalStorageService localStorage, IPocketDDDApiService apiService)
+    public LoginEffects(IState<LoginState> state, LocalStorageService localStorage, IPocketDDDApiService pocketDDDAPI)
     {
         _state = state;
         _localStorage = localStorage;
-        _apiService = apiService;
+        _pocketDDDAPI = pocketDDDAPI;
     }
 
     [EffectMethod]
@@ -25,10 +25,10 @@ public class LoginEffects
     {
         try
         {
-            var result = await _apiService.Login(action.LoginName);
+            var result = await _pocketDDDAPI.Login(action.LoginName);
             ArgumentNullException.ThrowIfNull(result, nameof(result));
 
-            await _localStorage.SetItemAsync("currentUser", result);
+            await _localStorage.SetCurrentUser(result);
             dispatcher.Dispatch(new SetLoginSuccess(result));
         }
         catch

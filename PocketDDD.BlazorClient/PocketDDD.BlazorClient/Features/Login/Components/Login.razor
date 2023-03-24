@@ -6,26 +6,22 @@
 @inject IDispatcher Dispatcher
 
 <MudDialog>
-    <TitleContent>Welcome to DDD South West 2023</TitleContent>
+    <TitleContent><h2 class="d-flex justify-center">Welcome to DDD South West 2023</h2> </TitleContent>
     <DialogContent>
 
         <MudCard>
             <MudCardContent>
-                <MudText>Please use this app for session and event feedback.</MudText>
-                <MudText Typo="Typo.body2">
+                <MudText><h5>Please use this app for session and event feedback</h5></MudText>
+                <MudText Typo="Typo.body2" Class="mt-2">
                     To gain the maximum number of entries in the prize draw, please provide feedback for every
                     session you attend.
                 </MudText>
             </MudCardContent>
         </MudCard>
 
-        <MudCard>
-            <MudCardHeader>
-                <CardHeaderContent>
-                    <MudText Typo="Typo.h6">Please provide a name</MudText>
-                </CardHeaderContent>
-            </MudCardHeader>
+        <MudCard Class="mt-3">
             <MudCardContent>
+                <MudText><h5>Please provide a name</h5> </MudText>
                 <MudText Typo="Typo.body2">
                     <MudTextField @bind-Value="loginName" Label="Name" Variant="Variant.Text"></MudTextField>
                     <p>
@@ -35,12 +31,7 @@
             </MudCardContent>
         </MudCard>
         
-        @whenLoginFailedShowAlert()
-
-        @*        @if (State.Value.LoginFailed)
-        {
-            <MudAlert Severity="Severity.Warning">Login failed, please try again!</MudAlert>
-        }*@
+        @WhenLoginFailedShowAlert()
 
     </DialogContent>
     <DialogActions>
@@ -50,8 +41,7 @@
 
 
 @code {
-    //Some interesting coversations around this one. Will leave here for now
-    RenderFragment whenLoginFailedShowAlert() => State.Value.LoginFailed
+    RenderFragment WhenLoginFailedShowAlert() => State.Value.LoginFailed
         ? @<MudAlert Severity="Severity.Warning">Login failed, please try again!</MudAlert>
         : null;
 }
