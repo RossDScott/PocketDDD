@@ -23,7 +23,12 @@
             <MudCardContent>
                 <MudText><h5>Please provide a name</h5> </MudText>
                 <MudText Typo="Typo.body2">
-                    <MudTextField @bind-Value="loginName" Label="Name" Variant="Variant.Text"></MudTextField>
+                    <MudTextField 
+                        @bind-Value="loginName"
+                        Immediate="true"
+                        Label="Name" 
+                        Variant="Variant.Text">
+                    </MudTextField>
                     <p>
                         This name will be called out if you win a prize. It doesn't have to be your real name.
                     </p>
@@ -35,19 +40,26 @@
 
     </DialogContent>
     <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" FullWidth="true" OnClick="HandleLogin">Login</MudButton>
+        <MudButton 
+            Variant="Variant.Filled" 
+            Color="Color.Primary" 
+            FullWidth="true" 
+            OnClick="HandleLogin"
+            Disabled="string.IsNullOrWhiteSpace(loginName)">
+            Login
+        </MudButton>
     </DialogActions>
 </MudDialog>
 
 
 @code {
-    RenderFragment WhenLoginFailedShowAlert() => State.Value.LoginFailed
+    RenderFragment? WhenLoginFailedShowAlert() => State.Value.LoginFailed
         ? @<MudAlert Severity="Severity.Warning">Login failed, please try again!</MudAlert>
         : null;
 }
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
 
     string loginName = "";
 

@@ -12,5 +12,6 @@ public class LocalStorageService
         _localStorage = localStorage;
     }
 
+    public ValueTask<LoginResult?> GetCurrentUser() => _localStorage.GetItemAsync<LoginResult?>("currentUser"); 
     public ValueTask SetCurrentUser(LoginResult loginResult) => _localStorage.SetItemAsync("currentUser", loginResult);
 }

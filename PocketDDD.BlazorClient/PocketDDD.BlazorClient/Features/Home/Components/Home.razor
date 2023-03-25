@@ -1,6 +1,8 @@
 ﻿@page "/"
 @using PocketDDD.BlazorClient.Features.Login.Components
+@using PocketDDD.BlazorClient.Services;
 @inject IDialogService Dialog
+@inject LocalStorageService LocalStorage
 
 <MudLayout>
     <MudAppBar>
@@ -18,8 +20,11 @@
 </MudLayout>
 
 @code {
-    protected override void OnInitialized()
+    protected override async void OnInitialized()
     {
-        Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
+        var user = await LocalStorage.GetCurrentUser();
+
+        if(user is null)
+            Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
     }
 }
