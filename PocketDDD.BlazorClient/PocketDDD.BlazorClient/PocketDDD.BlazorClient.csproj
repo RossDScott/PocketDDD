@@ -21,10 +21,6 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-	  <Folder Include="Features\Home\Store\" />
-	</ItemGroup>
-	
-	<ItemGroup>
 	  <ProjectReference Include="..\PocketDDD.Shared\PocketDDD.Shared.csproj" />
 	</ItemGroup>
 
