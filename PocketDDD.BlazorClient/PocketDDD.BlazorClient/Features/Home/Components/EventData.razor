@@ -1,0 +1,36 @@
+﻿@using PocketDDD.BlazorClient.Features.Home.Store;
+@using System.Text.Json;
+@inherits FluxorComponent
+
+@inject IState<HomeState> State
+
+<MudList Clickable="true">
+    @foreach(var timeSlot in State.Value.EventMetaData)
+    {
+        <MudListSubheader>
+            <h1>@timeSlot.From.ToString("hh:MM") to @timeSlot.To.ToString("hh:MM")</h1>
+            
+        </MudListSubheader>
+        @if(timeSlot.Info is not null)
+        {
+            <MudListItem>
+                <h2>@timeSlot.Info</h2>
+            </MudListItem>
+        }
+        @foreach(var session in timeSlot.Sessions)
+        {
+            <MudListItem>
+                <h2>@session.Title</h2>
+                <h3>@session.SpeakerName</h3>
+                <h3>@session.TrackName (@session.RoomName)</h3>
+            </MudListItem>
+        }
+    }
+
+</MudList>
+
+@JsonSerializer.Serialize(State.Value)
+
+@code {
+
+}

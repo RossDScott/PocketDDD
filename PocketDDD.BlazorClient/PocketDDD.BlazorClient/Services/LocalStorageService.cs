@@ -14,4 +14,8 @@ public class LocalStorageService
 
     public ValueTask<LoginResult?> GetCurrentUser() => _localStorage.GetItemAsync<LoginResult?>("currentUser"); 
     public ValueTask SetCurrentUser(LoginResult loginResult) => _localStorage.SetItemAsync("currentUser", loginResult);
+
+    public ValueTask<EventDataResponse?> GetEventData() => _localStorage.GetItemAsync<EventDataResponse?>("eventData");
+    public ValueTask SetEventData(EventDataResponse eventData) => _localStorage.SetItemAsync("eventData", eventData);
+
 }

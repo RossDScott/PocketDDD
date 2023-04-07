@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using PocketDDD.BlazorClient.Features.Login.Components
+@using PocketDDD.BlazorClient.Features.Sync.Store;
 @using PocketDDD.BlazorClient.Services;
 @using PocketDDD.BlazorClient.Features.Home.Store
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
@@ -20,6 +21,7 @@
     <MudMainContent>
         @WhenLoadingAndNotFailedShowAlert()
         @WhenLoadingFailedShowCard()
+        <EventData></EventData>
     </MudMainContent>
 </MudLayout>
 
@@ -49,6 +51,7 @@
             Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
 
         Dispatcher.Dispatch(new LoadDataAction());
+        Dispatcher.Dispatch(new SyncAction());
     }
 
     void HandleShowEventFeedback()
