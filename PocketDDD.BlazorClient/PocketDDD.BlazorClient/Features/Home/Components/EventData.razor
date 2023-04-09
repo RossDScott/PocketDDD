@@ -1,8 +1,10 @@
 ﻿@using PocketDDD.BlazorClient.Features.Home.Store;
 @using System.Text.Json;
+@using PocketDDD.BlazorClient.Features.Session.Store;
 @inherits FluxorComponent
 
 @inject IState<HomeState> State
+@inject IDispatcher Dispatcher
 
 <MudList Clickable="true">
     @foreach(var timeSlot in State.Value.EventMetaData)
@@ -18,7 +20,10 @@
         }
         @foreach(var sessionItem in timeSlot.Sessions.Select((session, index) => (session, index)))
         {
-            <MudListItem Class="ml-1">
+            <MudListItem 
+                Class="ml-1" 
+                Icon="@BookmarkIconIfBookmarked(sessionItem.session.IsBookmarked)"
+                 OnClick="() => ViewSession(sessionItem.session.Id)">
                 <h2>@sessionItem.session.Title</h2>
                 <h3>@sessionItem.session.SpeakerName</h3>
                 <h3>@sessionItem.session.TrackName (@sessionItem.session.RoomName)</h3>
@@ -36,5 +41,9 @@
 @*@JsonSerializer.Serialize(State.Value)*@
 
 @code {
+    private string? BookmarkIconIfBookmarked(bool bookmarked) => bookmarked
+            ? Icons.Material.Filled.Bookmark
+            : null;
 
+    void ViewSession(int sessionId) => Dispatcher.Dispatch(new ViewSessionAction(sessionId));
 }

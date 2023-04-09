@@ -30,6 +30,7 @@ public record Session
     public string SpeakerName { get; init; } = string.Empty;
     public string TrackName { get; init; } = string.Empty;
     public string RoomName { get; init; } = string.Empty;
+    public bool IsBookmarked { get; set; } = false;
 }
 
 //export interface SessionItemVM

@@ -1,8 +1,10 @@
 ﻿@page "/"
+
 @using PocketDDD.BlazorClient.Features.Login.Components
-@using PocketDDD.BlazorClient.Features.Sync.Store;
-@using PocketDDD.BlazorClient.Services;
+@using PocketDDD.BlazorClient.Features.Sync.Store
+@using PocketDDD.BlazorClient.Services
 @using PocketDDD.BlazorClient.Features.Home.Store
+
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 @inject IState<HomeState> State

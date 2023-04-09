@@ -1,0 +1,29 @@
+﻿@page "/session/{id:int}"
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@using PocketDDD.BlazorClient.Features.Session.Store
+
+@inject IState<SessionState> State
+@inject IDispatcher Dispatcher
+
+<h3>Session</h3>
+
+@if (State.Value.Session is not null)
+{
+    <p>@State.Value.Session.Detail</p>
+}
+
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (State.Value.Session is null)
+            Dispatcher.Dispatch(new ViewSessionAction(Id));
+
+        base.OnInitialized();
+    }
+}
