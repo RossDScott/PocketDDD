@@ -24,6 +24,11 @@
         <EventData></EventData>
     </MudMainContent>
 </MudLayout>
+<MudFab 
+    Color="Color.Primary" 
+    Size="Size.Large"
+        Label="@State.Value.EventScore.ToString()"
+        Style="position:fixed; right:10px; bottom:10px" />
 
 @code {
     RenderFragment? WhenLoadingAndNotFailedShowAlert() => State.Value.Loading && !State.Value.FailedToLoad
