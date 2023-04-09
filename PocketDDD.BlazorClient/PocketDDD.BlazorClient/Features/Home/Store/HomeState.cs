@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using System.Collections.Immutable;
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
 
@@ -8,7 +9,7 @@ public record HomeState
     public bool Loading { get; init; } = false;
     public bool FailedToLoad { get; init; } = false;
 
-    public IEnumerable<TimeSlot> EventMetaData { get; init; } = Enumerable.Empty<TimeSlot>();
+    public IImmutableList<TimeSlot> EventMetaData { get; init; } = ImmutableList<TimeSlot>.Empty;
 
     public int EventScore { get; init; } = 0;
 }
@@ -19,7 +20,7 @@ public record TimeSlot
     public DateTimeOffset From { get; init; }
     public DateTimeOffset To { get; init; }
     public string? Info { get; init; } = null;
-    public IEnumerable<Session> Sessions { get; init; } = Enumerable.Empty<Session>();
+    public IImmutableList<Session> Sessions { get; init; } = ImmutableList<Session>.Empty;
 }
 
 public record Session

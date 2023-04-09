@@ -7,29 +7,33 @@
 <MudList Clickable="true">
     @foreach(var timeSlot in State.Value.EventMetaData)
     {
-        <MudListSubheader>
-            <h1>@timeSlot.From.ToString("hh:MM") to @timeSlot.To.ToString("hh:MM")</h1>
-            
+        <MudListSubheader Class="pb-0 pl-1 border-b border-solid mud-border-primary">
+            <h2>@timeSlot.From.ToString("hh:mm") to @timeSlot.To.ToString("hh:mm")</h2>
         </MudListSubheader>
         @if(timeSlot.Info is not null)
         {
-            <MudListItem>
+            <MudListItem Class="ml-1">
                 <h2>@timeSlot.Info</h2>
             </MudListItem>
         }
-        @foreach(var session in timeSlot.Sessions)
+        @foreach(var sessionItem in timeSlot.Sessions.Select((session, index) => (session, index)))
         {
-            <MudListItem>
-                <h2>@session.Title</h2>
-                <h3>@session.SpeakerName</h3>
-                <h3>@session.TrackName (@session.RoomName)</h3>
+            <MudListItem Class="ml-1">
+                <h2>@sessionItem.session.Title</h2>
+                <h3>@sessionItem.session.SpeakerName</h3>
+                <h3>@sessionItem.session.TrackName (@sessionItem.session.RoomName)</h3>
             </MudListItem>
+
+            @if (sessionItem.index != timeSlot.Sessions.Count -1)
+            {
+                <MudDivider />
+            }
         }
     }
 
 </MudList>
 
-@JsonSerializer.Serialize(State.Value)
+@*@JsonSerializer.Serialize(State.Value)*@
 
 @code {
 
