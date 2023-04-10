@@ -6,14 +6,23 @@
 
 @inject IState<SessionState> State
 @inject IDispatcher Dispatcher
+@inject NavigationManager Navigation
 
-<h3>Session</h3>
-
-@if (State.Value.Session is not null)
-{
-    <p>@State.Value.Session.Detail</p>
-}
-
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton 
+            Icon="@Icons.Material.Filled.ArrowBack"
+            OnClick="NavigateHome" />
+        <MudSpacer />
+        <h3>@State.Value.Session?.Title</h3>
+    </MudAppBar>
+    <MudMainContent>
+        @if (State.Value.Session is not null)
+        {
+            <p>@State.Value.Session.Detail</p>
+        }
+    </MudMainContent>
+</MudLayout>
 
 @code {
     [Parameter]
@@ -26,4 +35,6 @@
 
         base.OnInitialized();
     }
+
+    void NavigateHome() => Navigation.NavigateTo("/");
 }
