@@ -22,7 +22,7 @@ public static class SessionReducer
                 TrackName = action.Track.Name,
                 RoomName = action.Track.RoomName,
                 
-                IsBookmarked = false
+                IsBookmarked = action.IsBookmarked
             }
         };
 

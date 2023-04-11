@@ -21,7 +21,9 @@ public class LocalStorageService
     public ValueTask<EventDataResponse?> GetEventData() => _localStorage.GetItemAsync<EventDataResponse?>("eventData");
     public ValueTask SetEventData(EventDataResponse eventData) => _localStorage.SetItemAsync("eventData", eventData);
 
-    public ValueTask<IList<int>?> GetSessionBookmarks() => _localStorage.GetItemAsync<IList<int>?>(Key_SessionBookmarks);
+    public async ValueTask<IList<int>> GetSessionBookmarks() => 
+        await (_localStorage.GetItemAsync<IList<int>?>(Key_SessionBookmarks)) 
+        ?? new List<int>();
     public ValueTask SetSessionBookmarks(IList<int> sessionBookmarks) => _localStorage.SetItemAsync(Key_SessionBookmarks, sessionBookmarks);
 
 }
