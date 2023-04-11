@@ -25,4 +25,11 @@ public static class SessionReducer
                 IsBookmarked = false
             }
         };
+
+    [ReducerMethod]
+    public static SessionState OnToggleSessionBookmarked(SessionState state, ToggleBookmarkedAction action) =>
+        state with 
+        { 
+            Session = state.Session! with { IsBookmarked = action.Bookmarked } 
+        };
 }

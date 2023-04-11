@@ -12,14 +12,30 @@
     <MudAppBar>
         <MudIconButton 
             Icon="@Icons.Material.Filled.ArrowBack"
-            OnClick="NavigateHome" />
-        <MudSpacer />
-        <h3>@State.Value.Session?.Title</h3>
+            OnClick="HandleNavigateHome" />
+        <MudText Typo="Typo.h6">@State.Value.Session?.TrackName @State.Value.Session?.RoomName @@ @State.Value.Session?.From.ToString("hh:mm") </MudText>
     </MudAppBar>
     <MudMainContent>
         @if (State.Value.Session is not null)
         {
-            <p>@State.Value.Session.Detail</p>
+            <MudCard>
+                <MudCardHeader>
+                    <CardHeaderContent>
+                        <MudText Typo="Typo.h5">@State.Value.Session.Title</MudText>
+                        <MudText Typo="Typo.h6">@State.Value.Session.SpeakerName</MudText>
+                    </CardHeaderContent>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText>@State.Value.Session.Detail</MudText>
+                </MudCardContent>
+            </MudCard>
+
+            <MudFab 
+                Color="@State.Value.Session.BookmarkColor"
+                Size="Size.Large"
+                StartIcon="@State.Value.Session.BookmarkIcon"
+                Style="position:fixed; right:10px; bottom:10px"
+                OnClick="HandleToggleSessionBookmarked" />
         }
     </MudMainContent>
 </MudLayout>
@@ -30,11 +46,20 @@
 
     protected override void OnInitialized()
     {
-        if (State.Value.Session is null)
+        if (State.Value.Session?.Id != Id)
             Dispatcher.Dispatch(new ViewSessionAction(Id));
 
         base.OnInitialized();
     }
 
-    void NavigateHome() => Navigation.NavigateTo("/");
+    void HandleNavigateHome() => Navigation.NavigateTo("/");
+
+    void HandleToggleSessionBookmarked()
+    {
+        var session = State.Value.Session;
+        if (session is null)
+            return;
+
+        Dispatcher.Dispatch(new ToggleBookmarkedAction(session.Id, !session.IsBookmarked));
+    }
 }

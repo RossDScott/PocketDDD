@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using MudBlazor;
 using System.Collections.Immutable;
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
@@ -31,6 +32,10 @@ public record Session
     public string TrackName { get; init; } = string.Empty;
     public string RoomName { get; init; } = string.Empty;
     public bool IsBookmarked { get; set; } = false;
+
+    public string? BookmarkIconIfBookmarked => IsBookmarked
+        ? Icons.Material.Filled.Bookmark
+        : null;
 }
 
 //export interface SessionItemVM

@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using MudBlazor;
 
 namespace PocketDDD.BlazorClient.Features.Session.Store;
 
@@ -21,4 +22,12 @@ public record Session
     public string TrackName { get; init; } = string.Empty;
     public string RoomName { get; init; } = string.Empty;
     public bool IsBookmarked { get; set; } = false;
+
+    public string BookmarkIcon => IsBookmarked
+        ? Icons.Material.Filled.Bookmark
+        : Icons.Material.Filled.BookmarkBorder;
+
+    public Color BookmarkColor => IsBookmarked
+        ? Color.Primary
+        : Color.Default;
 }

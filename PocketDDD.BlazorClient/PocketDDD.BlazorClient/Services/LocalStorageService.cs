@@ -5,6 +5,9 @@ namespace PocketDDD.BlazorClient.Services;
 
 public class LocalStorageService
 {
+    private const string Key_CurrentUser = "currentUser";
+    private const string Key_SessionBookmarks = "sessionBookmarks";
+
     private readonly ILocalStorageService _localStorage;
 
     public LocalStorageService(ILocalStorageService localStorage)
@@ -12,10 +15,13 @@ public class LocalStorageService
         _localStorage = localStorage;
     }
 
-    public ValueTask<LoginResult?> GetCurrentUser() => _localStorage.GetItemAsync<LoginResult?>("currentUser"); 
-    public ValueTask SetCurrentUser(LoginResult loginResult) => _localStorage.SetItemAsync("currentUser", loginResult);
+    public ValueTask<LoginResult?> GetCurrentUser() => _localStorage.GetItemAsync<LoginResult?>(Key_CurrentUser); 
+    public ValueTask SetCurrentUser(LoginResult loginResult) => _localStorage.SetItemAsync(Key_CurrentUser, loginResult);
 
     public ValueTask<EventDataResponse?> GetEventData() => _localStorage.GetItemAsync<EventDataResponse?>("eventData");
     public ValueTask SetEventData(EventDataResponse eventData) => _localStorage.SetItemAsync("eventData", eventData);
+
+    public ValueTask<IList<int>?> GetSessionBookmarks() => _localStorage.GetItemAsync<IList<int>?>(Key_SessionBookmarks);
+    public ValueTask SetSessionBookmarks(IList<int> sessionBookmarks) => _localStorage.SetItemAsync(Key_SessionBookmarks, sessionBookmarks);
 
 }

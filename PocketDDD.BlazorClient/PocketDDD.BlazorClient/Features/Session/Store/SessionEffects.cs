@@ -33,4 +33,17 @@ public class SessionEffects
         dispatcher.Dispatch(new SetSessionAction(session, track, timeSlot));
         _navigation.NavigateTo($"session/{action.SessionId}");
     }
+
+    [EffectMethod]
+    public async Task OnToggleSessionBookmarked(ToggleBookmarkedAction action, IDispatcher dispatcher)
+    {
+        var sessionBookmarks = (await _localStorage.GetSessionBookmarks()) ?? new List<int>();
+
+        if(action.Bookmarked && !sessionBookmarks.Contains(action.SessionId))
+            sessionBookmarks.Add(action.SessionId);
+        else if(!action.Bookmarked && sessionBookmarks.Contains(action.SessionId))
+            sessionBookmarks.Remove(action.SessionId);
+
+        await _localStorage.SetSessionBookmarks(sessionBookmarks);
+    }
 }
