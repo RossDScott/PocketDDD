@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using PocketDDD.BlazorClient.Features.HeaderBar.Store;
 @using PocketDDD.BlazorClient.Features.Login.Components
 @using PocketDDD.BlazorClient.Features.Sync.Store
 @using PocketDDD.BlazorClient.Services
@@ -12,20 +13,10 @@
 @inject IDialogService Dialog
 @inject LocalStorageService LocalStorage
 
-<MudLayout>
-    <MudAppBar>
-        <h3>DDDSW 2023</h3>
-        <MudSpacer />
-        <MudIconButton 
-            Icon="@Icons.Material.Filled.TagFaces"
-            OnClick="HandleShowEventFeedback" />
-    </MudAppBar>
-    <MudMainContent>
-        @WhenLoadingAndNotFailedShowAlert()
-        @WhenLoadingFailedShowCard()
-        <EventData></EventData>
-    </MudMainContent>
-</MudLayout>
+@WhenLoadingAndNotFailedShowAlert()
+@WhenLoadingFailedShowCard()
+
+<EventData></EventData>
 <MudFab 
     Color="Color.Primary" 
     Size="Size.Large"
@@ -50,16 +41,38 @@
 }
 
 @code {
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        var user = await LocalStorage.GetCurrentUser();
+        Dispatcher.Dispatch(new SetHeaderBarTitleAction("DDDSW 2023"));
+        Dispatcher.Dispatch(new CheckUserAction());
 
-        if(user is null)
-            Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
+        //var user = await LocalStorage.GetCurrentUser();
 
-        Dispatcher.Dispatch(new LoadDataAction());
+        //if(user is null)
+        //    Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
+
+        //var state = this.State.Value;
+        if(State.Value.Loading)
+            Dispatcher.Dispatch(new LoadDataAction());
+
         Dispatcher.Dispatch(new SyncAction());
+
+        base.OnInitialized();
     }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    Dispatcher.Dispatch(new CheckUserAction());
+
+    //    //var user = await LocalStorage.GetCurrentUser();
+
+    //    //if(user is null)
+    //    //    Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
+
+    //    //var state = this.State.Value;
+    //    Dispatcher.Dispatch(new LoadDataAction());
+    //    Dispatcher.Dispatch(new SyncAction());
+    //}
 
     void HandleShowEventFeedback()
     {

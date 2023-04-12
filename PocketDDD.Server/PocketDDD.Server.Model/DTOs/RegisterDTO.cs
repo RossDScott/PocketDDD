@@ -7,5 +7,5 @@ using System.Threading.Tasks;
 namespace PocketDDD.Server.Model.DTOs;
 public class RegisterDTO
 {
-    public string Name { get; set; }
+    public string Name { get; set; } = string.Empty;
 }

@@ -2,43 +2,34 @@
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
+@using PocketDDD.BlazorClient.Features.HeaderBar.Store;
 @using PocketDDD.BlazorClient.Features.Session.Store
 
 @inject IState<SessionState> State
 @inject IDispatcher Dispatcher
 @inject NavigationManager Navigation
 
-<MudLayout>
-    <MudAppBar>
-        <MudIconButton 
-            Icon="@Icons.Material.Filled.ArrowBack"
-            OnClick="HandleNavigateHome" />
-        <MudText Typo="Typo.h6">@State.Value.Session?.TrackName @State.Value.Session?.RoomName @@ @State.Value.Session?.From.ToString("hh:mm") </MudText>
-    </MudAppBar>
-    <MudMainContent>
-        @if (State.Value.Session is not null)
-        {
-            <MudCard>
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h5">@State.Value.Session.Title</MudText>
-                        <MudText Typo="Typo.h6">@State.Value.Session.SpeakerName</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudText>@State.Value.Session.Detail</MudText>
-                </MudCardContent>
-            </MudCard>
+@if (State.Value.Session is not null)
+{
+    <MudCard>
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h5">@State.Value.Session.Title</MudText>
+                <MudText Typo="Typo.h6">@State.Value.Session.SpeakerName</MudText>
+            </CardHeaderContent>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudText>@State.Value.Session.Detail</MudText>
+        </MudCardContent>
+    </MudCard>
 
-            <MudFab 
-                Color="@State.Value.Session.BookmarkColor"
-                Size="Size.Large"
-                StartIcon="@State.Value.Session.BookmarkIcon"
-                Style="position:fixed; right:10px; bottom:10px"
-                OnClick="HandleToggleSessionBookmarked" />
-        }
-    </MudMainContent>
-</MudLayout>
+    <MudFab 
+        Color="@State.Value.Session.BookmarkColor"
+        Size="Size.Large"
+        StartIcon="@State.Value.Session.BookmarkIcon"
+        Style="position:fixed; right:10px; bottom:10px"
+        OnClick="HandleToggleSessionBookmarked" />
+}
 
 @code {
     [Parameter]
@@ -48,6 +39,8 @@
     {
         if (State.Value.Session?.Id != Id)
             Dispatcher.Dispatch(new ViewSessionAction(Id));
+
+        SubscribeToAction<NavigateBackAction>(_ => HandleNavigateHome());
 
         base.OnInitialized();
     }

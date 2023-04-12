@@ -1,14 +1,20 @@
-﻿@inherits LayoutComponentBase
+﻿@using PocketDDD.BlazorClient.Features.HeaderBar.Components
+@inherits LayoutComponentBase
 
 <MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-@Body
+<MudLayout>
+    <HeaderBar />
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
 
 @code {
     private bool _isDarkMode;
-    private MudThemeProvider _mudThemeProvider = default!;
+    private MudThemeProvider _mudThemeProvider = new();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

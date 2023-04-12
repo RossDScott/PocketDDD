@@ -2,6 +2,7 @@
 using Blazored.LocalStorage;
 using Fluxor;
 using MudBlazor;
+using PocketDDD.BlazorClient.Features.Home.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.ResponseDTOs;
 
@@ -30,6 +31,7 @@ public class LoginEffects
 
             await _localStorage.SetCurrentUser(result);
             dispatcher.Dispatch(new SetLoginSuccess(result));
+            dispatcher.Dispatch(new SetCurrentUser(result));
         }
         catch
         {

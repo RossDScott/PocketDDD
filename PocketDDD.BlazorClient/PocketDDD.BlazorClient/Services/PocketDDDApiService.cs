@@ -39,6 +39,9 @@ public class FakePocketDDDApiService : IPocketDDDApiService
 
     public Task<EventDataResponse?> FetchLatestEventData(EventDataUpdateRequest request)
     {
+        if (request.Version == 1)
+            return Task.FromResult<EventDataResponse?>(null);
+
         return Task.FromResult<EventDataResponse?>(
             new EventDataResponse
             {

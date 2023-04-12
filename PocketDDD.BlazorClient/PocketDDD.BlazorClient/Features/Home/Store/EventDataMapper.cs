@@ -7,7 +7,7 @@ namespace PocketDDD.BlazorClient.Features.Home.Store;
 
 public static class EventDataMapper
 {
-    public static IImmutableList<TimeSlot> ToHomeStateModel(this EventDataResponse eventData) =>
+    public static IImmutableList<TimeSlot> ToHomeStateModel(this EventDataResponse eventData, IList<int> sessionBookmarks) =>
         eventData.TimeSlots.Select(ts => new TimeSlot
         {
             Id = ts.Id,
@@ -22,7 +22,8 @@ public static class EventDataMapper
                                     SpeakerName = s.Speaker,
                                     Title = s.Title,
                                     TrackName = eventData.Tracks.Single(tr => tr.Id == s.TrackId).Name,
-                                    RoomName = eventData.Tracks.Single(tr => tr.Id == s.TrackId).RoomName
+                                    RoomName = eventData.Tracks.Single(tr => tr.Id == s.TrackId).RoomName,
+                                    IsBookmarked = sessionBookmarks.Contains(s.Id)
                                 }).ToImmutableList()
         }).ToImmutableList();
 }
