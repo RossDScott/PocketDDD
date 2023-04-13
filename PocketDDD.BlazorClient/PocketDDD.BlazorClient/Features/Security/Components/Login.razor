@@ -59,20 +59,7 @@
 }
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
-
     string loginName = "";
 
-    protected override void OnInitialized()
-    {
-        //SubscribeToAction<SetLoginSuccess>(HandleLoginSuccess);
-        base.OnInitialized();
-    }
-
     void HandleLogin() => Dispatcher.Dispatch(new LoginAction(loginName));
-
-    //void HandleLoginSuccess(SetLoginSuccess action)
-    //{
-    //    MudDialog.Close(DialogResult.Ok(true));
-    //}
 }

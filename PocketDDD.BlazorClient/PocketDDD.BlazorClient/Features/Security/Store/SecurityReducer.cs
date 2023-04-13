@@ -9,7 +9,11 @@ public static class SecurityReducer
         state with { IsLoggingIn = true };
 
     [ReducerMethod]
-    public static SecurityState OnLoginSuccess(SecurityState state, SetLoginSuccess action) =>
+    public static SecurityState OnSetCurrentUser(SecurityState state, SetCurrentUserAction action) =>
+        state with { IsLoggingIn = false, CurrentUser = action.User };
+
+    [ReducerMethod]
+    public static SecurityState OnLoginSuccess(SecurityState state, SetLoginSuccessAction action) =>
         state with { IsLoggingIn = false, CurrentUser = action.User };
 
     [ReducerMethod]

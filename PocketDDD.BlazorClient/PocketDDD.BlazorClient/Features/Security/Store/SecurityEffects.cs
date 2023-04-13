@@ -32,7 +32,7 @@ public class SecurityEffects
 
         if (user is not null)
         {
-            dispatcher.Dispatch(new SetLoginSuccess(user));
+            dispatcher.Dispatch(new SetCurrentUserAction(user));
             return;
         }
 
@@ -49,7 +49,7 @@ public class SecurityEffects
             ArgumentNullException.ThrowIfNull(result, nameof(result));
 
             await _localStorage.SetCurrentUser(result);
-            dispatcher.Dispatch(new SetLoginSuccess(result));
+            dispatcher.Dispatch(new SetLoginSuccessAction(result));
         }
         catch
         {
@@ -58,9 +58,11 @@ public class SecurityEffects
     }
 
     [EffectMethod]
-    public async Task OnLoginSuccess(SetLoginSuccess action, IDispatcher dispatcher)
+    public Task OnLoginSuccess(SetLoginSuccessAction action, IDispatcher dispatcher)
     {
+        dispatcher.Dispatch(new SetCurrentUserAction(action.User));
         currentDialogReference?.Close();
         currentDialogReference = null;
+        return Task.CompletedTask;
     }
 }
