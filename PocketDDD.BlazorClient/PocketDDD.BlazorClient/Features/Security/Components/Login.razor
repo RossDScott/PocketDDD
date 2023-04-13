@@ -1,8 +1,8 @@
 ﻿@using Fluxor
-@using PocketDDD.BlazorClient.Features.Login.Store
+@using PocketDDD.BlazorClient.Features.Security.Store
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@inject IState<LoginState> State
+@inject IState<SecurityState> State
 @inject IDispatcher Dispatcher
 
 <MudDialog>
@@ -65,14 +65,14 @@
 
     protected override void OnInitialized()
     {
-        SubscribeToAction<SetLoginSuccess>(HandleLoginSuccess);
+        //SubscribeToAction<SetLoginSuccess>(HandleLoginSuccess);
         base.OnInitialized();
     }
 
     void HandleLogin() => Dispatcher.Dispatch(new LoginAction(loginName));
 
-    void HandleLoginSuccess(SetLoginSuccess action)
-    {
-        MudDialog.Close(DialogResult.Ok(true));
-    }
+    //void HandleLoginSuccess(SetLoginSuccess action)
+    //{
+    //    MudDialog.Close(DialogResult.Ok(true));
+    //}
 }

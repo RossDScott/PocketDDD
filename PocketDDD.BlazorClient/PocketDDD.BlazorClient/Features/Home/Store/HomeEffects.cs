@@ -23,22 +23,6 @@ public class HomeEffects
     }
 
     [EffectMethod]
-    public async Task OnCheckUser(CheckUserAction action, IDispatcher dispatcher)
-    {
-        var user = await _localStorage.GetCurrentUser();
-        if (user is null)
-        {
-            _dialog.Show<Features.Login.Components.Login>("", new DialogOptions { FullScreen = true });
-        }
-        else
-        {
-            dispatcher.Dispatch(new SetCurrentUser(user));
-        }
-
-        
-    }
-
-    [EffectMethod]
     public async Task OnLoadData(LoadDataAction action, IDispatcher dispatcher)
     {
         var eventData = await _localStorage.GetEventData();
