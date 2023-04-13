@@ -1,5 +1,6 @@
 ﻿using Fluxor;
 using MudBlazor;
+using PocketDDD.BlazorClient.Features.Session.Store;
 using PocketDDD.BlazorClient.Features.Sync.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
@@ -31,4 +32,12 @@ public class HomeEffects
         if (eventData is not null)
             dispatcher.Dispatch(new SetEventMetaDataAction(eventData, sessionBookmarks));
     }
+
+    //[EffectMethod]
+    //public Task OnToggleBookmarked(ToggleBookmarkedAction action, IDispatcher dispatcher)
+    //{
+
+        
+    //    return Task.CompletedTask;
+    //}
 }

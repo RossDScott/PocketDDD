@@ -53,5 +53,6 @@ public class SessionEffects
             sessionBookmarks.Remove(action.SessionId);
 
         await _localStorage.SetSessionBookmarks(sessionBookmarks);
+        dispatcher.Dispatch(new LoadDataAction());
     }
 }
