@@ -44,14 +44,7 @@
     protected override void OnInitialized()
     {
         Dispatcher.Dispatch(new SetHeaderBarTitleAction("DDDSW 2023"));
-        Dispatcher.Dispatch(new CheckUserAction());
 
-        //var user = await LocalStorage.GetCurrentUser();
-
-        //if(user is null)
-        //    Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
-
-        //var state = this.State.Value;
         if(State.Value.Loading)
             Dispatcher.Dispatch(new LoadDataAction());
 
@@ -59,20 +52,6 @@
 
         base.OnInitialized();
     }
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    Dispatcher.Dispatch(new CheckUserAction());
-
-    //    //var user = await LocalStorage.GetCurrentUser();
-
-    //    //if(user is null)
-    //    //    Dialog.Show<Login>("", new DialogOptions { FullScreen = true });
-
-    //    //var state = this.State.Value;
-    //    Dispatcher.Dispatch(new LoadDataAction());
-    //    Dispatcher.Dispatch(new SyncAction());
-    //}
 
     void HandleShowEventFeedback()
     {
