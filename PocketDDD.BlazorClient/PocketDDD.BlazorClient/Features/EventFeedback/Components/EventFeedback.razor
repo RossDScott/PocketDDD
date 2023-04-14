@@ -21,35 +21,72 @@
 
         <MudCard Class="mt-3">
             <MudCardContent>
-                <MudText Typo="Typo.h5">Please provide a name</MudText>
+                <MudText Typo="Typo.h6">Refreshments:</MudText>
+                <MudRating SelectedValue="@_refreshments" SelectedValueChanged="newValue => { _refreshments = newValue; HandleDataChanged();}" />
+                
+                <MudText Typo="Typo.h6">Venue:</MudText>
+                <MudRating SelectedValue="@_venue" SelectedValueChanged="newValue => { _venue = newValue; HandleDataChanged();}" />
+                
+                <MudText Typo="Typo.h6">Overall:</MudText>
+                <MudRating SelectedValue="@_overall" SelectedValueChanged="newValue => { _overall = newValue; HandleDataChanged();}" />
+
+                <MudText Typo="Typo.h6">Comments:</MudText>
                 <MudText Typo="Typo.body2">
-                    <MudTextField 
-                        @bind-Value="_comments"
+                    <MudTextField Value="_comments" ValueChanged="(string newText) => { _comments = newText; HandleDataChanged();}"
                         Immediate="true"
-                        Label="Name"
-                        Variant="Variant.Text">
+                        Variant="Variant.Text"
+                        Lines="3">
                     </MudTextField>
-                    <p>
-                        This name will be called out if you win a prize. It doesn't have to be your real name.
-                    </p>
                 </MudText>
             </MudCardContent>
         </MudCard>
-
-
     </DialogContent>
     <DialogActions>
-@*        <MudButton 
-            Variant="Variant.Filled" 
-            Color="Color.Primary" 
-            FullWidth="true" 
-            OnClick="HandleLogin"
-            Disabled="string.IsNullOrWhiteSpace(loginName)">
-            Login
-        </MudButton>*@
+        <MudButton 
+            Variant="Variant.Filled"
+            Color="Color.Secondary"
+            FullWidth="true"
+            OnClick="HandleCancel">
+            Cancel
+        </MudButton>
+        <MudButton
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            FullWidth="true"
+            OnClick="HandleSubmit"
+            Disabled="!isDirty">
+            Submit
+        </MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    int _refreshments = 0;
+    int _venue = 0;
+    int _overall = 0;
     string _comments = string.Empty;
+
+    bool isDirty = false;
+
+    protected override void OnParametersSet()
+    {
+        //_refreshments = State.Value.
+        base.OnParametersSet();
+    }
+
+    void HandleDataChanged() => isDirty = true;
+
+    void HandleSubmit()
+    {
+        Dispatcher.Dispatch(new SubmitEventFeedback(_refreshments, _venue, _overall, _comments));
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void HandleCancel()
+    {
+        MudDialog.Cancel();
+    }
 }
