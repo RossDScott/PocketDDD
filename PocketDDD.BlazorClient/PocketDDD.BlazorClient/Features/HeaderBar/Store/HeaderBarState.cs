@@ -7,4 +7,5 @@ public record HeaderBarState
 {
     public string Title { get; init; } = string.Empty;
     public bool ShowBackButton { get; init; } = false;
+    public bool ShowFeedbackButton { get; set; } = false;
 }

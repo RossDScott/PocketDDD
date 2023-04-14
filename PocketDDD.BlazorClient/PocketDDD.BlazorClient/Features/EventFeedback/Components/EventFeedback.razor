@@ -1,20 +1,20 @@
-﻿@using Fluxor
-@using PocketDDD.BlazorClient.Features.Security.Store
+﻿@using PocketDDD.BlazorClient.Features.EventFeedback.Store
+@using Microsoft.AspNetCore.Components
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
-@inject IState<SecurityState> State
+@inject IState<EventFeedbackState> State
 @inject IDispatcher Dispatcher
 
 <MudDialog>
-    <TitleContent><h2 class="d-flex justify-center">Welcome to DDD South West 2023</h2> </TitleContent>
+    <TitleContent><MudText Typo="Typo.h6" Align="Align.Center">Event Feedback</MudText></TitleContent>
     <DialogContent>
 
         <MudCard>
             <MudCardContent>
-                <MudText Typo="Typo.h5">Please use this app for session and event feedback</MudText>
+                <MudText Typo="Typo.h5">Please provide feedback on the event</MudText>
                 <MudText Typo="Typo.body2" Class="mt-2">
-                    To gain the maximum number of entries in the prize draw, please provide feedback for every
-                    session you attend.
+                    You will get 3 prize draw entries for providing event feedback.<br/>
+                    Note: You are welcome to update your feedback, but it won't get you any extra points!
                 </MudText>
             </MudCardContent>
         </MudCard>
@@ -24,7 +24,7 @@
                 <MudText Typo="Typo.h5">Please provide a name</MudText>
                 <MudText Typo="Typo.body2">
                     <MudTextField 
-                        @bind-Value="_loginName"
+                        @bind-Value="_comments"
                         Immediate="true"
                         Label="Name"
                         Variant="Variant.Text">
@@ -36,30 +36,20 @@
             </MudCardContent>
         </MudCard>
 
-        @WhenLoginFailedShowAlert()
 
     </DialogContent>
     <DialogActions>
-        <MudButton 
+@*        <MudButton 
             Variant="Variant.Filled" 
             Color="Color.Primary" 
             FullWidth="true" 
             OnClick="HandleLogin"
-                   Disabled="string.IsNullOrWhiteSpace(_loginName)">
+            Disabled="string.IsNullOrWhiteSpace(loginName)">
             Login
-        </MudButton>
+        </MudButton>*@
     </DialogActions>
 </MudDialog>
 
-
 @code {
-    RenderFragment? WhenLoginFailedShowAlert() => State.Value.LoginFailed
-        ? @<MudAlert Severity="Severity.Warning">Login failed, please try again!</MudAlert>
-        : null;
-}
-
-@code {
-    string _loginName = "";
-
-    void HandleLogin() => Dispatcher.Dispatch(new LoginAction(_loginName));
+    string _comments = string.Empty;
 }

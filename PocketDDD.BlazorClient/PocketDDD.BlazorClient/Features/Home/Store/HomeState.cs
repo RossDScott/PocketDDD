@@ -7,13 +7,10 @@ namespace PocketDDD.BlazorClient.Features.Home.Store;
 [FeatureState]
 public record HomeState
 {
-    public bool LoggedIn { get; init; } = false;
     public bool Loading { get; init; } = true;
     public bool FailedToLoad { get; init; } = false;
 
     public IImmutableList<TimeSlot> EventMetaData { get; init; } = ImmutableList<TimeSlot>.Empty;
-
-    public int EventScore { get; init; } = 0;
 }
 
 public record TimeSlot
