@@ -4,4 +4,4 @@ namespace PocketDDD.BlazorClient.Features.Sync.Store;
 
 public record SyncAction();
 public record SyncCompletedAction();
-public record EventDataUpdatedAction(EventDataResponse EventData);
+public record SetEventDataVersionAction(int version);

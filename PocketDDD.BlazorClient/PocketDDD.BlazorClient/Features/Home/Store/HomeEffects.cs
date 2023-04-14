@@ -4,6 +4,7 @@ using PocketDDD.BlazorClient.Features.Session.Store;
 using PocketDDD.BlazorClient.Features.Sync.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
+using EventDataUpdatedAction = PocketDDD.BlazorClient.Services.EventDataUpdatedAction;
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
 
@@ -21,6 +22,20 @@ public class HomeEffects
         _localStorage = localStorage;
         _pocketDDDAPI = pocketDDDAPI;
         _dialog = dialog;
+    }
+
+    [EffectMethod]
+    public Task OnEventDataUpdated(EventDataUpdatedAction action, IDispatcher dispatcher)
+    {
+        dispatcher.Dispatch(new LoadDataAction());
+        return Task.CompletedTask;
+    }
+
+    [EffectMethod]
+    public Task OnEventDataUpdated(BookmarksUpdatedAction action, IDispatcher dispatcher)
+    {
+        dispatcher.Dispatch(new LoadDataAction());
+        return Task.CompletedTask;
     }
 
     [EffectMethod]

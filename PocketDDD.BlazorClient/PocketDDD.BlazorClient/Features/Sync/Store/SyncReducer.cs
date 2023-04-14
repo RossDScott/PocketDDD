@@ -13,6 +13,6 @@ public static class SyncReducer
         state with { IsSyncing = false };
 
     [ReducerMethod]
-    public static SyncState OnEventDataUpdated(SyncState state, EventDataUpdatedAction action) =>
-        state with { EventDataVersion = action.EventData.Version };
+    public static SyncState OnSetEventDataVersion(SyncState state, SetEventDataVersionAction action) =>
+        state with { EventDataVersion = action.version };
 }

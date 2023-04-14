@@ -28,8 +28,7 @@ public class SyncEffects
             if (newEventData is not null)
             {
                 await _localStorage.SetEventData(newEventData);
-                dispatcher.Dispatch(new EventDataUpdatedAction(newEventData));
-                dispatcher.Dispatch(new LoadDataAction());
+                dispatcher.Dispatch(new SetEventDataVersionAction(newEventData.Version));
             }
         }
         finally
