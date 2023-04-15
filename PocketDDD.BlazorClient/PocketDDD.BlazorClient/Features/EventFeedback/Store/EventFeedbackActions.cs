@@ -1,3 +1,5 @@
 ﻿namespace PocketDDD.BlazorClient.Features.EventFeedback.Store;
 
-public record SubmitEventFeedback(int Refreshments, int Venue, int Overall, string Comments);
+public record LoadExistingEventFeedbackAction();
+public record SetEventFeedbackAction(Models.EventFeedback Feedback);
+public record SubmitEventFeedbackAction(Models.EventFeedback Feedback);

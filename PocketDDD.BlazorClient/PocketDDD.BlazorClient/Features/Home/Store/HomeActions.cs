@@ -2,6 +2,8 @@
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
 
+public record SetCurrentUser(LoginResultDTO Result);
+
 public record LoadDataAction();
 public record SetUserLoggedInAction();
-public record SetEventMetaDataAction(EventDataResponse EventData, IList<int> SessionBookmarks);
+public record SetEventMetaDataAction(EventDataResponseDTO EventData, IList<int> SessionBookmarks);

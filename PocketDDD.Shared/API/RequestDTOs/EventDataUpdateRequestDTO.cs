@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PocketDDD.Shared.API.RequestDTOs;
-public record class EventDataUpdateRequest
+public record class EventDataUpdateRequestDTO
 {
     public int Version { get; set; }
 }

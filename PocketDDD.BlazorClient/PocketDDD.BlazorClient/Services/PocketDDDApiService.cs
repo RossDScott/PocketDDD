@@ -5,9 +5,9 @@ namespace PocketDDD.BlazorClient.Services;
 
 public interface IPocketDDDApiService
 {
-    Task<LoginResult> Login(string name);
+    Task<LoginResultDTO> Login(string name);
 
-    Task<EventDataResponse?> FetchLatestEventData(EventDataUpdateRequest request);
+    Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request);
 }
 
 public class PocketDDDApiService : IPocketDDDApiService
@@ -19,12 +19,12 @@ public class PocketDDDApiService : IPocketDDDApiService
         _http = http;
     }
 
-    public Task<EventDataResponse?> FetchLatestEventData(EventDataUpdateRequest request)
+    public Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request)
     {
         throw new NotImplementedException();
     }
 
-    public Task<LoginResult> Login(string name)
+    public Task<LoginResultDTO> Login(string name)
     {
         throw new NotImplementedException();
     }
@@ -32,18 +32,18 @@ public class PocketDDDApiService : IPocketDDDApiService
 
 public class FakePocketDDDApiService : IPocketDDDApiService
 {
-    public Task<LoginResult> Login(string name)
+    public Task<LoginResultDTO> Login(string name)
     {
-        return Task.FromResult(new LoginResult(name, Guid.NewGuid().ToString()));
+        return Task.FromResult(new LoginResultDTO(name, Guid.NewGuid().ToString()));
     }
 
-    public Task<EventDataResponse?> FetchLatestEventData(EventDataUpdateRequest request)
+    public Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request)
     {
         if (request.Version == 1)
-            return Task.FromResult<EventDataResponse?>(null);
+            return Task.FromResult<EventDataResponseDTO?>(null);
 
-        return Task.FromResult<EventDataResponse?>(
-            new EventDataResponse
+        return Task.FromResult<EventDataResponseDTO?>(
+            new EventDataResponseDTO
             {
                 Version = 1,
                 TimeSlots = new[]

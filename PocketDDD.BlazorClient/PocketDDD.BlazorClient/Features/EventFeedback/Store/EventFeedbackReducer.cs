@@ -1,5 +1,9 @@
-﻿namespace PocketDDD.BlazorClient.Features.EventFeedback.Store;
+﻿using Fluxor;
+using PocketDDD.BlazorClient.Features.Home.Store;
 
-public class EventFeedbackReducer
+namespace PocketDDD.BlazorClient.Features.EventFeedback.Store;
+
+public static class EventFeedbackReducer
 {
+
 }

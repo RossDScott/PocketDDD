@@ -70,17 +70,40 @@
 
     bool isDirty = false;
 
+    protected override void OnInitialized()
+    {
+        SubscribeToAction<SetEventFeedbackAction>(OnSetExistingFeedback);
+        base.OnInitialized();
+    }
+
     protected override void OnParametersSet()
     {
-        //_refreshments = State.Value.
+        Dispatcher.Dispatch(new LoadExistingEventFeedbackAction());
+
         base.OnParametersSet();
+    }
+
+    void OnSetExistingFeedback(SetEventFeedbackAction action)
+    {
+        _refreshments = action.Feedback.Refreshments;
+        _venue = action.Feedback.Venue;
+        _overall = action.Feedback.Overall;
+        _comments = action.Feedback.Comments;
     }
 
     void HandleDataChanged() => isDirty = true;
 
     void HandleSubmit()
     {
-        Dispatcher.Dispatch(new SubmitEventFeedback(_refreshments, _venue, _overall, _comments));
+        var feedback = new Models.EventFeedback
+        {
+            Refreshments = _refreshments,
+            Venue = _venue,
+            Overall = _overall,
+            Comments = _comments
+        };
+
+        Dispatcher.Dispatch(new SubmitEventFeedbackAction(feedback));
 
         MudDialog.Close(DialogResult.Ok(true));
     }

@@ -5,4 +5,4 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PocketDDD.Shared.API.ResponseDTOs;
-public record LoginResult(string Name, string Token);
+public record LoginResultDTO(string Name, string Token);

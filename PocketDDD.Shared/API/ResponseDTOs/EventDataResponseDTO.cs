@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PocketDDD.Shared.API.ResponseDTOs;
-public record EventDataResponse
+public record EventDataResponseDTO
 {
     public int Version { get; set; }
     public IEnumerable<TimeSlot> TimeSlots { get; set; } = Enumerable.Empty<TimeSlot>();

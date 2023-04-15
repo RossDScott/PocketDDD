@@ -1,5 +1,4 @@
 ﻿using Fluxor;
-using PocketDDD.BlazorClient.Features.Home.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
 
@@ -24,7 +23,7 @@ public class SyncEffects
         try
         {
             var metaDataVersion = _state.Value.EventDataVersion;
-            var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequest { Version = metaDataVersion });
+            var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequestDTO { Version = metaDataVersion });
             if (newEventData is not null)
             {
                 await _localStorage.SetEventData(newEventData);
@@ -35,5 +34,11 @@ public class SyncEffects
         {
             dispatcher.Dispatch(new SyncCompletedAction());
         }
+    }
+
+    [EffectMethod]
+    public async Task SubmitSyncItems(SubmitSyncItemsAction action, IDispatcher dispatcher)
+    {
+        var items = await _localStorage.GetEventData();
     }
 }

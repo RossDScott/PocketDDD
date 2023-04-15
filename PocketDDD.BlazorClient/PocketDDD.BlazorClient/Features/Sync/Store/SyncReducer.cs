@@ -14,5 +14,5 @@ public static class SyncReducer
 
     [ReducerMethod]
     public static SyncState OnSetEventDataVersion(SyncState state, SetEventDataVersionAction action) =>
-        state with { EventDataVersion = action.version };
+        state with { EventDataVersion = action.Version };
 }
