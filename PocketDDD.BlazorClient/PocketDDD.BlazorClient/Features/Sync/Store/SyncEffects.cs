@@ -10,11 +10,14 @@ public class SyncEffects
     private readonly LocalStorageService _localStorage;
     private readonly IPocketDDDApiService _pocketDDDAPI;
 
-    public SyncEffects(IState<SyncState> state, LocalStorageService localStorage, IPocketDDDApiService pocketDDDAPI)
+    public SyncEffects(IState<SyncState> state, IDispatcher dispatcher, LocalStorageService localStorage, IPocketDDDApiService pocketDDDAPI)
     {
         _state = state;
         _localStorage = localStorage;
         _pocketDDDAPI = pocketDDDAPI;
+
+        _localStorage.EventFeedbackSync.SubscribeToChanges(
+            items => dispatcher.Dispatch(new SyncEventFeedbackItemsAction(items)));
     }
 
     [EffectMethod]
@@ -37,8 +40,10 @@ public class SyncEffects
     }
 
     [EffectMethod]
-    public async Task SubmitSyncItems(SubmitSyncItemsAction action, IDispatcher dispatcher)
+    public async Task SubmitSyncItems(SyncEventFeedbackItemsAction action, IDispatcher dispatcher)
     {
-        var items = await _localStorage.EventData.GetAsync();
+        var items = action.syncItems;
+
+        
     }
 }

@@ -82,7 +82,7 @@ public class KeySyncItem<T>
         _localStorage = localStorage;
         _keyPrefix = $"{key}_sync_";
     }
-
+    private ValueTask<T> GetItemAsync(string key) => _localStorage.GetItemAsync<T>(key);
     public ValueTask<T?> GetSyncItemAsync(string clientId) => _localStorage.GetItemAsync<T?>(_keyPrefix + clientId);
     public async ValueTask<IList<T>> GetAllSyncItemsAsync()
     {
@@ -91,7 +91,7 @@ public class KeySyncItem<T>
         foreach (var key in keys)
         {
             if (key.StartsWith(_keyPrefix))
-                items.Add((await GetSyncItemAsync(key))!);
+                items.Add((await GetItemAsync(key)));
         }
         return items;
     }
