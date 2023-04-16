@@ -15,44 +15,27 @@ public class HomeEffects
     private readonly IPocketDDDApiService _pocketDDDAPI;
     private readonly IDialogService _dialog;
 
-    public HomeEffects(IState<HomeState> state, LocalStorageService localStorage, 
+    public HomeEffects(IState<HomeState> state, IDispatcher dispatcher, LocalStorageService localStorage, 
                         IPocketDDDApiService pocketDDDAPI, IDialogService dialog)
     {
         _state = state;
         _localStorage = localStorage;
         _pocketDDDAPI = pocketDDDAPI;
         _dialog = dialog;
-    }
 
-    [EffectMethod]
-    public Task OnEventDataUpdated(EventDataUpdatedAction action, IDispatcher dispatcher)
-    {
-        dispatcher.Dispatch(new LoadDataAction());
-        return Task.CompletedTask;
-    }
-
-    [EffectMethod]
-    public Task OnEventDataUpdated(BookmarksUpdatedAction action, IDispatcher dispatcher)
-    {
-        dispatcher.Dispatch(new LoadDataAction());
-        return Task.CompletedTask;
+        _localStorage.EventData.SubscribeToChanges(
+            _ => dispatcher.Dispatch(new LoadDataAction()));
+        _localStorage.SessionBookmarks.SubscribeToChanges(
+            _ => dispatcher.Dispatch(new LoadDataAction()));
     }
 
     [EffectMethod]
     public async Task OnLoadData(LoadDataAction action, IDispatcher dispatcher)
     {
-        var eventData = await _localStorage.GetEventData();
-        var sessionBookmarks = await _localStorage.GetSessionBookmarks();
+        var eventData = await _localStorage.EventData.GetAsync();
+        var sessionBookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new List<int>());
 
         if (eventData is not null)
             dispatcher.Dispatch(new SetEventMetaDataAction(eventData, sessionBookmarks));
     }
-
-    //[EffectMethod]
-    //public Task OnToggleBookmarked(ToggleBookmarkedAction action, IDispatcher dispatcher)
-    //{
-
-        
-    //    return Task.CompletedTask;
-    //}
 }

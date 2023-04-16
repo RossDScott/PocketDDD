@@ -24,11 +24,11 @@ public class SessionEffects
     [EffectMethod]
     public async Task OnViewSession(ViewSessionAction action, IDispatcher dispatcher)
     {
-        var eventData = await _localStorage.GetEventData();
+        var eventData = await _localStorage.EventData.GetAsync();
         if (eventData is null)
             return;
 
-        var bookmarks = await _localStorage.GetSessionBookmarks();
+        var bookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new List<int>());
 
         var session = eventData.Sessions.Single(x => x.Id == action.SessionId);
         var track = eventData.Tracks.Single(x => x.Id == session.TrackId);
@@ -45,13 +45,13 @@ public class SessionEffects
     [EffectMethod]
     public async Task OnToggleSessionBookmarked(ToggleBookmarkedAction action, IDispatcher dispatcher)
     {
-        var sessionBookmarks = await _localStorage.GetSessionBookmarks();
+        var bookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new List<int>());
 
-        if(action.Bookmarked && !sessionBookmarks.Contains(action.SessionId))
-            sessionBookmarks.Add(action.SessionId);
-        else if(!action.Bookmarked && sessionBookmarks.Contains(action.SessionId))
-            sessionBookmarks.Remove(action.SessionId);
+        if (action.Bookmarked && !bookmarks.Contains(action.SessionId))
+            bookmarks.Add(action.SessionId);
+        else if(!action.Bookmarked && bookmarks.Contains(action.SessionId))
+            bookmarks.Remove(action.SessionId);
 
-        await _localStorage.SetSessionBookmarks(sessionBookmarks);
+        await _localStorage.SessionBookmarks.SetAsync(bookmarks);
     }
 }

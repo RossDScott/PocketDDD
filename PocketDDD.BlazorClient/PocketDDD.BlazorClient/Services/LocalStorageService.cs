@@ -9,71 +9,102 @@ namespace PocketDDD.BlazorClient.Services;
 
 public class LocalStorageService
 {
-    public const string Key_CurrentUser = "currentUser";
-    public const string Key_SessionBookmarks = "sessionBookmarks";
-    public const string Key_EventData = "eventData";
-    public const string Key_EventFeedback = "eventFeedback";
-    public const string Key_EventFeedbackPrefix = "eventFeedback_";
-
     private readonly ILocalStorageService _localStorage;
     private readonly IDispatcher _dispatcher;
 
+    public KeyItem<LoginResultDTO> CurrentUser { get; }
+    public KeyItem<IList<int>> SessionBookmarks { get; }
+    public KeyItem<EventDataResponseDTO> EventData { get; }
+    public KeyItem<EventFeedback> EventFeedback { get; }
+    public KeySyncItem<SubmitEventFeedbackDTO> EventFeedbackSync {get;}
     public LocalStorageService(ILocalStorageService localStorage, IDispatcher dispatcher)
     {
         _localStorage = localStorage;
         _dispatcher = dispatcher;
 
-        SubscribeAndDispatch();
+        CurrentUser = createKeyItem<LoginResultDTO>("CurrentUser");
+        EventData = createKeyItem<EventDataResponseDTO>("EventData");
+        SessionBookmarks = createKeyItem<IList<int>>("SessionBookmarks");
+        EventFeedback = createKeyItem<EventFeedback>();
+        EventFeedbackSync = createKeySyncItem<SubmitEventFeedbackDTO>();
     }
 
-    private void SubscribeToKey(string key, Action action)
+    private KeyItem<T> createKeyItem<T>() =>
+        createKeyItem<T>(typeof(T).Name);
+
+    private KeyItem<T> createKeyItem<T>(string key) =>
+        new KeyItem<T>(_localStorage, key);
+
+    private KeySyncItem<T> createKeySyncItem<T>() =>
+        createKeySyncItem<T>(typeof(T).Name);
+
+    private KeySyncItem<T> createKeySyncItem<T>(string key) =>
+        new KeySyncItem<T>(_localStorage, key);
+}
+
+public class KeyItem<T>
+{
+    private readonly ILocalStorageService _localStorage;
+    private readonly string _key;
+
+    public KeyItem(ILocalStorageService localStorage, string key)
+    {
+        _localStorage = localStorage;
+        _key = key;
+    }
+
+    public ValueTask<T?> GetAsync() => _localStorage.GetItemAsync<T?>(_key);
+    public async ValueTask<T> GetOrDefaultAsync(Func<T> defaultConstructor)
+    {
+        var val = await _localStorage.GetItemAsync<T?>(_key);
+        return val ?? defaultConstructor();
+    }
+        
+    public ValueTask SetAsync(T item) => _localStorage.SetItemAsync(_key, item);
+
+    public void SubscribeToChanges(Action<T> callback)
     {
         _localStorage.Changed += (sender, args) =>
         {
-            if (args.Key == key)
-                action();
+            if (args.Key == _key)
+                callback((T) args.NewValue);
         };
     }
+}
 
-    public void SubscribeToSyncItem(string keyPrefix, Action action)
+public class KeySyncItem<T>
+{
+    private readonly ILocalStorageService _localStorage;
+    private readonly string _keyPrefix;
+
+    public KeySyncItem(ILocalStorageService localStorage, string key)
     {
-        _localStorage.Changed += (sender, args) =>
-        {
-            if (args.Key.StartsWith(keyPrefix))
-                action();
-        };
+        _localStorage = localStorage;
+        _keyPrefix = $"{key}_sync_";
     }
 
-    private void SubscribeAndDispatch()
+    public ValueTask<T?> GetSyncItemAsync(string clientId) => _localStorage.GetItemAsync<T?>(_keyPrefix + clientId);
+    public async ValueTask<IList<T>> GetAllSyncItemsAsync()
     {
-        _localStorage.Changed += (sender, args) =>
+        var items = new List<T>();
+        var keys = await _localStorage.KeysAsync();
+        foreach (var key in keys)
         {
-            switch (args.Key)
-            {
-                case Key_EventData:
-                    _dispatcher.Dispatch(new EventDataUpdatedAction());
-                    break;
-                case Key_SessionBookmarks:
-                    _dispatcher.Dispatch(new BookmarksUpdatedAction());
-                    break;
-            }
-        };
+            if (key.StartsWith(_keyPrefix))
+                items.Add((await GetSyncItemAsync(key))!);
+        }
+        return items;
     }
 
-    public ValueTask<LoginResultDTO?> GetCurrentUser() => _localStorage.GetItemAsync<LoginResultDTO?>(Key_CurrentUser); 
-    public ValueTask SetCurrentUser(LoginResultDTO loginResult) => _localStorage.SetItemAsync(Key_CurrentUser, loginResult);
+    public ValueTask AddSyncItemAsync(T item, string clientId) => 
+        _localStorage.SetItemAsync(_keyPrefix + clientId, item);
 
-    public ValueTask<EventDataResponseDTO?> GetEventData() => _localStorage.GetItemAsync<EventDataResponseDTO?>(Key_EventData);
-    public ValueTask SetEventData(EventDataResponseDTO eventData) => _localStorage.SetItemAsync(Key_EventData, eventData);
-
-    public async ValueTask<IList<int>> GetSessionBookmarks() => 
-        await (_localStorage.GetItemAsync<IList<int>?>(Key_SessionBookmarks)) 
-        ?? new List<int>();
-    public ValueTask SetSessionBookmarks(IList<int> sessionBookmarks) => _localStorage.SetItemAsync(Key_SessionBookmarks, sessionBookmarks);
-
-    public ValueTask<EventFeedback?> GetEventFeedback() => _localStorage.GetItemAsync<EventFeedback?>(Key_EventFeedback);
-    public ValueTask SetEventFeedback(EventFeedback feedback) => _localStorage.SetItemAsync(Key_EventFeedback, feedback);
-
-    public ValueTask AddEventFeedbackSyncItem(SubmitEventFeedbackDTO dto) =>
-        _localStorage.SetItemAsync(Key_EventFeedbackPrefix + dto.ClientId, dto);
+    public void SubscribeToChanges(Action<IList<T>> callback)
+    {
+        _localStorage.Changed += async (sender, args) =>
+        {
+            if (args.Key.StartsWith(_keyPrefix))
+                callback((await GetAllSyncItemsAsync()));
+        };
+    }
 }

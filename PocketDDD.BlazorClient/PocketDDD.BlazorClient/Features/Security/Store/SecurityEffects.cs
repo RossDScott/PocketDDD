@@ -28,7 +28,7 @@ public class SecurityEffects
     [EffectMethod]
     public async Task OnCheckUser(CheckUserAction action, IDispatcher dispatcher)
     {
-        var user = await _localStorage.GetCurrentUser();
+        var user = await _localStorage.CurrentUser.GetAsync();
 
         if (user is not null)
         {
@@ -48,7 +48,7 @@ public class SecurityEffects
             var result = await _pocketDDDAPI.Login(action.LoginName);
             ArgumentNullException.ThrowIfNull(result, nameof(result));
 
-            await _localStorage.SetCurrentUser(result);
+            await _localStorage.CurrentUser.SetAsync(result);
             dispatcher.Dispatch(new SetLoginSuccessAction(result));
         }
         catch

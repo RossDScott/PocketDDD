@@ -26,7 +26,7 @@ public class SyncEffects
             var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequestDTO { Version = metaDataVersion });
             if (newEventData is not null)
             {
-                await _localStorage.SetEventData(newEventData);
+                await _localStorage.EventData.SetAsync(newEventData);
                 dispatcher.Dispatch(new SetEventDataVersionAction(newEventData.Version));
             }
         }
@@ -39,6 +39,6 @@ public class SyncEffects
     [EffectMethod]
     public async Task SubmitSyncItems(SubmitSyncItemsAction action, IDispatcher dispatcher)
     {
-        var items = await _localStorage.GetEventData();
+        var items = await _localStorage.EventData.GetAsync();
     }
 }

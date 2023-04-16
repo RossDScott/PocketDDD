@@ -15,14 +15,14 @@ public class EventFeedbackEffects
         _state = state;
         _localStorage = localStorage;
 
-        _localStorage.SubscribeToSyncItem(LocalStorageService.Key_EventFeedbackPrefix,
-            () => dispatcher.Dispatch(new SubmitSyncItemsAction()));
+        //_localStorage.EventFeedback.SubscribeToChanges(
+        //    _ => dispatcher.Dispatch(new SubmitSyncItemsAction()));
     }
 
     [EffectMethod]
     public async Task OnLoadExistingEventFeedback(LoadExistingEventFeedbackAction action, IDispatcher dispatcher)
     {
-        var feedback = await _localStorage.GetEventFeedback();
+        var feedback = await _localStorage.EventFeedback.GetAsync();
         if (feedback is not null)
             dispatcher.Dispatch(new SetEventFeedbackAction(feedback));
     }
@@ -31,7 +31,7 @@ public class EventFeedbackEffects
     public async Task OnSubmitEventFeedback(SubmitEventFeedbackAction action, IDispatcher dispatcher)
     {
         var feedback = action.Feedback;
-        await _localStorage.SetEventFeedback(feedback);
+        await _localStorage.EventFeedback.SetAsync(feedback);
         var syncItem = new SubmitEventFeedbackDTO
         {
             CreatedOn = DateTimeOffset.Now,
@@ -40,7 +40,6 @@ public class EventFeedbackEffects
             Overall = feedback.Overall,
             Comments = feedback.Comments
         };
-        await _localStorage.AddEventFeedbackSyncItem(syncItem);
-        //dispatcher.Dispatch(new SubmitSyncItemsAction());
+        await _localStorage.EventFeedbackSync.AddSyncItemAsync(syncItem, syncItem.ClientId);
     }
 }
