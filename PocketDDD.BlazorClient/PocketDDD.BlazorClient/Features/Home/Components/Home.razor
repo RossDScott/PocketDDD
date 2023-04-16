@@ -1,5 +1,6 @@
 ﻿@page "/"
 
+@using PocketDDD.BlazorClient.Features.EventScore.Components
 @using PocketDDD.BlazorClient.Features.HeaderBar.Store;
 @using PocketDDD.BlazorClient.Features.Sync.Store
 @using PocketDDD.BlazorClient.Services
@@ -17,11 +18,7 @@
 @WhenLoadingFailedShowCard()
 
 <EventData></EventData>
-<MudFab 
-    Color="Color.Primary" 
-    Size="Size.Large"
-        Label="1"
-        Style="position:fixed; right:10px; bottom:10px" />
+<EventScore></EventScore>
 
 @code {
     RenderFragment? WhenLoadingAndNotFailedShowAlert() => State.Value.Loading && !State.Value.FailedToLoad

@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using PocketDDD.BlazorClient.Features.EventScore.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
 
@@ -40,10 +41,18 @@ public class SyncEffects
     }
 
     [EffectMethod]
-    public async Task SubmitSyncItems(SyncEventFeedbackItemsAction action, IDispatcher dispatcher)
+    public async Task OnSubmitEventFeedbackSyncItems(SyncEventFeedbackItemsAction action, IDispatcher dispatcher)
     {
-        var items = action.syncItems;
-
-        
+        var syncItems = action.syncItems;
+        foreach (var item in syncItems)
+        {
+            try
+            {
+                var result = await _pocketDDDAPI.SubmitClientEventFeedback(item);
+                await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
+                dispatcher.Dispatch(new SetEventScoreAction(result.Score));
+            }
+            catch { }
+        }
     }
 }

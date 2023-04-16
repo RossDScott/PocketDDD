@@ -91,6 +91,9 @@ public class KeySyncItem<T>
     public ValueTask AddSyncItemAsync(T item, string clientId) =>
         _localStorage.SetItemAsync(_keyPrefix + clientId, item);
 
+    public ValueTask RemoveSyncItemAsync(string clientId) =>
+        _localStorage.RemoveItemAsync(_keyPrefix + clientId);
+
     public void SubscribeToChanges(Action<IList<T>> callback)
     {
         _localStorage.Changed += async (sender, args) =>

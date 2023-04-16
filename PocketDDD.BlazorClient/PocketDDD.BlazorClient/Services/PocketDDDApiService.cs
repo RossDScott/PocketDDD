@@ -8,6 +8,7 @@ public interface IPocketDDDApiService
     Task<LoginResultDTO> Login(string name);
 
     Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request);
+    Task<FeedbackResponseDTO> SubmitClientEventFeedback(SubmitEventFeedbackDTO feedbackDTO);
 }
 
 public class PocketDDDApiService : IPocketDDDApiService
@@ -17,6 +18,11 @@ public class PocketDDDApiService : IPocketDDDApiService
     public PocketDDDApiService(HttpClient http)
     {
         _http = http;
+    }
+
+    public Task<FeedbackResponseDTO> SubmitClientEventFeedback(SubmitEventFeedbackDTO feedbackDTO)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request)
@@ -112,5 +118,10 @@ public class FakePocketDDDApiService : IPocketDDDApiService
                 }
             }
         );
+    }
+
+    public Task<FeedbackResponseDTO> SubmitClientEventFeedback(SubmitEventFeedbackDTO feedbackDTO)
+    {
+        return Task.FromResult(new FeedbackResponseDTO { ClientId = feedbackDTO.ClientId, Score = 2 });
     }
 }

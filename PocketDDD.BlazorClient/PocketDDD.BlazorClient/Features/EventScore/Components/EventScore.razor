@@ -1,0 +1,14 @@
+﻿@using PocketDDD.BlazorClient.Features.EventScore.Store;
+
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<EventScoreState> State
+
+<MudFab Color="Color.Primary"
+        Size="Size.Large"
+        Label="@State.Value.Score.ToString()"
+        Style="position:fixed; right:10px; bottom:10px" />
+
+@code {
+
+}
