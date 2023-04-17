@@ -35,9 +35,9 @@ public class EventFeedbackEffects
         var syncItem = new SubmitEventFeedbackDTO
         {
             CreatedOn = DateTimeOffset.Now,
-            Refreshments = feedback.Refreshments,
-            Venue = feedback.Venue,
-            Overall = feedback.Overall,
+            RefreshmentsRating = feedback.Refreshments,
+            VenueRating = feedback.Venue,
+            OverallRating = feedback.Overall,
             Comments = feedback.Comments
         };
         await _localStorage.EventFeedbackSync.AddSyncItemAsync(syncItem, syncItem.ClientId);

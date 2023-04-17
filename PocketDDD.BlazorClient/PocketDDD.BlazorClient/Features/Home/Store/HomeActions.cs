@@ -6,4 +6,4 @@ public record SetCurrentUser(LoginResultDTO Result);
 
 public record LoadDataAction();
 public record SetUserLoggedInAction();
-public record SetEventMetaDataAction(EventDataResponseDTO EventData, IList<int> SessionBookmarks);
+public record SetEventMetaDataAction(EventDataResponseDTO EventData, ICollection<int> SessionBookmarks);

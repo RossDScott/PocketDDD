@@ -4,6 +4,7 @@ using PocketDDD.BlazorClient.Features.Session.Store;
 using PocketDDD.BlazorClient.Features.Sync.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
+using System.Collections.ObjectModel;
 using EventDataUpdatedAction = PocketDDD.BlazorClient.Services.EventDataUpdatedAction;
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
@@ -33,7 +34,7 @@ public class HomeEffects
     public async Task OnLoadData(LoadDataAction action, IDispatcher dispatcher)
     {
         var eventData = await _localStorage.EventData.GetAsync();
-        var sessionBookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new List<int>());
+        var sessionBookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new Collection<int>());
 
         if (eventData is not null)
             dispatcher.Dispatch(new SetEventMetaDataAction(eventData, sessionBookmarks));

@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace PocketDDD.Shared.API.RequestDTOs;
-public record SubmitEventFeedbackDTO
+public record SubmitSessionFeedbackDTO
 {
     public string ClientId { get; init; } = Guid.NewGuid().ToString();
     public DateTimeOffset CreatedOn { get; init; }
-    public int RefreshmentsRating { get; init; }
-    public int VenueRating { get; init; }
-    public int OverallRating { get; init; }
+    public int SessionId { get; init; }
+    public int SpeakerKnowledgeRating { get; init; }
+    public int SpeakingSkillRating { get; init; }
     public string Comments { get; init; } = string.Empty;
 }

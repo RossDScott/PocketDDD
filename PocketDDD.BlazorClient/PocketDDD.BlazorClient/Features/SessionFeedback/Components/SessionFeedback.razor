@@ -1,0 +1,103 @@
+﻿@using Microsoft.AspNetCore.Components
+@using PocketDDD.BlazorClient.Features.SessionFeedback.Store;
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
+
+@inject IState<SessionFeedbackState> State
+@inject IDispatcher Dispatcher
+
+<MudDialog>
+    <TitleContent><MudText Typo="Typo.h6" Align="Align.Center">Session Feedback</MudText></TitleContent>
+    <DialogContent>
+
+        <MudCard>
+            <MudCardContent>
+                <MudText Typo="Typo.h5">Please provide feedback on the event</MudText>
+                <MudText Typo="Typo.body2" Class="mt-2">
+                    You will get 3 prize draw entries for providing event feedback.<br/>
+                    Note: You are welcome to update your feedback, but it won't get you any extra points!
+                </MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Class="mt-3">
+            <MudCardContent>
+                <MudText Typo="Typo.h6">Speaker's Knowledge':</MudText>
+                <MudRating SelectedValue="@_speakersKnowledge" SelectedValueChanged="newValue => { _speakersKnowledge = newValue; HandleDataChanged();}" />
+                
+                <MudText Typo="Typo.h6">Speaking Skills:</MudText>
+                <MudRating SelectedValue="@_speakingSkills" SelectedValueChanged="newValue => { _speakingSkills = newValue; HandleDataChanged();}" />
+                
+                <MudText Typo="Typo.h6">Comments:</MudText>
+                <MudText Typo="Typo.body2">
+                    <MudTextField Value="_comments" ValueChanged="(string newText) => { _comments = newText; HandleDataChanged();}"
+                        Immediate="true"
+                        Variant="Variant.Text"
+                        Lines="3">
+                    </MudTextField>
+                </MudText>
+            </MudCardContent>
+        </MudCard>
+    </DialogContent>
+    <DialogActions>
+        <MudButton 
+            Variant="Variant.Filled"
+            Color="Color.Secondary"
+            FullWidth="true"
+            OnClick="HandleCancel">
+            Cancel
+        </MudButton>
+        <MudButton
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            FullWidth="true"
+            OnClick="HandleSubmit"
+            Disabled="!isDirty">
+            Submit
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    int _speakersKnowledge = 0;
+    int _speakingSkills = 0;
+    string _comments = string.Empty;
+
+    bool isDirty = false;
+
+    protected override void OnInitialized()
+    {
+        SubscribeToAction<SetSessionFeedbackAction>(OnSetExistingFeedback);
+        base.OnInitialized();
+    }
+
+    void OnSetExistingFeedback(SetSessionFeedbackAction action)
+    {
+        _speakersKnowledge = action.Feedback.SpeakerKnowledgeRating;
+        _speakingSkills = action.Feedback.SpeakingSkillRating;
+        _comments = action.Feedback.Comments;
+    }
+
+    void HandleDataChanged() => isDirty = true;
+
+    void HandleSubmit()
+    {
+        var feedback = new Models.SessionFeedback
+        {
+            SessionId = State.Value.SessionId,
+            SpeakerKnowledgeRating = _speakersKnowledge,
+            SpeakingSkillRating = _speakingSkills,
+            Comments = _comments
+        };
+
+        Dispatcher.Dispatch(new SubmitSessionFeedbackAction(feedback));
+
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    void HandleCancel()
+    {
+        MudDialog.Cancel();
+    }
+}
