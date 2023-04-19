@@ -28,7 +28,7 @@ public class SessionEffects
         if (eventData is null)
             return;
 
-        var bookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new List<int>());
+        var bookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync();
 
         var session = eventData.Sessions.Single(x => x.Id == action.SessionId);
         var track = eventData.Tracks.Single(x => x.Id == session.TrackId);
@@ -45,7 +45,7 @@ public class SessionEffects
     [EffectMethod]
     public async Task OnToggleSessionBookmarked(ToggleBookmarkedAction action, IDispatcher dispatcher)
     {
-        var bookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new List<int>());
+        var bookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync();
 
         if (action.Bookmarked && !bookmarks.Contains(action.SessionId))
             bookmarks.Add(action.SessionId);

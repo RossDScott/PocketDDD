@@ -34,7 +34,7 @@ public class HomeEffects
     public async Task OnLoadData(LoadDataAction action, IDispatcher dispatcher)
     {
         var eventData = await _localStorage.EventData.GetAsync();
-        var sessionBookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync(() => new Collection<int>());
+        var sessionBookmarks = await _localStorage.SessionBookmarks.GetOrDefaultAsync();
 
         if (eventData is not null)
             dispatcher.Dispatch(new SetEventMetaDataAction(eventData, sessionBookmarks));

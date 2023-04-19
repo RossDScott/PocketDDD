@@ -19,6 +19,8 @@ public class SyncEffects
 
         _localStorage.EventFeedbackSync.SubscribeToChanges(
             items => dispatcher.Dispatch(new SyncEventFeedbackItemsAction(items)));
+        _localStorage.SessionFeedbackSync.SubscribeToChanges(
+            items => dispatcher.Dispatch(new SyncSessionFeedbackItemsAction(items)));
     }
 
     [EffectMethod]
@@ -41,7 +43,7 @@ public class SyncEffects
     }
 
     [EffectMethod]
-    public async Task OnSubmitEventFeedbackSyncItems(SyncEventFeedbackItemsAction action, IDispatcher dispatcher)
+    public async Task OnSyncEventFeedbackItems(SyncEventFeedbackItemsAction action, IDispatcher dispatcher)
     {
         var syncItems = action.syncItems;
         foreach (var item in syncItems)
@@ -50,6 +52,22 @@ public class SyncEffects
             {
                 var result = await _pocketDDDAPI.SubmitClientEventFeedback(item);
                 await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
+                dispatcher.Dispatch(new SetEventScoreAction(result.Score));
+            }
+            catch { }
+        }
+    }
+
+    [EffectMethod]
+    public async Task OnSyncSessionFeedbackItems(SyncSessionFeedbackItemsAction action, IDispatcher dispatcher)
+    {
+        var syncItems = action.syncItems;
+        foreach (var item in syncItems)
+        {
+            try
+            {
+                var result = await _pocketDDDAPI.SubmitClientSessionFeedback(item);
+                await _localStorage.SessionFeedbackSync.RemoveSyncItemAsync(result.ClientId);
                 dispatcher.Dispatch(new SetEventScoreAction(result.Score));
             }
             catch { }

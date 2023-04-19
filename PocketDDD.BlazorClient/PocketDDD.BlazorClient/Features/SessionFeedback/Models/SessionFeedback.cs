@@ -3,6 +3,7 @@
 public record SessionFeedback
 {
     public int SessionId { get; init; }
+    public int TimeSlotId { get; set; }
     public int SpeakerKnowledgeRating { get; init; }
     public int SpeakingSkillRating { get; init; }
     public string Comments { get; init; } = string.Empty;

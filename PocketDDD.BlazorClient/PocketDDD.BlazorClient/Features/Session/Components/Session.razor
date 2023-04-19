@@ -4,10 +4,12 @@
 
 @using PocketDDD.BlazorClient.Features.HeaderBar.Store;
 @using PocketDDD.BlazorClient.Features.Session.Store
+@using PocketDDD.BlazorClient.Features.SessionFeedback.Store;
 
 @inject IState<SessionState> State
 @inject IDispatcher Dispatcher
 @inject NavigationManager Navigation
+@inject IDialogService Dialog
 
 @if (State.Value.Session is not null)
 {
@@ -41,6 +43,7 @@
             Dispatcher.Dispatch(new ViewSessionAction(Id));
 
         SubscribeToAction<NavigateBackAction>(_ => HandleNavigateHome());
+        SubscribeToAction<ViewFeedbackAction>(_ => HandleShowSessionFeedback());
 
         base.OnInitialized();
     }
@@ -54,5 +57,13 @@
             return;
 
         Dispatcher.Dispatch(new ToggleBookmarkedAction(session.Id, !session.IsBookmarked));
+    }
+
+    void HandleShowSessionFeedback()
+    {
+        Dialog.Show<Features.SessionFeedback.Components.SessionFeedback>(
+            "", 
+            new DialogParameters { ["Id"] = Id },
+            new DialogOptions { FullScreen = true });
     }
 }

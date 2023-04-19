@@ -9,19 +9,11 @@
     <TitleContent><MudText Typo="Typo.h6" Align="Align.Center">Session Feedback</MudText></TitleContent>
     <DialogContent>
 
-        <MudCard>
-            <MudCardContent>
-                <MudText Typo="Typo.h5">Please provide feedback on the event</MudText>
-                <MudText Typo="Typo.body2" Class="mt-2">
-                    You will get 3 prize draw entries for providing event feedback.<br/>
-                    Note: You are welcome to update your feedback, but it won't get you any extra points!
-                </MudText>
-            </MudCardContent>
-        </MudCard>
+        @WhenFeedbackAlreadySubmitedShowWarning()
 
         <MudCard Class="mt-3">
             <MudCardContent>
-                <MudText Typo="Typo.h6">Speaker's Knowledge':</MudText>
+                <MudText Typo="Typo.h6">Speaker's Knowledge:</MudText>
                 <MudRating SelectedValue="@_speakersKnowledge" SelectedValueChanged="newValue => { _speakersKnowledge = newValue; HandleDataChanged();}" />
                 
                 <MudText Typo="Typo.h6">Speaking Skills:</MudText>
@@ -58,7 +50,17 @@
 </MudDialog>
 
 @code {
+    RenderFragment? WhenFeedbackAlreadySubmitedShowWarning() => State.Value.TimeSlotAlreadyHasFeedback
+        ? @<MudAlert Severity="Severity.Warning">
+            You have already submitted feedback for a session at this time!<br />
+            You are welcome to submit this feedback, but it won't get you anymore points!
+           </MudAlert>
+    : null;
+}
+
+@code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [Parameter] public int Id { get; set; }
 
     int _speakersKnowledge = 0;
     int _speakingSkills = 0;
@@ -70,6 +72,13 @@
     {
         SubscribeToAction<SetSessionFeedbackAction>(OnSetExistingFeedback);
         base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        Dispatcher.Dispatch(new FetchExistingSessionFeedbackAction(Id));
+
+        base.OnParametersSet();
     }
 
     void OnSetExistingFeedback(SetSessionFeedbackAction action)

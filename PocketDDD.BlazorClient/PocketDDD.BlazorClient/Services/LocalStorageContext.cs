@@ -12,6 +12,7 @@ public abstract class LocalStorageContext
         _localStorage = localStorage;
 
         initialiseKeys(typeof(KeyItem<>));
+        initialiseKeys(typeof(KeyListItem<>));
         initialiseKeys(typeof(KeySyncItem<>));
     }
 
@@ -60,6 +61,32 @@ public class KeyItem<T>
         {
             if (args.Key == _key)
                 callback((T)args.NewValue);
+        };
+    }
+}
+
+public class KeyListItem<T>
+{
+    private readonly ILocalStorageService _localStorage;
+    private readonly string _key;
+
+    public KeyListItem(ILocalStorageService localStorage, string key)
+    {
+        _localStorage = localStorage;
+        _key = key;
+    }
+
+    public async ValueTask<List<T>> GetOrDefaultAsync() => 
+        await _localStorage.GetItemAsync<List<T>>(_key) ?? new List<T>();
+
+    public ValueTask SetAsync(List<T> list) => _localStorage.SetItemAsync(_key, list);
+
+    public void SubscribeToChanges(Action<List<T>> callback)
+    {
+        _localStorage.Changed += (sender, args) =>
+        {
+            if (args.Key == _key)
+                callback((List<T>)args.NewValue);
         };
     }
 }
