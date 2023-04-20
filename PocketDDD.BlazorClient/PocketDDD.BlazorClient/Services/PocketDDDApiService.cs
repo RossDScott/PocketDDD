@@ -133,6 +133,6 @@ public class FakePocketDDDApiService : IPocketDDDApiService
 
     public Task<FeedbackResponseDTO> SubmitClientSessionFeedback(SubmitSessionFeedbackDTO feedbackDTO)
     {
-        return Task.FromResult(new FeedbackResponseDTO { ClientId = feedbackDTO.ClientId, Score = 2 });
+        return Task.FromResult(new FeedbackResponseDTO { ClientId = feedbackDTO.ClientId, Score = 3 });
     }
 }

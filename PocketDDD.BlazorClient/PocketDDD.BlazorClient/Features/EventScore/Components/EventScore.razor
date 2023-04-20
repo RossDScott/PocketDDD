@@ -3,6 +3,7 @@
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 @inject IState<EventScoreState> State
+@inject IDispatcher Dispatcher
 
 <MudFab Color="Color.Primary"
         Size="Size.Large"
@@ -10,5 +11,9 @@
         Style="position:fixed; right:10px; bottom:10px" />
 
 @code {
-
+    protected override void OnInitialized()
+    {
+        Dispatcher.Dispatch(new FetchExistingEventScoreAction());
+        base.OnInitialized();
+    }
 }

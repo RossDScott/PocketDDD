@@ -1,4 +1,5 @@
-﻿using Fluxor;
+﻿using System.ComponentModel.DataAnnotations;
+using Fluxor;
 using PocketDDD.BlazorClient.Features.EventScore.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
@@ -35,6 +36,12 @@ public class SyncEffects
                 await _localStorage.EventData.SetAsync(newEventData);
                 dispatcher.Dispatch(new SetEventDataVersionAction(newEventData.Version));
             }
+
+            var eventFeedbackItems = await _localStorage.EventFeedbackSync.GetAllSyncItemsAsync();
+            var sessionFeedbackItems = await _localStorage.SessionFeedbackSync.GetAllSyncItemsAsync();
+
+            dispatcher.Dispatch(new SyncEventFeedbackItemsAction(eventFeedbackItems));
+            dispatcher.Dispatch(new SyncSessionFeedbackItemsAction(sessionFeedbackItems));
         }
         finally
         {
@@ -52,7 +59,7 @@ public class SyncEffects
             {
                 var result = await _pocketDDDAPI.SubmitClientEventFeedback(item);
                 await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
-                dispatcher.Dispatch(new SetEventScoreAction(result.Score));
+                dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
             }
             catch { }
         }
@@ -68,7 +75,7 @@ public class SyncEffects
             {
                 var result = await _pocketDDDAPI.SubmitClientSessionFeedback(item);
                 await _localStorage.SessionFeedbackSync.RemoveSyncItemAsync(result.ClientId);
-                dispatcher.Dispatch(new SetEventScoreAction(result.Score));
+                dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
             }
             catch { }
         }

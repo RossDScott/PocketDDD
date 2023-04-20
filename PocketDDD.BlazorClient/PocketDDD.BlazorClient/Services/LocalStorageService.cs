@@ -13,6 +13,7 @@ public class LocalStorageService : LocalStorageContext
     public KeyItem<EventDataResponseDTO> EventData { get; init; }
     public KeyItem<EventFeedback> EventFeedback { get; init; }
     public KeyListItem<SessionFeedback> SessionFeedbacks { get; init; }
+    public KeyItem<int> EventScore { get; set; }
 
     public KeySyncItem<SubmitEventFeedbackDTO> EventFeedbackSync { get; init; }
     public KeySyncItem<SubmitSessionFeedbackDTO> SessionFeedbackSync { get; init; }
