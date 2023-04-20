@@ -1,0 +1,15 @@
+﻿@using PocketDDD.BlazorClient.Features.Sync.Store
+
+@inject IState<SyncState> State
+@inject IDispatcher Dispatcher
+
+<h3>SyncStatus</h3>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Dispatcher.Dispatch(new SyncAction());
+        base.OnInitialized();
+    }
+
+}

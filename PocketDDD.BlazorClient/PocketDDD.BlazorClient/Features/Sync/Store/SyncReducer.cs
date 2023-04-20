@@ -1,4 +1,6 @@
 ﻿using Fluxor;
+using PocketDDD.BlazorClient.Features.EventScore.Store;
+using PocketDDD.BlazorClient.Features.Security.Store;
 
 namespace PocketDDD.BlazorClient.Features.Sync.Store;
 
@@ -15,4 +17,13 @@ public static class SyncReducer
     [ReducerMethod]
     public static SyncState OnSetEventDataVersion(SyncState state, SetEventDataVersionAction action) =>
         state with { EventDataVersion = action.Version };
+
+    [ReducerMethod]
+    public static SyncState OnSetEventScore(SyncState state, SetEventScoreAction action) =>
+        state with { EventScore = action.Score };
+
+    [ReducerMethod]
+    public static SyncState OnSetCurrentUser(SyncState state, SetCurrentUserAction action) =>
+        state with { LoggedInUser = action.User };
+
 }
