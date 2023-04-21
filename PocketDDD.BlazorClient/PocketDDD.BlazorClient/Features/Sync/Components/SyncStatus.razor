@@ -1,15 +1,79 @@
 ﻿@using PocketDDD.BlazorClient.Features.Sync.Store
+@inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 @inject IState<SyncState> State
 @inject IDispatcher Dispatcher
 
-<h3>SyncStatus</h3>
+<MudDialog>
+    <TitleContent><h2 class="d-flex justify-center">Sync Status</h2></TitleContent>
+    <DialogContent>
+        <MudCard>
+            <MudCardContent>
+                <MudText Typo="Typo.caption">Signed in as</MudText>
+                <MudText Typo="Typo.subtitle1">Name: @State.Value.LoggedInUser.Name</MudText>
+                <MudText Typo="Typo.subtitle2">Token: @State.Value.LoggedInUser.Token</MudText>
+            </MudCardContent>
+        </MudCard>
+
+        <MudCard Class="mt-2">
+            <MudCardContent>
+                <MudText Typo="Typo.caption">Current Score</MudText>
+                <MudText Typo="Typo.subtitle1">@State.Value.EventScore</MudText>
+            </MudCardContent>
+        </MudCard>
+        
+        <MudCard Class="mt-2">
+            <MudCardContent>
+                <MudText Typo="Typo.caption">Outstanding Sync Items</MudText>
+                <MudText Typo="Typo.subtitle1">@State.Value.OutstandingSyncItems</MudText>
+            </MudCardContent>
+        </MudCard>
+        
+        @WhenSyncingShowSyncAlert()
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton 
+            Variant="Variant.Filled"
+            Color="Color.Primary"
+            FullWidth="true"
+            StartIcon="@Icons.Material.Filled.CloudSync"
+            OnClick="HandleSync">
+            Sync
+        </MudButton>
+        <MudButton
+            Variant="Variant.Filled"
+            Color="Color.Secondary"
+            FullWidth="true"
+            OnClick="HandleClose">
+            Close
+        </MudButton>
+    </DialogActions>
+</MudDialog>
 
 @code {
+    RenderFragment WhenSyncingShowSyncAlert() =>
+        State.Value.IsSyncing
+            ? @<MudAlert Class="mt-2" Severity="Severity.Info"> Syncing...</MudAlert>
+            : null;
+}
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
     protected override void OnInitialized()
     {
         Dispatcher.Dispatch(new SyncAction());
         base.OnInitialized();
     }
 
+    void HandleSync()
+    {
+        Dispatcher.Dispatch(new SyncAction());
+    }
+
+    void HandleClose()
+    {
+        MudDialog.Cancel();
+    }
 }

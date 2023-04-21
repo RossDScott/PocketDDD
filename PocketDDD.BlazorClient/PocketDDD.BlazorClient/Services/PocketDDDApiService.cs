@@ -1,4 +1,5 @@
-﻿using PocketDDD.Shared.API.ResponseDTOs;
+﻿using MudBlazor;
+using PocketDDD.Shared.API.ResponseDTOs;
 using PocketDDD.Shared.API.RequestDTOs;
 
 namespace PocketDDD.BlazorClient.Services;
@@ -49,63 +50,73 @@ public class FakePocketDDDApiService : IPocketDDDApiService
         return Task.FromResult(new LoginResultDTO(name, Guid.NewGuid().ToString()));
     }
 
-    public Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request)
+    public async Task<EventDataResponseDTO?> FetchLatestEventData(EventDataUpdateRequestDTO request)
     {
         if (request.Version == 1)
-            return Task.FromResult<EventDataResponseDTO?>(null);
+        {
+            await Task.Delay(1000);
+            return null;
+        }
 
-        return Task.FromResult<EventDataResponseDTO?>(
+        return
             new EventDataResponseDTO
             {
                 Version = 1,
                 TimeSlots = new[]
                 {
-                    new TimeSlot{
+                    new TimeSlot
+                    {
                         Id = 1,
-                        From = new DateTimeOffset(2023,4,29,8,00,0,TimeSpan.Zero),
-                        To= new DateTimeOffset(2023,4,29,8,30,0,TimeSpan.Zero),
+                        From = new DateTimeOffset(2023, 4, 29, 8, 00, 0, TimeSpan.Zero),
+                        To = new DateTimeOffset(2023, 4, 29, 8, 30, 0, TimeSpan.Zero),
                         Info = "Registration"
                     },
-                    new TimeSlot{
+                    new TimeSlot
+                    {
                         Id = 2,
-                        From = new DateTimeOffset(2023,4,29,8,30,0,TimeSpan.Zero),
-                        To= new DateTimeOffset(2023,4,29,9,0,0,TimeSpan.Zero),
+                        From = new DateTimeOffset(2023, 4, 29, 8, 30, 0, TimeSpan.Zero),
+                        To = new DateTimeOffset(2023, 4, 29, 9, 0, 0, TimeSpan.Zero),
                         Info = "Intro"
                     },
-                    new TimeSlot{
+                    new TimeSlot
+                    {
                         Id = 3,
-                        From = new DateTimeOffset(2023,4,29,9,00,0,TimeSpan.Zero),
-                        To = new DateTimeOffset(2023,4,29,10,00,0,TimeSpan.Zero)
+                        From = new DateTimeOffset(2023, 4, 29, 9, 00, 0, TimeSpan.Zero),
+                        To = new DateTimeOffset(2023, 4, 29, 10, 00, 0, TimeSpan.Zero)
                     },
-                    new TimeSlot{
+                    new TimeSlot
+                    {
                         Id = 4,
-                        From = new DateTimeOffset(2023,4,29,10,0,0,TimeSpan.Zero),
-                        To = new DateTimeOffset(2023,4,29,10,20,0,TimeSpan.Zero),
+                        From = new DateTimeOffset(2023, 4, 29, 10, 0, 0, TimeSpan.Zero),
+                        To = new DateTimeOffset(2023, 4, 29, 10, 20, 0, TimeSpan.Zero),
                         Info = "Coffee"
                     },
-                    new TimeSlot{
+                    new TimeSlot
+                    {
                         Id = 5,
-                        From = new DateTimeOffset(2023,4,29,10,20,0,TimeSpan.Zero),
-                        To = new DateTimeOffset(2023,4,29,11,20,0,TimeSpan.Zero)
+                        From = new DateTimeOffset(2023, 4, 29, 10, 20, 0, TimeSpan.Zero),
+                        To = new DateTimeOffset(2023, 4, 29, 11, 20, 0, TimeSpan.Zero)
                     },
                 },
                 Tracks = new[]
                 {
-                    new Track { Id = 1, Name = "Track 1", RoomName = "Room 1"},
-                    new Track { Id = 2, Name = "Track 2", RoomName = "Room 2"},
-                    new Track { Id = 3, Name = "Track 3", RoomName = "Room 3"}
+                    new Track { Id = 1, Name = "Track 1", RoomName = "Room 1" },
+                    new Track { Id = 2, Name = "Track 2", RoomName = "Room 2" },
+                    new Track { Id = 3, Name = "Track 3", RoomName = "Room 3" }
                 },
                 Sessions = new[]
                 {
-                    new Session { 
-                        Id = 1, 
-                        FullDescription = "Some full desk", 
-                        Speaker = "Ross", 
+                    new Session
+                    {
+                        Id = 1,
+                        FullDescription = "Some full desk",
+                        Speaker = "Ross",
                         TimeSlotId = 3,
                         TrackId = 1,
                         Title = "Blazor Session Management"
                     },
-                    new Session {
+                    new Session
+                    {
                         Id = 2,
                         FullDescription = "Second session",
                         Speaker = "Jim",
@@ -113,7 +124,8 @@ public class FakePocketDDDApiService : IPocketDDDApiService
                         TrackId = 2,
                         Title = "How to code"
                     },
-                    new Session {
+                    new Session
+                    {
                         Id = 3,
                         FullDescription = "Third session",
                         Speaker = "Bob",
@@ -122,8 +134,7 @@ public class FakePocketDDDApiService : IPocketDDDApiService
                         Title = "Off by 1"
                     },
                 }
-            }
-        );
+            };
     }
 
     public Task<FeedbackResponseDTO> SubmitClientEventFeedback(SubmitEventFeedbackDTO feedbackDTO)

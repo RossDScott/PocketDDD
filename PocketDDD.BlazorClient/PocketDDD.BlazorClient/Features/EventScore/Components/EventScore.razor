@@ -1,19 +1,27 @@
 ﻿@using PocketDDD.BlazorClient.Features.EventScore.Store;
+@using PocketDDD.BlazorClient.Features.Sync.Components
 
 @inherits Fluxor.Blazor.Web.Components.FluxorComponent
 
 @inject IState<EventScoreState> State
 @inject IDispatcher Dispatcher
+@inject IDialogService Dialog
 
 <MudFab Color="Color.Primary"
         Size="Size.Large"
         Label="@State.Value.Score.ToString()"
-        Style="position:fixed; right:10px; bottom:10px" />
+        Style="position:fixed; right:10px; bottom:10px"
+        OnClick="HandleViewSyncStatus" />
 
 @code {
     protected override void OnInitialized()
     {
         Dispatcher.Dispatch(new FetchExistingEventScoreAction());
         base.OnInitialized();
+    }
+
+    void HandleViewSyncStatus()
+    {
+        Dialog.Show<SyncStatus>("", new DialogOptions { FullScreen = true });
     }
 }
