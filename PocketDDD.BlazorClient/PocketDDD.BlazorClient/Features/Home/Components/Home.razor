@@ -12,7 +12,7 @@
 @inject IState<HomeState> State
 @inject IDispatcher Dispatcher
 @inject IDialogService Dialog
-@inject LocalStorageService LocalStorage
+@inject LocalStorageContext LocalStorage
 
 @WhenLoadingAndNotFailedShowAlert()
 @WhenLoadingFailedShowCard()

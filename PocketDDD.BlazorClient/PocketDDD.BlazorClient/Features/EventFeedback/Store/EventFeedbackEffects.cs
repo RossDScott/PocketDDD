@@ -8,9 +8,9 @@ namespace PocketDDD.BlazorClient.Features.EventFeedback.Store;
 public class EventFeedbackEffects
 {
     private readonly IState<EventFeedbackState> _state;
-    private readonly LocalStorageService _localStorage;
+    private readonly LocalStorageContext _localStorage;
 
-    public EventFeedbackEffects(IState<EventFeedbackState> state, IDispatcher dispatcher, LocalStorageService localStorage)
+    public EventFeedbackEffects(IState<EventFeedbackState> state, IDispatcher dispatcher, LocalStorageContext localStorage)
     {
         _state = state;
         _localStorage = localStorage;

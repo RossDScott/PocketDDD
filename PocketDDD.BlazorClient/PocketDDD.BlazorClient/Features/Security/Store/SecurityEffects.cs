@@ -11,13 +11,13 @@ namespace PocketDDD.BlazorClient.Features.Security.Store;
 public class SecurityEffects
 {
     private readonly IState<SecurityState> _state;
-    private readonly LocalStorageService _localStorage;
+    private readonly LocalStorageContext _localStorage;
     private readonly IPocketDDDApiService _pocketDDDAPI;
     private readonly IDialogService _dialog;
 
     private IDialogReference? currentDialogReference = null; 
 
-    public SecurityEffects(IState<SecurityState> state, LocalStorageService localStorage, IPocketDDDApiService pocketDDDAPI, IDialogService dialog)
+    public SecurityEffects(IState<SecurityState> state, LocalStorageContext localStorage, IPocketDDDApiService pocketDDDAPI, IDialogService dialog)
     {
         _state = state;
         _localStorage = localStorage;

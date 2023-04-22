@@ -9,11 +9,11 @@ namespace PocketDDD.BlazorClient.Features.Session.Store;
 public class SessionEffects
 {
     private readonly IState<SessionState> _state;
-    private readonly LocalStorageService _localStorage;
+    private readonly LocalStorageContext _localStorage;
     private readonly IPocketDDDApiService _pocketDDDAPI;
     private readonly NavigationManager _navigation;
 
-    public SessionEffects(IState<SessionState> state, LocalStorageService localStorage, IPocketDDDApiService pocketDDDAPI, NavigationManager navigation)
+    public SessionEffects(IState<SessionState> state, LocalStorageContext localStorage, IPocketDDDApiService pocketDDDAPI, NavigationManager navigation)
     {
         _state = state;
         _localStorage = localStorage;

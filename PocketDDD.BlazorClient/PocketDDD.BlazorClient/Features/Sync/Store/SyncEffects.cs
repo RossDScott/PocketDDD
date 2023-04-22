@@ -9,10 +9,10 @@ namespace PocketDDD.BlazorClient.Features.Sync.Store;
 public class SyncEffects
 {
     private readonly IState<SyncState> _state;
-    private readonly LocalStorageService _localStorage;
+    private readonly LocalStorageContext _localStorage;
     private readonly IPocketDDDApiService _pocketDDDAPI;
 
-    public SyncEffects(IState<SyncState> state, IDispatcher dispatcher, LocalStorageService localStorage, IPocketDDDApiService pocketDDDAPI)
+    public SyncEffects(IState<SyncState> state, IDispatcher dispatcher, LocalStorageContext localStorage, IPocketDDDApiService pocketDDDAPI)
     {
         _state = state;
         _localStorage = localStorage;

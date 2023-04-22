@@ -5,18 +5,17 @@ using PocketDDD.BlazorClient.Features.Sync.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
 using System.Collections.ObjectModel;
-using EventDataUpdatedAction = PocketDDD.BlazorClient.Services.EventDataUpdatedAction;
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
 
 public class HomeEffects
 {
     private readonly IState<HomeState> _state;
-    private readonly LocalStorageService _localStorage;
+    private readonly LocalStorageContext _localStorage;
     private readonly IPocketDDDApiService _pocketDDDAPI;
     private readonly IDialogService _dialog;
 
-    public HomeEffects(IState<HomeState> state, IDispatcher dispatcher, LocalStorageService localStorage, 
+    public HomeEffects(IState<HomeState> state, IDispatcher dispatcher, LocalStorageContext localStorage, 
                         IPocketDDDApiService pocketDDDAPI, IDialogService dialog)
     {
         _state = state;

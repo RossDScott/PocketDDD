@@ -8,7 +8,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Blazored.LocalStorage.TestExtensions" Version="4.3.0" />
 		<PackageReference Include="Fluxor.Blazor.Web" Version="5.7.0" />
 		<PackageReference Include="Fluxor.Blazor.Web.ReduxDevTools" Version="5.7.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="6.0.2" />
@@ -18,6 +17,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\PocketDDD.Shared\PocketDDD.Shared.csproj" />
+	  <ProjectReference Include="..\PocketDDD.BlazorClient.LocalStorage\PocketDDD.BlazorClient.LocalStorage.csproj" />
 	</ItemGroup>
 	
 	<ItemGroup>

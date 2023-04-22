@@ -6,9 +6,9 @@ namespace PocketDDD.BlazorClient.Features.EventScore.Store;
 
 public class EventScoreEffects
 {
-    private readonly LocalStorageService _localStorage;
+    private readonly LocalStorageContext _localStorage;
 
-    public EventScoreEffects(LocalStorageService localStorage)
+    public EventScoreEffects(LocalStorageContext localStorage)
     {
         _localStorage = localStorage;
     }

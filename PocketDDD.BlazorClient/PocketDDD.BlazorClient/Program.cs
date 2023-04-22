@@ -20,6 +20,6 @@ if (builder.Configuration.GetValue<bool>("fakeBackend") == false)
 else
     builder.Services.AddScoped<IPocketDDDApiService, FakePocketDDDApiService>();
 
-builder.Services.AddScoped<LocalStorageService>();
+builder.Services.AddScoped<LocalStorageContext>();
 
 await builder.Build().RunAsync();
