@@ -16,8 +16,13 @@
     <MudText Typo="Typo.h5" Class="ma-2">
         @State.Value.Session.From.ToString("h:mm")
         @State.Value.Session.From.ToString("tt").ToLowerInvariant(), 
-        @State.Value.Session.TrackName (@State.Value.Session.RoomName)
+        @State.Value.Session.TrackName 
     </MudText>
+
+    <MudText Typo="Typo.subtitle2" Class="ma-2">
+        @State.Value.Session.RoomName
+    </MudText>
+
 
     <MudCard Class="ma-3">
         <MudCardHeader>
