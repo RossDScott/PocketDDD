@@ -6,10 +6,11 @@ namespace PocketDDD.BlazorClient.Features.SessionFeedback.Store;
 public static class SessionFeedbackReducer
 {
     [ReducerMethod]
-    public static SessionFeedbackState OnFetchExistingSessionFeedback(SessionFeedbackState state, FetchExistingSessionFeedbackAction action) =>
+    public static SessionFeedbackState OnSetSessionDetails(SessionFeedbackState state, SetSessionDetailsAction action) =>
         state with
         {
-            SessionId = action.SessionId,
+            SessionTitle = action.SessionTitle,
+            SpeakerName = action.SpeakerName,
             TimeSlotAlreadyHasFeedback = false
         };
 

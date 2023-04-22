@@ -11,7 +11,7 @@
 
 <MudLayout>
     <HeaderBar />
-    <MudMainContent>
+    <MudMainContent Class="">
         @Body
     </MudMainContent>
 </MudLayout>
@@ -25,6 +25,7 @@
         if (firstRender)
         {
             _isDarkMode = await _mudThemeProvider.GetSystemPreference();
+            //_isDarkMode = false;
             StateHasChanged();
         }
     }

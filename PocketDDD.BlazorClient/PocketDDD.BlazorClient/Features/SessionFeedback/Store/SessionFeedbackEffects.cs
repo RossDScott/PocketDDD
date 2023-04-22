@@ -21,20 +21,20 @@ public class EventFeedbackEffects
     [EffectMethod]
     public async Task OnFetchExistingSessionFeedback(FetchExistingSessionFeedbackAction action, IDispatcher dispatcher)
     {
+        var eventData = await _localStorage.EventData.GetAsync();
+        var session = eventData!.Sessions.Single(x => x.Id == action.SessionId);
+
+        dispatcher.Dispatch(new SetSessionDetailsAction(session.Title, session.Speaker));
+
         var feedbackItems = await _localStorage.SessionFeedbacks.GetOrDefaultAsync();
         var feedback = feedbackItems.FirstOrDefault(x => x.SessionId == action.SessionId);
         int? timeSlotId = feedback?.TimeSlotId;
 
         if (feedback is not null)
-        {
             dispatcher.Dispatch(new SetSessionFeedbackAction(feedback));
-        }
 
         if (timeSlotId is null)
-        {
-            var eventData = await _localStorage.EventData.GetAsync();
             timeSlotId = eventData!.Sessions.Single(x => x.Id == action.SessionId).TimeSlotId;
-        }
 
         if (feedbackItems.Any(x => x.SessionId != action.SessionId &&
                                    x.TimeSlotId == timeSlotId))

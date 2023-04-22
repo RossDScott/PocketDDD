@@ -10,23 +10,29 @@
     @foreach(var timeSlot in State.Value.EventMetaData)
     {
         <MudListSubheader Class="pb-0 pl-1 border-b border-solid mud-border-primary">
-            <h2>@timeSlot.From.ToString("h:mm") @timeSlot.From.ToString("tt").ToLowerInvariant()</h2>
+            <MudText Typo="Typo.h6">
+                @timeSlot.From.ToString("h:mm")
+                @timeSlot.From.ToString("tt").ToLowerInvariant()
+            </MudText>
         </MudListSubheader>
         @if(timeSlot.Info is not null)
         {
-            <MudListItem Class="ml-1">
-                <h2>@timeSlot.Info</h2>
+            <MudListItem Class="ml-6">
+                <MudText Typo="Typo.h5">@timeSlot.Info</MudText>
             </MudListItem>
         }
         @foreach(var sessionItem in timeSlot.Sessions.Select((session, index) => (session, index)))
         {
             <MudListItem 
-                Class="ml-1"
-                Icon="@sessionItem.session.BookmarkIconIfBookmarked"
                 OnClick="() => ViewSession(sessionItem.session.Id)">
-                <h2>@sessionItem.session.Title</h2>
-                <h3>@sessionItem.session.SpeakerName</h3>
-                <h3>@sessionItem.session.TrackName (@sessionItem.session.RoomName)</h3>
+                <MudPaper Class="pa-4">
+                    <MudText Typo="Typo.subtitle1">
+                        @WhenBookmarkedShowIcon(sessionItem.session) 
+                        @sessionItem.session.Title
+                    </MudText>
+                    <MudText Typo="Typo.subtitle2">@sessionItem.session.SpeakerName</MudText>
+                    <MudText Typo="Typo.subtitle2">@sessionItem.session.TrackName (@sessionItem.session.RoomName)</MudText>
+                </MudPaper>
             </MudListItem>
 
             @if (sessionItem.index != timeSlot.Sessions.Count -1)
@@ -38,7 +44,12 @@
 
 </MudList>
 
-@*@JsonSerializer.Serialize(State.Value)*@
+@code{
+    RenderFragment? WhenBookmarkedShowIcon(Features.Home.Store.Session session) =>
+        session.IsBookmarked
+            ? @<MudIcon Icon="@Icons.Material.Filled.Bookmark" Title="Bookmarked" />
+            : null;
+}
 
 @code {
     void ViewSession(int sessionId) => Dispatcher.Dispatch(new ViewSessionAction(sessionId));

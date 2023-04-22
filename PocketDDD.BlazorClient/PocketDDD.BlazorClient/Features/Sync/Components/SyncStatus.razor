@@ -56,7 +56,7 @@
 @code {
     RenderFragment WhenSyncingShowSyncAlert() =>
         State.Value.IsSyncing
-            ? @<MudAlert Class="mt-2" Severity="Severity.Info"> Syncing...</MudAlert>
+        ? @<MudAlert Class="mt-2" Severity="Severity.Info" Icon="@Icons.Material.Filled.CloudSync"> Syncing...</MudAlert>
             : null;
 }
 

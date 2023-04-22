@@ -9,6 +9,15 @@
     <TitleContent><MudText Typo="Typo.h6" Align="Align.Center">Session Feedback</MudText></TitleContent>
     <DialogContent>
 
+        <MudCard>
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h5">@State.Value.SessionTitle</MudText>
+                    <MudText Typo="Typo.h6">@State.Value.SpeakerName</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+        </MudCard>
+
         @WhenFeedbackAlreadySubmittedShowWarning()
 
         <MudCard Class="mt-3">
