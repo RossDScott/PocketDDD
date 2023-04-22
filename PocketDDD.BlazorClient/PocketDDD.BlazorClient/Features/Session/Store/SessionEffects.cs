@@ -34,7 +34,7 @@ public class SessionEffects
         var track = eventData.Tracks.Single(x => x.Id == session.TrackId);
         var timeSlot = eventData.TimeSlots.Single(x => x.Id == session.TimeSlotId);
         var isBookmarked = bookmarks.Contains(session.Id);
-        var title = $"{track.Name} {track.RoomName} @{timeSlot.From:hh:mm}";
+        var title = session.Speaker;
 
         dispatcher.Dispatch(new SetHeaderBarTitleAction(title));
         dispatcher.Dispatch(new SetBackButtonVisabilityAction(true));
