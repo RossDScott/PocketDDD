@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Fluxor;
 using PocketDDD.BlazorClient.Features.EventScore.Store;
+using PocketDDD.BlazorClient.Features.Sync.Store;
 using PocketDDD.BlazorClient.Services;
 using PocketDDD.Shared.API.RequestDTOs;
 
@@ -27,30 +28,25 @@ public class SyncEffects
     [EffectMethod]
     public async Task OnSync(SyncAction action, IDispatcher dispatcher)
     {
+        dispatcher.Dispatch(new SyncEventAction());
+        dispatcher.Dispatch(new SyncEventFeedbackAction());
+        dispatcher.Dispatch(new SyncSessionFeedbackAction());
+    }
+
+    [EffectMethod]
+    public async Task OnSyncEvent(SyncEventAction action, IDispatcher dispatcher)
+    {
+        dispatcher.Dispatch(new SetSyncingEventAction(true));
+
         try
         {
             var eventData = await _localStorage.EventData.GetAsync();
             var eventDataVersion = eventData?.Version ?? 0;
 
-            try
-            {
-                var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequestDTO { Version = eventDataVersion });
+            var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequestDTO { Version = eventDataVersion });
 
-                if (newEventData is not null)
-                {
-                    await _localStorage.EventData.SetAsync(newEventData);
-                }
-            }
-            catch
-            {
-                // ignored
-            }
-
-            var eventFeedbackItems = await _localStorage.EventFeedbackSync.GetAllSyncItemsAsync();
-            var sessionFeedbackItems = await _localStorage.SessionFeedbackSync.GetAllSyncItemsAsync();
-
-            dispatcher.Dispatch(new SyncEventFeedbackItemsAction(eventFeedbackItems));
-            dispatcher.Dispatch(new SyncSessionFeedbackItemsAction(sessionFeedbackItems));
+            if (newEventData is not null)
+                await _localStorage.EventData.SetAsync(newEventData);
         }
         catch
         {
@@ -58,45 +54,92 @@ public class SyncEffects
         }
         finally
         {
-            dispatcher.Dispatch(new SyncCompletedAction());
+            dispatcher.Dispatch(new SetSyncingEventAction(false));
         }
     }
 
     [EffectMethod]
+    public async Task OnSyncEventFeedback(SyncEventFeedbackAction action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var eventFeedbackItems = await _localStorage.EventFeedbackSync.GetAllSyncItemsAsync();
+            dispatcher.Dispatch(new SyncEventFeedbackItemsAction(eventFeedbackItems));
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+    [EffectMethod]
+    public async Task OnSyncSessionFeedback(SyncSessionFeedbackAction action, IDispatcher dispatcher)
+    {
+        try
+        {
+            var sessionFeedbackItems = await _localStorage.SessionFeedbackSync.GetAllSyncItemsAsync();
+            dispatcher.Dispatch(new SyncSessionFeedbackItemsAction(sessionFeedbackItems));
+        }
+        catch
+        {
+            // ignored
+        }
+    }
+
+
+    [EffectMethod]
     public async Task OnSyncEventFeedbackItems(SyncEventFeedbackItemsAction action, IDispatcher dispatcher)
     {
-        var syncItems = action.syncItems;
-        foreach (var item in syncItems)
+        dispatcher.Dispatch(new SetSyncingEventFeedbackAction(true));
+
+        try
         {
-            try
+            var syncItems = action.SyncItems;
+            foreach (var item in syncItems)
             {
-                var result = await _pocketDDDAPI.SubmitClientEventFeedback(item);
-                await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
-                dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
+                try
+                {
+                    var result = await _pocketDDDAPI.SubmitClientEventFeedback(item);
+                    await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
+                    dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
+                }
+                catch
+                {
+                    // ignored
+                }
             }
-            catch
-            {
-                // ignored
-            }
+        }
+        finally
+        {
+            dispatcher.Dispatch(new SetSyncingEventFeedbackAction(false));
         }
     }
 
     [EffectMethod]
     public async Task OnSyncSessionFeedbackItems(SyncSessionFeedbackItemsAction action, IDispatcher dispatcher)
     {
-        var syncItems = action.syncItems;
-        foreach (var item in syncItems)
+        dispatcher.Dispatch(new SetSyncingSessionFeedbackAction(true));
+
+        try
         {
-            try
+            var syncItems = action.SyncItems;
+            foreach (var item in syncItems)
             {
-                var result = await _pocketDDDAPI.SubmitClientSessionFeedback(item);
-                await _localStorage.SessionFeedbackSync.RemoveSyncItemAsync(result.ClientId);
-                dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
+                try
+                {
+                    var result = await _pocketDDDAPI.SubmitClientSessionFeedback(item);
+                    await _localStorage.SessionFeedbackSync.RemoveSyncItemAsync(result.ClientId);
+                    dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
+                }
+                catch
+                {
+                    // ignored
+                }
             }
-            catch
-            {
-                // ignored
-            }
+        }
+        finally
+        {
+            dispatcher.Dispatch(new SetSyncingSessionFeedbackAction(false));
         }
     }
 }

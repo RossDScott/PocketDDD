@@ -1,9 +1,15 @@
 ﻿using PocketDDD.Shared.API.RequestDTOs;
-using PocketDDD.Shared.API.ResponseDTOs;
 
 namespace PocketDDD.BlazorClient.Features.Sync.Store;
 
-public record SyncAction();
-public record SyncEventFeedbackItemsAction(IList<SubmitEventFeedbackDTO> syncItems);
-public record SyncSessionFeedbackItemsAction(IList<SubmitSessionFeedbackDTO> syncItems);
-public record SyncCompletedAction();
+public record SyncAction;
+public record SyncEventAction;
+public record SyncEventFeedbackAction;
+public record SyncSessionFeedbackAction;
+
+public record SyncEventFeedbackItemsAction(IList<SubmitEventFeedbackDTO> SyncItems);
+public record SyncSessionFeedbackItemsAction(IList<SubmitSessionFeedbackDTO> SyncItems);
+
+public record SetSyncingEventAction(bool Syncing);
+public record SetSyncingEventFeedbackAction(bool Syncing);
+public record SetSyncingSessionFeedbackAction(bool Syncing);

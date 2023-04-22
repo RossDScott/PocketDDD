@@ -14,5 +14,9 @@ public record SyncState
     public int OutstandingSyncItems => 
         OutstandingEventFeedbackSyncCount + OutstandingSessionFeedbackSyncCount;
 
-    public bool IsSyncing { get; init; } = false;
+    public bool IsSyncingEvent { get; init; } = false;
+    public bool IsSyncingEventFeedback { get; init; } = false;
+    public bool IsSyncingSessionFeedback { get; init; } = false;
+
+    public  bool IsSyncing => IsSyncingEvent || IsSyncingEventFeedback || IsSyncingSessionFeedback;
 }
