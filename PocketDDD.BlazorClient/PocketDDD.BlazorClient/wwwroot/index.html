@@ -21,17 +21,21 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
-    <script>
-        if (window.location.hostname.includes("localhost") || window.location.hostname.includes("development") ) {
-            Blazor.start({
-                environment: "Development"
-            });
-        } else {
-            Blazor.start({
-                environment: "Production"
-            });
-        }
-    </script>
+<script>
+    if (window.location.hostname.includes("localhost") || window.location.hostname.includes("development")) {
+        Blazor.start({
+            environment: "Development"
+        });
+    } else if (window.location.hostname.includes("test")) {
+        Blazor.start({
+            environment: "Test"
+        });
+    } else {
+        Blazor.start({
+            environment: "Production"
+        });
+    }
+</script>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
