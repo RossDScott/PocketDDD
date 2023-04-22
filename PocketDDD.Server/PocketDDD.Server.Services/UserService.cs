@@ -43,7 +43,7 @@ public class UserService
         if (total > user.EventScore)
         {
             user.EventScore = total;
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
     }
 }

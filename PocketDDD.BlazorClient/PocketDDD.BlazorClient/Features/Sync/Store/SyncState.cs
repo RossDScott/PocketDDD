@@ -8,7 +8,6 @@ public record SyncState
 {
     public LoginResultDTO LoggedInUser { get; init; } = default!;
     public int EventScore { get; set; }
-    public int EventDataVersion { get; init; } = 0;
     
     public int OutstandingEventFeedbackSyncCount { get; init; } = 0;
     public int OutstandingSessionFeedbackSyncCount { get; init; } = 0;
@@ -16,5 +15,4 @@ public record SyncState
         OutstandingEventFeedbackSyncCount + OutstandingSessionFeedbackSyncCount;
 
     public bool IsSyncing { get; init; } = false;
-
 }

@@ -2,6 +2,7 @@
 using Blazored.LocalStorage;
 using Fluxor;
 using MudBlazor;
+using PocketDDD.BlazorClient.Features.EventScore.Store;
 using PocketDDD.BlazorClient.Features.Home.Store;
 using PocketDDD.BlazorClient.Services;
 using static MudBlazor.CategoryTypes;
@@ -61,8 +62,16 @@ public class SecurityEffects
     public Task OnLoginSuccess(SetLoginSuccessAction action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new SetCurrentUserAction(action.User));
+        dispatcher.Dispatch(new EventScoreUpdatedAction(1));
         currentDialogReference?.Close();
         currentDialogReference = null;
+        return Task.CompletedTask;
+    }
+
+    [EffectMethod]
+    public Task OnLoginSuccess(SetCurrentUserAction action, IDispatcher dispatcher)
+    {
+        _pocketDDDAPI.SetUserAuthToken(action.User.Token);
         return Task.CompletedTask;
     }
 }

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using PocketDDD.Server.Model.DTOs;
 using PocketDDD.Server.Services;
+using PocketDDD.Shared.API.RequestDTOs;
+using PocketDDD.Shared.API.ResponseDTOs;
 
 namespace PocketDDD.Server.WebAPI.Controllers;
 [Route("api/[controller]")]
@@ -16,7 +18,7 @@ public class RegistrationController : ControllerBase
     }
 
     [HttpPost("[Action]")]
-    public Task<RegisterResponseDTO> Login(RegisterDTO dto)
+    public Task<LoginResultDTO> Login(RegisterDTO dto)
     {
         return registrationService.Register(dto);
     }

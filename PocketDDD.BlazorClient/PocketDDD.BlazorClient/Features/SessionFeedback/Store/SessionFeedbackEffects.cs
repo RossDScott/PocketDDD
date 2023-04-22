@@ -56,6 +56,7 @@ public class EventFeedbackEffects
         await _localStorage.SessionFeedbacks.SetAsync(feedbackItems);
         var syncItem = new SubmitSessionFeedbackDTO
         {
+            SessionId = action.Feedback.SessionId,
             CreatedOn = DateTimeOffset.Now,
             SpeakerKnowledgeRating = feedback.SpeakerKnowledgeRating,
             SpeakingSkillRating= feedback.SpeakingSkillRating,

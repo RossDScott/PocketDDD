@@ -7,4 +7,3 @@ public record SyncAction();
 public record SyncEventFeedbackItemsAction(IList<SubmitEventFeedbackDTO> syncItems);
 public record SyncSessionFeedbackItemsAction(IList<SubmitSessionFeedbackDTO> syncItems);
 public record SyncCompletedAction();
-public record SetEventDataVersionAction(int Version);

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PocketDDD.Shared\PocketDDD.Shared.csproj" />
     <ProjectReference Include="..\PocketDDD.Server.DB\PocketDDD.Server.DB.csproj" />
     <ProjectReference Include="..\PocketDDD.Server.Model\PocketDDD.Server.Model.csproj" />
     <ProjectReference Include="..\PocketDDD.Server.Services\PocketDDD.Server.Services.csproj" />

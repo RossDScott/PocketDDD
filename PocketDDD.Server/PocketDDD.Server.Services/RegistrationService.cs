@@ -7,6 +7,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using PocketDDD.Shared.API.RequestDTOs;
+using PocketDDD.Shared.API.ResponseDTOs;
 
 namespace PocketDDD.Server.Services;
 public class RegistrationService
@@ -18,31 +20,22 @@ public class RegistrationService
         this.dbContext = dbContext;
     }
 
-    public async Task<RegisterResponseDTO> Register(RegisterDTO dto)
+    public async Task<LoginResultDTO> Register(RegisterDTO dto)
     {
-        try
+        var user = new User
         {
-            var user = new User
-            {
-                EventDetailId = 1,
-                Name = dto.Name,
-                Token = GenerateBearerToken(),
-                EventScore = 1
-            };
+            EventDetailId = 1,
+            Name = dto.Name,
+            Token = GenerateBearerToken(),
+            EventScore = 1
+        };
 
-            dbContext.Users.Add(user);
-            await dbContext.SaveChangesAsync();
+        dbContext.Users.Add(user);
+        await dbContext.SaveChangesAsync();
 
-            var dtoResponse = new RegisterResponseDTO { Name = user.Name, BearerToken = user.Token }; // user.Token };
+        var dtoResponse = new LoginResultDTO(user.Name, user.Token);
 
-            return dtoResponse;
-        }
-        catch (Exception ex)
-        {
-
-            throw;
-        }
-
+        return dtoResponse;
     }
 
     private string GenerateBearerToken()

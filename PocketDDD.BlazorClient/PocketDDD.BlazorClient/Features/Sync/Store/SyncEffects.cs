@@ -29,12 +29,21 @@ public class SyncEffects
     {
         try
         {
-            var metaDataVersion = _state.Value.EventDataVersion;
-            var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequestDTO { Version = metaDataVersion });
-            if (newEventData is not null)
+            var eventData = await _localStorage.EventData.GetAsync();
+            var eventDataVersion = eventData?.Version ?? 0;
+
+            try
             {
-                await _localStorage.EventData.SetAsync(newEventData);
-                dispatcher.Dispatch(new SetEventDataVersionAction(newEventData.Version));
+                var newEventData = await _pocketDDDAPI.FetchLatestEventData(new EventDataUpdateRequestDTO { Version = eventDataVersion });
+
+                if (newEventData is not null)
+                {
+                    await _localStorage.EventData.SetAsync(newEventData);
+                }
+            }
+            catch
+            {
+                // ignored
             }
 
             var eventFeedbackItems = await _localStorage.EventFeedbackSync.GetAllSyncItemsAsync();
@@ -42,6 +51,10 @@ public class SyncEffects
 
             dispatcher.Dispatch(new SyncEventFeedbackItemsAction(eventFeedbackItems));
             dispatcher.Dispatch(new SyncSessionFeedbackItemsAction(sessionFeedbackItems));
+        }
+        catch
+        {
+            // ignored
         }
         finally
         {
@@ -61,7 +74,10 @@ public class SyncEffects
                 await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
                 dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
     }
 
@@ -77,7 +93,10 @@ public class SyncEffects
                 await _localStorage.SessionFeedbackSync.RemoveSyncItemAsync(result.ClientId);
                 dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
             }
-            catch { }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

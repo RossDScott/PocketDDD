@@ -1,4 +1,5 @@
 ﻿using Fluxor;
+using PocketDDD.BlazorClient.Features.EventScore.Components;
 using PocketDDD.BlazorClient.Features.Sync.Store;
 using PocketDDD.BlazorClient.Services;
 
@@ -24,5 +25,6 @@ public class EventScoreEffects
     public async Task OnEventScoreUpdated(EventScoreUpdatedAction action, IDispatcher dispatcher)
     {
         await _localStorage.EventScore.SetAsync(action.Score);
+        dispatcher.Dispatch(new SetEventScoreAction(action.Score));
     }
 }

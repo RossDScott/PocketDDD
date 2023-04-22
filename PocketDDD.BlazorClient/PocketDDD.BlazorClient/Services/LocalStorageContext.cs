@@ -19,6 +19,8 @@ public class LocalStorageContext : LocalStorage.LocalStorageContext
     public KeySyncItem<SubmitEventFeedbackDTO> EventFeedbackSync { get; init; }
     public KeySyncItem<SubmitSessionFeedbackDTO> SessionFeedbackSync { get; init; }
 
+#pragma warning disable CS8618
     public LocalStorageContext(ILocalStorageService localStorage) : base(localStorage) { }
+#pragma warning restore CS8618
 }
 

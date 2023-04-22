@@ -2,11 +2,13 @@
 using PocketDDD.Server.DB;
 using PocketDDD.Server.Model.DBModel;
 using PocketDDD.Server.Model.DTOs;
+using PocketDDD.Shared.API.RequestDTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PocketDDD.Shared.API.ResponseDTOs;
 
 namespace PocketDDD.Server.Services;
 public class FeedbackService
@@ -20,7 +22,7 @@ public class FeedbackService
         this.userService = userService;
     }
 
-    public async Task<FeedbackResponseDTO> SubmitClientSessionFeedback(SessionFeedbackDTO clientData, int userId)
+    public async Task<FeedbackResponseDTO> SubmitClientSessionFeedback(SubmitSessionFeedbackDTO clientData, int userId)
     {
         var user = await dbContext.Users.SingleAsync(x => x.Id == userId);
         var feedback = await dbContext.UserSessionFeedback
@@ -40,14 +42,14 @@ public class FeedbackService
             dbContext.UserSessionFeedback.Add(feedback);
         }
 
-        if (clientData.DateTimeStamp > feedback.DateTimestamp)
+        if (clientData.CreatedOn > feedback.DateTimestamp)
         {
             feedback.SpeakerKnowledgeRating = clientData.SpeakerKnowledgeRating;
             feedback.SpeakerSkillsRating = clientData.SpeakingSkillRating;
             feedback.Comment = clientData.Comments;
-            feedback.DateTimestamp = clientData.DateTimeStamp;
+            feedback.DateTimestamp = clientData.CreatedOn;
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             await userService.CalculateAndUpdateEventScore(user);
         }
@@ -55,7 +57,7 @@ public class FeedbackService
         return new FeedbackResponseDTO { ClientId = clientData.ClientId, Score = user.EventScore };
     }
 
-    public async Task<FeedbackResponseDTO> SubmitClientEventFeedback(EventFeedbackDTO clientData, int userId)
+    public async Task<FeedbackResponseDTO> SubmitClientEventFeedback(SubmitEventFeedbackDTO clientData, int userId)
     {
         var user = await dbContext.Users.SingleAsync(x => x.Id == userId);
         var feedback = await dbContext.UserEventFeedback
@@ -72,15 +74,15 @@ public class FeedbackService
             dbContext.UserEventFeedback.Add(feedback);
         }
 
-        if (clientData.DateTimeStamp > feedback.DateTimestamp)
+        if (clientData.CreatedOn > feedback.DateTimestamp)
         {
             feedback.Venue = clientData.VenueRating;
             feedback.Refreshments = clientData.RefreshmentsRating;
-            feedback.Overall = clientData.Overall;
+            feedback.Overall = clientData.OverallRating;
             feedback.Comment = clientData.Comments;
-            feedback.DateTimestamp = clientData.DateTimeStamp;
+            feedback.DateTimestamp = clientData.CreatedOn;
 
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
 
             await userService.CalculateAndUpdateEventScore(user);
         }

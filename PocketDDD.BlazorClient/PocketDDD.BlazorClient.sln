@@ -7,15 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.BlazorClient", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.Shared", "..\PocketDDD.Shared\PocketDDD.Shared.csproj", "{78B080B5-3396-487C-9469-31186AD778B5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.Server.WebAPI", "..\PocketDDD.Server\PocketDDD.Server.WebAPI\PocketDDD.Server.WebAPI.csproj", "{2C3332D0-463B-414C-8B1D-32360A42D5BB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.Server.Services", "..\PocketDDD.Server\PocketDDD.Server.Services\PocketDDD.Server.Services.csproj", "{74F3F941-F2AC-403F-AFEA-3A47DBD9CC78}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.Server.Model", "..\PocketDDD.Server\PocketDDD.Server.Model\PocketDDD.Server.Model.csproj", "{6FC7A020-7462-4DC1-A7A0-04A9359BC303}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.Server.DB", "..\PocketDDD.Server\PocketDDD.Server.DB\PocketDDD.Server.DB.csproj", "{48A20EF1-0384-4934-8632-5B7AE5B02C0F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PocketDDD.BlazorClient.LocalStorage", "PocketDDD.BlazorClient.LocalStorage\PocketDDD.BlazorClient.LocalStorage.csproj", "{5CBDD65B-BAB5-4E97-A1A2-445511B3D6B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PocketDDD.BlazorClient.LocalStorage", "PocketDDD.BlazorClient.LocalStorage\PocketDDD.BlazorClient.LocalStorage.csproj", "{5CBDD65B-BAB5-4E97-A1A2-445511B3D6B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,22 +23,6 @@ Global
 		{78B080B5-3396-487C-9469-31186AD778B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78B080B5-3396-487C-9469-31186AD778B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78B080B5-3396-487C-9469-31186AD778B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2C3332D0-463B-414C-8B1D-32360A42D5BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2C3332D0-463B-414C-8B1D-32360A42D5BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2C3332D0-463B-414C-8B1D-32360A42D5BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2C3332D0-463B-414C-8B1D-32360A42D5BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{74F3F941-F2AC-403F-AFEA-3A47DBD9CC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{74F3F941-F2AC-403F-AFEA-3A47DBD9CC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{74F3F941-F2AC-403F-AFEA-3A47DBD9CC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{74F3F941-F2AC-403F-AFEA-3A47DBD9CC78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6FC7A020-7462-4DC1-A7A0-04A9359BC303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6FC7A020-7462-4DC1-A7A0-04A9359BC303}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6FC7A020-7462-4DC1-A7A0-04A9359BC303}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6FC7A020-7462-4DC1-A7A0-04A9359BC303}.Release|Any CPU.Build.0 = Release|Any CPU
-		{48A20EF1-0384-4934-8632-5B7AE5B02C0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{48A20EF1-0384-4934-8632-5B7AE5B02C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{48A20EF1-0384-4934-8632-5B7AE5B02C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{48A20EF1-0384-4934-8632-5B7AE5B02C0F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CBDD65B-BAB5-4E97-A1A2-445511B3D6B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CBDD65B-BAB5-4E97-A1A2-445511B3D6B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CBDD65B-BAB5-4E97-A1A2-445511B3D6B3}.Release|Any CPU.ActiveCfg = Release|Any CPU

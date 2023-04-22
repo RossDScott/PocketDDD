@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using PocketDDD.Server.Model.DTOs;
 using PocketDDD.Server.Services;
 using PocketDDD.Server.WebAPI.Authentication;
+using PocketDDD.Shared.API.RequestDTOs;
 
 namespace PocketDDD.Server.WebAPI.Controllers;
 [Route("api/[controller]")]
@@ -21,14 +22,14 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpPost("[Action]")]
-    public async Task<IActionResult> ClientSessionFeedback(SessionFeedbackDTO feedbackDTO)
+    public async Task<IActionResult> ClientSessionFeedback(SubmitSessionFeedbackDTO feedbackDTO)
     {
         var response = await feedbackService.SubmitClientSessionFeedback(feedbackDTO, CurrentUserId);
         return Ok(response);
     }
 
     [HttpPost("[Action]")]
-    public async Task<IActionResult> ClientEventFeedback(EventFeedbackDTO feedbackDTO)
+    public async Task<IActionResult> ClientEventFeedback(SubmitEventFeedbackDTO feedbackDTO)
     {
         var response = await feedbackService.SubmitClientEventFeedback(feedbackDTO, CurrentUserId);
         return Ok(response);

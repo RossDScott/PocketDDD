@@ -10,7 +10,7 @@
     @foreach(var timeSlot in State.Value.EventMetaData)
     {
         <MudListSubheader Class="pb-0 pl-1 border-b border-solid mud-border-primary">
-            <h2>@timeSlot.From.ToString("hh:mm") to @timeSlot.To.ToString("hh:mm")</h2>
+            <h2>@timeSlot.From.ToString("HH:mm")</h2>
         </MudListSubheader>
         @if(timeSlot.Info is not null)
         {

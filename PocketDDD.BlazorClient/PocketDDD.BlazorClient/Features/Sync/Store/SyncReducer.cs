@@ -15,10 +15,6 @@ public static class SyncReducer
         state with { IsSyncing = false };
 
     [ReducerMethod]
-    public static SyncState OnSetEventDataVersion(SyncState state, SetEventDataVersionAction action) =>
-        state with { EventDataVersion = action.Version };
-
-    [ReducerMethod]
     public static SyncState OnSetEventScore(SyncState state, SetEventScoreAction action) =>
         state with { EventScore = action.Score };
 

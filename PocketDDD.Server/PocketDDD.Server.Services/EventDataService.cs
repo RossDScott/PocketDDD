@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PocketDDD.Shared.API.RequestDTOs;
+using PocketDDD.Shared.API.ResponseDTOs;
 
 namespace PocketDDD.Server.Services;
 public class EventDataService
