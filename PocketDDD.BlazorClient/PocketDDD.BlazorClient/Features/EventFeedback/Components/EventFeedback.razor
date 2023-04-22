@@ -41,24 +41,26 @@
             </MudCardContent>
         </MudCard>
     </DialogContent>
-    <DialogActions>
-        <MudButton 
-            Variant="Variant.Filled"
-            Color="Color.Secondary"
-            FullWidth="true"
-            OnClick="HandleCancel">
-            Cancel
-        </MudButton>
-        <MudButton
-            Variant="Variant.Filled"
-            Color="Color.Primary"
-            FullWidth="true"
-            OnClick="HandleSubmit"
-            Disabled="!isDirty">
-            Submit
-        </MudButton>
-    </DialogActions>
 </MudDialog>
+
+<MudAppBar Bottom="true" Fixed="true" Color="Color.Transparent" Elevation="1">
+    <MudButton 
+        Variant="Variant.Filled"
+        Color="Color.Secondary"
+        FullWidth="true"
+        OnClick="HandleCancel">
+        Cancel
+    </MudButton>
+    <MudButton
+        Class="ml-2"
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        FullWidth="true"
+        OnClick="HandleSubmit"
+        Disabled="!isDirty">
+        Submit
+    </MudButton>
+</MudAppBar>
 
 @code {
     [CascadingParameter] MudDialogInstance MudDialog { get; set; }

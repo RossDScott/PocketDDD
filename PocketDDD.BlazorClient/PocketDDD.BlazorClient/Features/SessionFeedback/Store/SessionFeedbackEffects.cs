@@ -21,22 +21,34 @@ public class EventFeedbackEffects
     [EffectMethod]
     public async Task OnFetchExistingSessionFeedback(FetchExistingSessionFeedbackAction action, IDispatcher dispatcher)
     {
-        var feebackItems = await _localStorage.SessionFeedbacks.GetOrDefaultAsync();
-        var feedback = feebackItems.FirstOrDefault(x => x.SessionId == action.SessionId);
+        var feedbackItems = await _localStorage.SessionFeedbacks.GetOrDefaultAsync();
+        var feedback = feedbackItems.FirstOrDefault(x => x.SessionId == action.SessionId);
+        int? timeSlotId = feedback?.TimeSlotId;
+
         if (feedback is not null)
         {
             dispatcher.Dispatch(new SetSessionFeedbackAction(feedback));
-
-            if (feebackItems.Any(x => x.SessionId != feedback.SessionId &&
-                                     x.TimeSlotId == feedback.TimeSlotId))
-                dispatcher.Dispatch(new SetTimeSlotAlreadyHasFeedbackAction());
         }
+
+        if (timeSlotId is null)
+        {
+            var eventData = await _localStorage.EventData.GetAsync();
+            timeSlotId = eventData!.Sessions.Single(x => x.Id == action.SessionId).TimeSlotId;
+        }
+
+        if (feedbackItems.Any(x => x.SessionId != action.SessionId &&
+                                   x.TimeSlotId == timeSlotId))
+            dispatcher.Dispatch(new SetTimeSlotAlreadyHasFeedbackAction());
     }
 
     [EffectMethod]
     public async Task OnSubmitSessionFeedbackAction(SubmitSessionFeedbackAction action, IDispatcher dispatcher)
     {
         var feedback = action.Feedback;
+
+        var eventData = await _localStorage.EventData.GetAsync();
+        feedback.TimeSlotId = eventData!.Sessions.Single(x => x.Id == feedback.SessionId).TimeSlotId;
+        
         var feedbackItems = await _localStorage.SessionFeedbacks.GetOrDefaultAsync();
         feedbackItems.RemoveAll(x => x.SessionId == feedback.SessionId);
         feedbackItems.Add(feedback);

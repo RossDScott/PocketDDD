@@ -32,24 +32,26 @@
         @WhenSyncingShowSyncAlert()
 
     </DialogContent>
-    <DialogActions>
-        <MudButton 
-            Variant="Variant.Filled"
-            Color="Color.Primary"
-            FullWidth="true"
-            StartIcon="@Icons.Material.Filled.CloudSync"
-            OnClick="HandleSync">
-            Sync
-        </MudButton>
-        <MudButton
-            Variant="Variant.Filled"
-            Color="Color.Secondary"
-            FullWidth="true"
-            OnClick="HandleClose">
-            Close
-        </MudButton>
-    </DialogActions>
 </MudDialog>
+
+<MudAppBar Bottom="true" Fixed="true" Color="Color.Transparent" Elevation="1">
+    <MudButton
+        Variant="Variant.Filled"
+        Color="Color.Secondary"
+        FullWidth="true"
+        OnClick="HandleClose">
+        Close
+    </MudButton>
+    <MudButton 
+        Class="ml-2"
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        FullWidth="true"
+        StartIcon="@Icons.Material.Filled.CloudSync"
+        OnClick="HandleSync">
+        Sync
+    </MudButton>
+</MudAppBar>
 
 @code {
     RenderFragment WhenSyncingShowSyncAlert() =>

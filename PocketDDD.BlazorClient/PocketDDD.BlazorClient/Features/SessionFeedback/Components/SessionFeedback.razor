@@ -9,7 +9,7 @@
     <TitleContent><MudText Typo="Typo.h6" Align="Align.Center">Session Feedback</MudText></TitleContent>
     <DialogContent>
 
-        @WhenFeedbackAlreadySubmitedShowWarning()
+        @WhenFeedbackAlreadySubmittedShowWarning()
 
         <MudCard Class="mt-3">
             <MudCardContent>
@@ -30,27 +30,29 @@
             </MudCardContent>
         </MudCard>
     </DialogContent>
-    <DialogActions>
-        <MudButton 
-            Variant="Variant.Filled"
-            Color="Color.Secondary"
-            FullWidth="true"
-            OnClick="HandleCancel">
-            Cancel
-        </MudButton>
-        <MudButton
-            Variant="Variant.Filled"
-            Color="Color.Primary"
-            FullWidth="true"
-            OnClick="HandleSubmit"
-            Disabled="!isDirty">
-            Submit
-        </MudButton>
-    </DialogActions>
 </MudDialog>
 
+<MudAppBar Bottom="true" Fixed="true" Color="Color.Transparent" Elevation="1">
+    <MudButton 
+        Variant="Variant.Filled"
+        Color="Color.Secondary"
+        FullWidth="true"
+        OnClick="HandleCancel">
+        Cancel
+    </MudButton>
+    <MudButton
+        Class="ml-2"
+        Variant="Variant.Filled"
+        Color="Color.Primary"
+        FullWidth="true"
+        OnClick="HandleSubmit"
+        Disabled="!isDirty">
+        Submit
+    </MudButton>
+</MudAppBar>
+
 @code {
-    RenderFragment? WhenFeedbackAlreadySubmitedShowWarning() => State.Value.TimeSlotAlreadyHasFeedback
+    RenderFragment? WhenFeedbackAlreadySubmittedShowWarning() => State.Value.TimeSlotAlreadyHasFeedback
         ? @<MudAlert Severity="Severity.Warning">
             You have already submitted feedback for a session at this time!<br />
             You are welcome to submit this feedback, but it won't get you anymore points!
