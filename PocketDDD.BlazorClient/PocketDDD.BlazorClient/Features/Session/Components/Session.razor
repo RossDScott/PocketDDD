@@ -48,7 +48,7 @@
         base.OnInitialized();
     }
 
-    void HandleNavigateHome() => Navigation.NavigateTo("/");
+    void HandleNavigateHome() => Navigation.NavigateTo("/", false, true);
 
     void HandleToggleSessionBookmarked()
     {
