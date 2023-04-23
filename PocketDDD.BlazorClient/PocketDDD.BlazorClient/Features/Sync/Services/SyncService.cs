@@ -67,6 +67,7 @@ public class SyncService
     public async Task SyncEventFeedbackItems(IList<SubmitEventFeedbackDTO> syncItems)
     {
         _dispatcher.Dispatch(new SetSyncingEventFeedbackAction(true));
+        _dispatcher.Dispatch(new SetOutstandingEventFeedbackSyncCountAction(syncItems.Count));
 
         try
         {
@@ -83,6 +84,9 @@ public class SyncService
                     // ignored
                 }
             }
+
+            var newItemCount = await _localStorage.EventFeedbackSync.GetItemCountAsync();
+            _dispatcher.Dispatch(new SetOutstandingEventFeedbackSyncCountAction(newItemCount));
         }
         finally
         {
@@ -106,6 +110,7 @@ public class SyncService
     public async Task SyncSessionFeedbackItems(IList<SubmitSessionFeedbackDTO> syncItems)
     {
         _dispatcher.Dispatch(new SetSyncingSessionFeedbackAction(true));
+        _dispatcher.Dispatch(new SetOutstandingSessionFeedbackSyncCountAction(syncItems.Count));
 
         try
         {
@@ -122,6 +127,9 @@ public class SyncService
                     // ignored
                 }
             }
+
+            var newItemCount = await _localStorage.SessionFeedbackSync.GetItemCountAsync();
+            _dispatcher.Dispatch(new SetOutstandingSessionFeedbackSyncCountAction(newItemCount));
         }
         finally
         {

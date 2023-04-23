@@ -11,8 +11,16 @@ public static class SyncReducer
         state with { IsSyncingEvent = action.Syncing };
 
     [ReducerMethod]
+    public static SyncState OnSetOutstandingEventFeedbackSyncCount(SyncState state, SetOutstandingEventFeedbackSyncCountAction action) =>
+        state with { OutstandingEventFeedbackSyncCount = action.Count };
+
+    [ReducerMethod]
     public static SyncState OnSetSyncingEventFeedback(SyncState state, SetSyncingEventFeedbackAction action) =>
         state with { IsSyncingEventFeedback = action.Syncing };
+
+    [ReducerMethod]
+    public static SyncState OnSetOutstandingSessionFeedbackSyncCountAction(SyncState state, SetOutstandingSessionFeedbackSyncCountAction action) =>
+        state with { OutstandingSessionFeedbackSyncCount = action.Count };
 
     [ReducerMethod]
     public static SyncState OnSetSyncingSessionFeedbackAction(SyncState state, SetSyncingSessionFeedbackAction action) =>

@@ -114,6 +114,11 @@ public class KeySyncItem<T>
         }
         return items;
     }
+    public async ValueTask<int> GetItemCountAsync()
+    {
+        var keys = await _localStorage.KeysAsync();
+        return keys.Count(x => x.StartsWith(_keyPrefix));
+    }
 
     public ValueTask AddSyncItemAsync(T item, string clientId) =>
         _localStorage.SetItemAsync(_keyPrefix + clientId, item);

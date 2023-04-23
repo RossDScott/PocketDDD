@@ -24,7 +24,7 @@
 <script>
     if (window.location.hostname.includes("localhost") || window.location.hostname.includes("development")) {
         Blazor.start({
-            environment: "Development"
+            environment: "Test"
         });
     } else if (window.location.hostname.includes("test")) {
         Blazor.start({
