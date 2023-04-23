@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using MudBlazor.Services;
 using PocketDDD.BlazorClient;
+using PocketDDD.BlazorClient.Features.Sync.Services;
 using PocketDDD.BlazorClient.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -21,5 +22,6 @@ else
     builder.Services.AddScoped<IPocketDDDApiService, FakePocketDDDApiService>();
 
 builder.Services.AddScoped<LocalStorageContext>();
+builder.Services.AddScoped<SyncService>();
 
 await builder.Build().RunAsync();
