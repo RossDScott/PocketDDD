@@ -101,7 +101,7 @@ public class SyncEffects
                 {
                     var result = await _pocketDDDAPI.SubmitClientEventFeedback(item);
                     await _localStorage.EventFeedbackSync.RemoveSyncItemAsync(result.ClientId);
-                    dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
+                    await _localStorage.EventScore.SetAsync(result.Score);
                 }
                 catch
                 {
@@ -129,7 +129,7 @@ public class SyncEffects
                 {
                     var result = await _pocketDDDAPI.SubmitClientSessionFeedback(item);
                     await _localStorage.SessionFeedbackSync.RemoveSyncItemAsync(result.ClientId);
-                    dispatcher.Dispatch(new EventScoreUpdatedAction(result.Score));
+                    await _localStorage.EventScore.SetAsync(result.Score);
                 }
                 catch
                 {

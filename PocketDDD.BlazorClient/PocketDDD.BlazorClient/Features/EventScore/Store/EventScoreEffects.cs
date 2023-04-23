@@ -9,9 +9,11 @@ public class EventScoreEffects
 {
     private readonly LocalStorageContext _localStorage;
 
-    public EventScoreEffects(LocalStorageContext localStorage)
+    public EventScoreEffects(LocalStorageContext localStorage, IDispatcher dispatcher)
     {
         _localStorage = localStorage;
+        _localStorage.EventScore.SubscribeToChanges(newScore => 
+            dispatcher.Dispatch(new SetEventScoreAction(newScore)));
     }
 
     [EffectMethod]
@@ -19,12 +21,5 @@ public class EventScoreEffects
     {
         var eventScore = await _localStorage.EventScore.GetOrDefaultAsync(() => 0);
         dispatcher.Dispatch(new SetEventScoreAction(eventScore));
-    }
-
-    [EffectMethod]
-    public async Task OnEventScoreUpdated(EventScoreUpdatedAction action, IDispatcher dispatcher)
-    {
-        await _localStorage.EventScore.SetAsync(action.Score);
-        dispatcher.Dispatch(new SetEventScoreAction(action.Score));
     }
 }
