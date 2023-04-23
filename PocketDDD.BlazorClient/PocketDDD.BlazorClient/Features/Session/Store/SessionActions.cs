@@ -2,7 +2,7 @@
 
 namespace PocketDDD.BlazorClient.Features.Session.Store;
 
-public record ViewSessionAction(int SessionId);
+public record FetchSessionAction(int SessionId);
 public record SetSessionAction(
     PocketDDD.Shared.API.ResponseDTOs.SessionDTO Session,
     PocketDDD.Shared.API.ResponseDTOs.TrackDTO Track,

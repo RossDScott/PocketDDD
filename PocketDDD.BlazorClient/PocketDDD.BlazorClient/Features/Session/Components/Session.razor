@@ -48,13 +48,17 @@
 
     protected override void OnInitialized()
     {
-        if (State.Value.Session?.Id != Id)
-            Dispatcher.Dispatch(new ViewSessionAction(Id));
-
         SubscribeToAction<NavigateBackAction>(_ => HandleNavigateHome());
         SubscribeToAction<ViewFeedbackAction>(_ => HandleShowSessionFeedback());
 
         base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        Dispatcher.Dispatch(new FetchSessionAction(Id));
+
+        base.OnParametersSet();
     }
 
     void HandleNavigateHome() => Navigation.NavigateTo("/", false, true);
