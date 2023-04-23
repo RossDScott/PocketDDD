@@ -54,14 +54,14 @@
 </MudAppBar>
 
 @code {
-    RenderFragment WhenSyncingShowSyncAlert() =>
+    RenderFragment? WhenSyncingShowSyncAlert() =>
         State.Value.IsSyncing
         ? @<MudAlert Class="mt-2" Severity="Severity.Info" Icon="@Icons.Material.Filled.CloudSync"> Syncing...</MudAlert>
             : null;
 }
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
 
     protected override void OnInitialized()
     {

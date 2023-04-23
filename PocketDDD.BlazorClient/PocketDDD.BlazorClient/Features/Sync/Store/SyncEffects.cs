@@ -26,11 +26,12 @@ public class SyncEffects
     }
 
     [EffectMethod]
-    public async Task OnSync(SyncAction action, IDispatcher dispatcher)
+    public Task OnSync(SyncAction action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new SyncEventAction());
         dispatcher.Dispatch(new SyncEventFeedbackAction());
         dispatcher.Dispatch(new SyncSessionFeedbackAction());
+        return Task.CompletedTask;
     }
 
     [EffectMethod]

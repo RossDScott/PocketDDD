@@ -30,8 +30,9 @@
         }
     }
 
-    protected override async Task OnParametersSetAsync()
+    protected override void OnInitialized()
     {
         Dispatcher.Dispatch(new CheckUserAction());
+        base.OnInitialized();
     }
 }
