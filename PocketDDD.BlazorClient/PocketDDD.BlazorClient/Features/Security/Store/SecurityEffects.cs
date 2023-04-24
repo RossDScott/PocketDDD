@@ -50,6 +50,8 @@ public class SecurityEffects
             ArgumentNullException.ThrowIfNull(result, nameof(result));
 
             await _localStorage.CurrentUser.SetAsync(result);
+            await _localStorage.EventScore.SetAsync(1);
+
             dispatcher.Dispatch(new SetLoginSuccessAction(result));
         }
         catch
@@ -62,7 +64,7 @@ public class SecurityEffects
     public Task OnLoginSuccess(SetLoginSuccessAction action, IDispatcher dispatcher)
     {
         dispatcher.Dispatch(new SetCurrentUserAction(action.User));
-        dispatcher.Dispatch(new EventScoreUpdatedAction(1));
+
         currentDialogReference?.Close();
         currentDialogReference = null;
         return Task.CompletedTask;

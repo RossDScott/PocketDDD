@@ -2,4 +2,3 @@
 
 public record FetchExistingEventScoreAction();
 public record SetEventScoreAction(int Score);
-public record EventScoreUpdatedAction(int Score);
