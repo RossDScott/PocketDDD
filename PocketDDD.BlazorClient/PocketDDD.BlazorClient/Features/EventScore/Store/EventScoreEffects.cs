@@ -19,7 +19,7 @@ public class EventScoreEffects
     [EffectMethod]
     public async Task OnFetchExistingEventScore(FetchExistingEventScoreAction action, IDispatcher dispatcher)
     {
-        var eventScore = await _localStorage.EventScore.GetOrDefaultAsync(() => 0);
+        var eventScore = await _localStorage.EventScore.GetAsync();
         dispatcher.Dispatch(new SetEventScoreAction(eventScore));
     }
 }
