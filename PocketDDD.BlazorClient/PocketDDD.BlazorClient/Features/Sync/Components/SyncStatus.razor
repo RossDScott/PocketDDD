@@ -28,7 +28,9 @@
                 <MudText Typo="Typo.subtitle1">@State.Value.OutstandingSyncItems</MudText>
             </MudCardContent>
         </MudCard>
-        
+
+        <DeleteAllData></DeleteAllData>
+
         @WhenSyncingShowSyncAlert()
 
     </DialogContent>
@@ -54,10 +56,9 @@
 </MudAppBar>
 
 @code {
-    RenderFragment? WhenSyncingShowSyncAlert() =>
-        State.Value.IsSyncing
+    RenderFragment? WhenSyncingShowSyncAlert() => State.Value.IsSyncing
         ? @<MudAlert Class="mt-2" Severity="Severity.Info" Icon="@Icons.Material.Filled.CloudSync"> Syncing...</MudAlert>
-            : null;
+        : null;
 }
 
 @code {

@@ -63,7 +63,7 @@
 </MudAppBar>
 
 @code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; } = default!;
 
     int _refreshments = 0;
     int _venue = 0;

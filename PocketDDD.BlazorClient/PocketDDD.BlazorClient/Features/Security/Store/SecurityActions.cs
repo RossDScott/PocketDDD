@@ -8,3 +8,4 @@ public record LoginAction(string LoginName);
 public record SetLoginSuccessAction(LoginResultDTO User);
 public record SetCurrentUserAction(LoginResultDTO User);
 public record SetLoginFailed();
+public record DeleteAllDataAndLogOutAction();

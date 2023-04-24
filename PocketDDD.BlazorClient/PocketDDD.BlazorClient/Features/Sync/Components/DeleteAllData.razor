@@ -1,0 +1,39 @@
+﻿@using PocketDDD.BlazorClient.Features.Security.Store;
+@inject IDispatcher Dispatcher
+
+@if (_showStart)
+{
+    <MudButton 
+        Variant="Variant.Filled"
+        StartIcon="@Icons.Material.Filled.Delete"
+        Color="Color.Error"
+        Class="mt-2"
+        OnClick="() => _showStart = false">
+        Delete All Data & Logout
+    </MudButton>
+} 
+else
+{
+    <MudButton 
+        Variant="Variant.Filled"
+        StartIcon="@Icons.Material.Filled.Cancel"
+        Color="Color.Primary"
+        Class="mt-2"
+        OnClick="() => _showStart = true">
+        Cancel
+    </MudButton>
+    <MudButton 
+        Variant="Variant.Filled"
+        StartIcon="@Icons.Material.Filled.Delete"
+        Color="Color.Error"
+        Class="mt-2"
+        OnClick="HandlerConfirmDelete">
+        Confirm, delete all data
+    </MudButton>
+}
+
+@code {
+    private bool _showStart = true;
+
+    void HandlerConfirmDelete() => Dispatcher.Dispatch(new DeleteAllDataAndLogOutAction());
+}

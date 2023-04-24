@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using Blazored.LocalStorage;
 using Fluxor;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using PocketDDD.BlazorClient.Features.EventScore.Store;
 using PocketDDD.BlazorClient.Features.Home.Store;
@@ -15,15 +16,17 @@ public class SecurityEffects
     private readonly LocalStorageContext _localStorage;
     private readonly IPocketDDDApiService _pocketDDDAPI;
     private readonly IDialogService _dialog;
-
+    private readonly NavigationManager _navigationManager;
     private IDialogReference? currentDialogReference = null; 
 
-    public SecurityEffects(IState<SecurityState> state, LocalStorageContext localStorage, IPocketDDDApiService pocketDDDAPI, IDialogService dialog)
+    public SecurityEffects(IState<SecurityState> state, LocalStorageContext localStorage, 
+            IPocketDDDApiService pocketDDDAPI, IDialogService dialog, NavigationManager navigationManager)
     {
         _state = state;
         _localStorage = localStorage;
         _pocketDDDAPI = pocketDDDAPI;
         _dialog = dialog;
+        _navigationManager = navigationManager;
     }
 
     [EffectMethod]
@@ -75,5 +78,12 @@ public class SecurityEffects
     {
         _pocketDDDAPI.SetUserAuthToken(action.User.Token);
         return Task.CompletedTask;
+    }
+
+    [EffectMethod]
+    public async Task DeleteAllDataAndLogOut(DeleteAllDataAndLogOutAction action, IDispatcher dispatcher)
+    {
+        await _localStorage.DeleteAllDataAsync();
+        _navigationManager.NavigateTo("/", true);
     }
 }

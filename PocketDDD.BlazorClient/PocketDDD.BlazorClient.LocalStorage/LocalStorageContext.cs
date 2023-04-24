@@ -16,6 +16,8 @@ public abstract class LocalStorageContext
         InitialiseKeys(typeof(KeySyncItem<>));
     }
 
+    public ValueTask DeleteAllDataAsync() => _localStorage.ClearAsync();
+
     private void InitialiseKeys(Type keyType)
     {
         this.GetType()
