@@ -39,8 +39,8 @@ public abstract class LocalStorageContext
 
 public class KeyItem<T>
 {
-    private readonly ILocalStorageService _localStorage;
-    private readonly string _key;
+    protected readonly ILocalStorageService _localStorage;
+    protected readonly string _key;
 
     public KeyItem(ILocalStorageService localStorage, string key)
     {
@@ -67,72 +67,45 @@ public class KeyItem<T>
     }
 }
 
-public class KeyListItem<T>
+public class KeyListItem<T> : KeyItem<List<T>>
 {
-    private readonly ILocalStorageService _localStorage;
-    private readonly string _key;
-
-    public KeyListItem(ILocalStorageService localStorage, string key)
-    {
-        _localStorage = localStorage;
-        _key = key;
-    }
-
-    public async ValueTask<List<T>> GetOrDefaultAsync() =>
-        await _localStorage.GetItemAsync<List<T>>(_key) ?? new List<T>();
-
-    public ValueTask SetAsync(List<T> list) => _localStorage.SetItemAsync(_key, list);
-
-    public void SubscribeToChanges(Action<List<T>> callback)
-    {
-        _localStorage.Changed += (_, args) =>
-        {
-            if (args.Key == _key)
-                callback((List<T>)args.NewValue);
-        };
-    }
+    public KeyListItem(ILocalStorageService localStorage, string key) : base(localStorage, key) { } 
+    
+    public async ValueTask<List<T>> GetOrDefaultAsync() => await GetAsync() ?? new List<T>();
 }
 
-public class KeySyncItem<T>
+public class KeySyncItem<T> : KeyItem<T>
 {
-    private readonly ILocalStorageService _localStorage;
-    private readonly string _keyPrefix;
-
-    public KeySyncItem(ILocalStorageService localStorage, string key)
-    {
-        _localStorage = localStorage;
-        _keyPrefix = $"{key}_sync_";
-    }
-    private ValueTask<T> GetItemAsync(string key) => _localStorage.GetItemAsync<T>(key);
-    public ValueTask<T?> GetSyncItemAsync(string clientId) => _localStorage.GetItemAsync<T?>(_keyPrefix + clientId);
+    public KeySyncItem(ILocalStorageService localStorage, string key) : base(localStorage, $"{key}_sync_") { }
+    public ValueTask<T?> GetSyncItemAsync(string clientId) => _localStorage.GetItemAsync<T?>(_key + clientId);
     public async ValueTask<IList<T>> GetAllSyncItemsAsync()
     {
         var items = new List<T>();
         var keys = await _localStorage.KeysAsync();
         foreach (var key in keys)
         {
-            if (key.StartsWith(_keyPrefix))
-                items.Add((await GetItemAsync(key)));
+            if (key.StartsWith(_key))
+                items.Add((await _localStorage.GetItemAsync<T>(key)));
         }
         return items;
     }
     public async ValueTask<int> GetItemCountAsync()
     {
         var keys = await _localStorage.KeysAsync();
-        return keys.Count(x => x.StartsWith(_keyPrefix));
+        return keys.Count(x => x.StartsWith(_key));
     }
 
     public ValueTask AddSyncItemAsync(T item, string clientId) =>
-        _localStorage.SetItemAsync(_keyPrefix + clientId, item);
+        _localStorage.SetItemAsync(_key + clientId, item);
 
     public ValueTask RemoveSyncItemAsync(string clientId) =>
-        _localStorage.RemoveItemAsync(_keyPrefix + clientId);
+        _localStorage.RemoveItemAsync(_key + clientId);
 
     public void SubscribeToChanges(Action<IList<T>> callback)
     {
         _localStorage.Changed += async (_, args) =>
         {
-            if (args.Key.StartsWith(_keyPrefix))
+            if (args.Key.StartsWith(_key))
                 callback((await GetAllSyncItemsAsync()));
         };
     }
