@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using PocketDDD.Server.DB;
 using PocketDDD.Server.Services;
@@ -34,6 +33,8 @@ builder.Services.AddScoped<FeedbackService>();
 builder.Services.AddScoped<EventDataService>();
 builder.Services.AddScoped<PrizeDrawService>();
 builder.Services.AddScoped<SpeakersService>();
+
+builder.Services.AddHttpClient<SessionizeService>();
 
 builder.Services.AddAuthentication()
                 .AddScheme<UserIsRegisteredOptions, UserIsRegisteredAuthHandler>(UserIsRegisteredAuthHandler.SchemeName, null);

@@ -176,3 +176,32 @@ GO
 COMMIT;
 GO
 
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [EventDetail] ADD [SessionizeId] nvarchar(max) NOT NULL DEFAULT N'';
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240101161102_Sessionize', N'6.0.4');
+GO
+
+COMMIT;
+GO
+
+BEGIN TRANSACTION;
+GO
+
+ALTER TABLE [Tracks] ADD [SessionizeId] int NOT NULL DEFAULT 0;
+GO
+
+ALTER TABLE [Sessions] ADD [SessionizeId] int NOT NULL DEFAULT 0;
+GO
+
+INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
+VALUES (N'20240101164102_SessionizeItems', N'6.0.4');
+GO
+
+COMMIT;
+GO
+
