@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PocketDDD.Server.DB;
 
@@ -11,9 +12,10 @@ using PocketDDD.Server.DB;
 namespace PocketDDD.Server.DB.Migrations
 {
     [DbContext(typeof(PocketDDDContext))]
-    partial class PocketDDDContextModelSnapshot : ModelSnapshot
+    [Migration("20240101161102_Sessionize")]
+    partial class Sessionize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,9 +58,6 @@ namespace PocketDDD.Server.DB.Migrations
                     b.Property<string>("FullDescription")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SessionizeId")
-                        .HasColumnType("int");
 
                     b.Property<string>("ShortDescription")
                         .IsRequired()
@@ -137,9 +136,6 @@ namespace PocketDDD.Server.DB.Migrations
                     b.Property<string>("RoomName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("SessionizeId")
-                        .HasColumnType("int");
 
                     b.HasKey("Id");
 

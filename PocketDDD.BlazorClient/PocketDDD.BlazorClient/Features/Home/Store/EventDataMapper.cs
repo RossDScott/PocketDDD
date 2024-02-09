@@ -1,7 +1,5 @@
-﻿using PocketDDD.BlazorClient.Features.Sync.Store;
-using PocketDDD.Shared.API.ResponseDTOs;
+﻿using PocketDDD.Shared.API.ResponseDTOs;
 using System.Collections.Immutable;
-using System.Runtime.CompilerServices;
 
 namespace PocketDDD.BlazorClient.Features.Home.Store;
 
@@ -24,6 +22,10 @@ public static class EventDataMapper
                                     TrackName = eventData.Tracks.Single(tr => tr.Id == s.TrackId).Name,
                                     RoomName = eventData.Tracks.Single(tr => tr.Id == s.TrackId).RoomName,
                                     IsBookmarked = sessionBookmarks.Contains(s.Id)
-                                }).ToImmutableList()
-        }).ToImmutableList();
+                                })
+                                .OrderBy(s => s.TrackName)
+                                .ToImmutableList()
+        })
+        .OrderBy(ts => ts.From)
+        .ToImmutableList();
 }
