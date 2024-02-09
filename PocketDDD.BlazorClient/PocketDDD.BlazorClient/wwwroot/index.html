@@ -23,18 +23,23 @@
     <script src="_framework/blazor.webassembly.js" autostart="false"></script>
 <script>
     if (window.location.hostname.includes("localhost") || window.location.hostname.includes("development")) {
+        console.info("Env = Development")
         Blazor.start({
-            environment: "Test"
+            environment: "Development"
         });
     } else if (window.location.hostname.includes("test")) {
+        console.info("Env = Test")
         Blazor.start({
             environment: "Test"
         });
     } else {
+        console.info("Env = Prod")
         Blazor.start({
             environment: "Production"
         });
     }
+
+    
 </script>
 
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
